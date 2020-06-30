@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2020 at 03:51 PM
+-- Generation Time: Jun 30, 2020 at 02:41 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -36,6 +36,9 @@ CREATE TABLE `movies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `movie_data`
 --
@@ -67,8 +70,8 @@ CREATE TABLE `movie_keywords` (
 
 CREATE TABLE `movie_media` (
   `movie_media_id` int(6) NOT NULL,
-  `m_link` int(11) NOT NULL,
-  `m_link_type` int(11) NOT NULL COMMENT 'video, poster, image are three possible values.',
+  `m_link` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `m_link_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'video, poster, image are three possible values.',
   `movie_id` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -94,6 +97,17 @@ CREATE TABLE `movie_song` (
   `movie_id` int(6) NOT NULL,
   `song_id` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This tables reflects an associative entity (movie,song)';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `movie_trivia`
+--
+
+CREATE TABLE `movie_trivia` (
+  `movie_id` int(6) NOT NULL,
+  `trivia` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -198,6 +212,12 @@ ALTER TABLE `movie_people`
 --
 ALTER TABLE `movie_song`
   ADD PRIMARY KEY (`movie_id`,`song_id`);
+
+--
+-- Indexes for table `movie_trivia`
+--
+ALTER TABLE `movie_trivia`
+  ADD PRIMARY KEY (`movie_id`);
 
 --
 -- Indexes for table `people`
