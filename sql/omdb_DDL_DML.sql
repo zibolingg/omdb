@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2020 at 04:46 AM
+-- Generation Time: Jul 02, 2020 at 01:19 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -1097,7 +1097,7 @@ CREATE TABLE `movie_media` (
 CREATE TABLE `movie_people` (
   `movie_id` int(6) NOT NULL,
   `people_id` int(6) NOT NULL,
-  `role` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'director, producer, music director, lead actor, lead actress, supporting actor, supporting actress are possible values'
+  `role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'director, producer, music director, lead actor, lead actress, supporting actor, supporting actress are possible values'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1106,6 +1106,7 @@ CREATE TABLE `movie_people` (
 
 INSERT INTO `movie_people` (`movie_id`, `people_id`, `role`) VALUES
 (1, 1, 'Director'),
+(1, 1, 'Supporting Acto'),
 (1, 2, 'Director'),
 (1, 3, 'Producer'),
 (1, 4, 'Lead Actress'),
