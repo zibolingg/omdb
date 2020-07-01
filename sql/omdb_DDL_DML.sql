@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2020 at 02:41 AM
+-- Generation Time: Jul 01, 2020 at 04:46 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -40,7 +40,7 @@ CREATE TABLE `movies` (
 --
 
 INSERT INTO `movies` (`movie_id`, `native_name`, `english_name`, `year_made`) VALUES
-(1, 'local_name_1_changed', 'engish_name_1_changed', 2020),
+(1, 'frozen', 'frozen', 2013),
 (2, 'local_name_2', 'engish_name_2', 2003),
 (3, 'local_name_3', 'engish_name_3', 1932),
 (4, 'local_name_4', 'engish_name_4', 1916),
@@ -1057,6 +1057,13 @@ CREATE TABLE `movie_data` (
   `plot` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `movie_data`
+--
+
+INSERT INTO `movie_data` (`movie_id`, `language`, `country`, `genre`, `plot`) VALUES
+(1, 'English', 'USA', 'Animation', 'Princess Elsa of Arendelle possesses magical powers that allow her to control and create ice and snow, often using them to play with her younger sister, Anna. After Elsa accidentally injures Anna with her magic, their parents, the King and Queen, take both siblings to a colony of trolls led by Grand Pabbie. He heals Anna, but alters her memories so that she forgets about Elsa\'s magic. Grand Pabbie warns Elsa that she must learn to control her powers, and that fear will be her greatest enemy. The');
+
 -- --------------------------------------------------------
 
 --
@@ -1092,6 +1099,17 @@ CREATE TABLE `movie_people` (
   `people_id` int(6) NOT NULL,
   `role` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'director, producer, music director, lead actor, lead actress, supporting actor, supporting actress are possible values'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `movie_people`
+--
+
+INSERT INTO `movie_people` (`movie_id`, `people_id`, `role`) VALUES
+(1, 1, 'Director'),
+(1, 2, 'Director'),
+(1, 3, 'Producer'),
+(1, 4, 'Lead Actress'),
+(1, 5, 'Lead Actor');
 
 -- --------------------------------------------------------
 
@@ -1131,6 +1149,17 @@ CREATE TABLE `people` (
   `image_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'We will store the images locally on the server; This field refers to the image file name'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `people`
+--
+
+INSERT INTO `people` (`id`, `screen_name`, `first_name`, `middle_name`, `last_name`, `gender`, `image_name`) VALUES
+(1, 'Chris Buck', 'Chris', '', 'Buck', 'Male', ''),
+(2, 'Jennifer Lee', 'Jennifer', '', 'Lee', 'Female', ''),
+(3, 'Peter Vecho', 'Peter', 'Del ', 'Vecho', 'Male', ''),
+(4, 'Kristen Bell', 'Kristen', '', 'Bell', 'Female', ''),
+(5, 'Jonathan Groff', 'Jonathan ', 'Drew', 'Groff', 'Male', '');
+
 -- --------------------------------------------------------
 
 --
@@ -1139,9 +1168,16 @@ CREATE TABLE `people` (
 
 CREATE TABLE `songs` (
   `song_id` int(5) NOT NULL,
-  `title` int(11) NOT NULL,
-  `lyrics` int(11) DEFAULT NULL
+  `title` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lyrics` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `songs`
+--
+
+INSERT INTO `songs` (`song_id`, `title`, `lyrics`) VALUES
+(1, 'Let It go', 'The snow glows white on the mountain tonight\r\nNot a footprint to be seen\r\nA kingdom of isolation\r\nAnd it looks like I\'m the queen\r\nThe wind is howling like this swirling storm inside\r\nCouldn\'t keep it in, heaven knows I\'ve tried\r\nDon\'t let them in, don\'t let them see\r\nBe the good girl you always have to be\r\nConceal, don\'t feel, don\'t let them know\r\nWell, now they know\r\nLet it go, let it go\r\nCan\'t hold it back anymore\r\nLet it go, let it go\r\nTurn away and slam the door\r\nI don\'t care what they\'re going to say\r\nLet the storm rage on\r\nThe cold never bothered me anyway\r\nLet it go, let it go\r\nCan\'t hold it back anymore\r\nLet it go, let it go\r\nTurn away and slam the door\r\nLet it go (go, go, go go, go go, go go, go, go, go go)\r\nLet it go\r\nLet it go\r\nLet it go\r\nIt\'s funny how some distance makes…');
 
 -- --------------------------------------------------------
 
