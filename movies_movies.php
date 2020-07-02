@@ -22,30 +22,36 @@
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>year</th>
-                        <th>Movie Count</th>
-                      
+                        <th>id</th>
+                        <th>Local Name</th>
+                        <th>English Name</th>
+                        <th>Year </th>
                 </tr>
               </thead>
 
-            
+              <tfoot>
+                <tr>
+                <th>id</th>
+                        <th>Native Name</th>
+                        <th>English Name</th>
+                        <th>Year </th></tr>
+              </tfoot>
 
               <tbody>
 
               <?php
 
-//$sql = "SELECT * from movies ORDER BY year_made ASC;";
-// BUild a SQL query "SELECT year_made, COUNT(native_name) AS movie_count from movies ORDER by year_made DSC"
-
+$sql = "SELECT * from movies ORDER BY year_made ASC;";
 $result = $db->query($sql);
 
                 if ($result->num_rows > 0) {
                     // output data of each row
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
+                                <td>'.$row["movie_id"].'</td>
+                                <td>'.$row["native_name"].' </span> </td>
+                                <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
-                                <td>'.$row["movie_count"].' </span> </td>
-                              
                             </tr>';
                     }//end while
                 }//end if
