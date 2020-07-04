@@ -15,7 +15,9 @@
 
       <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
 
-        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List</h3>
+    <button><a class="btn btn-sm" href="create_movie.php">Create a Movie</a></button>
+       
+<br>
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
@@ -23,19 +25,12 @@
               <thead>
                 <tr id="table-first-row">
                         <th>id</th>
-                        <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
-                </tr>
-              </thead>
-
-              <tfoot>
-                <tr>
-                <th>id</th>
                         <th>Native Name</th>
                         <th>English Name</th>
-                        <th>Year </th></tr>
-              </tfoot>
+                        <th>Year </th>
+                        <th> Actions </th>
+                </tr>
+              </thead>
 
               <tbody>
 
@@ -52,6 +47,9 @@ $result = $db->query($sql);
                                 <td>'.$row["native_name"].' </span> </td>
                                 <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
+                                <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'">Display</a>
+                                    <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
+                                    <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a></td>          
                             </tr>';
                     }//end while
                 }//end if

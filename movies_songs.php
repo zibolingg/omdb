@@ -13,9 +13,9 @@
 <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Movies -> Movies List with extended data</h3>
+      <h3 style = "color: #01B0F1;">Movies -> Movies List with Songs</h3>
 
-        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List with extended data</h3>
+        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List with Songs</h3>
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
@@ -32,7 +32,7 @@
                         native_name, 
                         english_name, 
                         year, 
-                        language, 
+                        title (song)
                         country, 
                         genre, 
                         plot (show the first 30 characters) -->
