@@ -37,6 +37,9 @@
               <?php
 
 $sql = "SELECT * from movies ORDER BY year_made ASC;";
+
+$db->set_charset("utf8");
+
 $result = $db->query($sql);
 
                 if ($result->num_rows > 0) {
