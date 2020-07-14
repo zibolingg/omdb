@@ -71,6 +71,7 @@ $result = $db->query($sql);
     $(document).ready( function () {
         
         $('#info').DataTable( {
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             dom: 'lfrtBip',
             buttons: [
                 'copy', 'excel', 'csv', 'pdf'
