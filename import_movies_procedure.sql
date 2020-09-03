@@ -56,10 +56,12 @@ BEGIN
 		IF @TestCaseNumber = 2 THEN
 			INSERT INTO `movies` (native_name, english_name, year_made) VALUES (@pro_name, @pro_name, @pro_year);
 			-- get movie_id for adding it into `movie_people` later
+            -- we can also use SELECT LAST_INSERT_ID() INTO @pro_movid
 			SELECT movie_id INTO @pro_movid FROM `movies` WHERE native_name = @pro_name AND year_made = @pro_year;
 			
 			INSERT INTO `people` (stage_name, first_name, middle_name, last_name, gender, image_name) VALUES (@pro_stgn, "", "", "", "", "image file name");
 			-- get people_id for adding it into `movie_people` later
+            -- we can also use SELECT LAST_INSERT_ID() INTO @pro_person_id
 			SELECT people_id INTO @pro_person_id FROM `people` WHERE stage_name = @pro_stgn;
 			
 			INSERT INTO `movie_people` (movie_id, people_id, role, screen_name) VALUES (@pro_movid, @pro_person_id, @pro_role, @pro_scrn);
