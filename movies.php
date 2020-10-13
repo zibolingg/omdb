@@ -41,6 +41,12 @@ $sql = "SELECT * from movies ORDER BY year_made ASC;";
 $db->set_charset("utf8");
 
 $result = $db->query($sql);
+                header('Content-type: text/html; charset=utf-8');
+                if(isset($_GET['create'])){
+                           if($_GET["create"] == "Success"){
+                               echo '<br><h3>Success! Your movie has been added!</h3>';
+                           }
+                       }
 
                 if ($result->num_rows > 0) {
                     // output data of each row
@@ -52,7 +58,9 @@ $result = $db->query($sql);
                                 <td>'.$row["year_made"].'</td>
                                 <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'">Display</a>
                                     <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
-                                    <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a></td>          
+                                    <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a>
+                                    <a class="btn btn-success btn-sm" href="movie_more_info.php?movie_id='.$row["movie_id"].'">More Info</a></td>
+
                             </tr>';
                     }//end while
                 }//end if
