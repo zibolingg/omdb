@@ -7,13 +7,10 @@
   require 'db_credentials.php';
      include("./nav.php");
   ?>
-  <?php
-      $mysqli = NEW MySQLi('localhost','root','','OMDB');
-     
-?>
+  
 <!DOCTYPE html>
 <html>
-<form id="movieInfo" action="">
+<form id="movieModify" action="createTheMovie.php" method= "post">
 <h1>Create a movie</h1>
 
 <div class="tab">Movie Name:
@@ -21,21 +18,7 @@
   <p><input name= "english_name" placeholder="English Name" oninput="this.className = ''"></p>
   <p><input name= "year" placeholder="Year" oninput="this.className = ''"></p>
 </div>
-<?php
-    echo "HERE";
-          //$movie = mysqli_real_escape_string($db,$_POST['english_name']);
-          //$native = mysqli_real_escape_string($db,$_POST['native_name']);
-          //$year = mysqli_real_escape_string($db,$_POST['year']);
-          $movie = $_POST['english_name'];
-          $native = $_POST['native_name'];
-          $year = $_POST['year'];
-          
-            $sql = "INSERT INTO movies (native_name, english_name, year_made)
-                VALUES ( '$native' , '$movie', '$year' )";
-    
-                    mysqli_query($db, $sql);
-                    ;
-    ?>
+
 
 <div class="tab">Movie Data:
   <p><input name= "language" placeholder="Language" oninput="this.className = ''"></p>
@@ -44,49 +27,18 @@
   <p><input name= "plot" placeholder="Plot" oninput="this.className = ''"></p>
   <p><input name= "tag_line" placeholder="Tag line" oninput="this.className = ''"></p>
 </div>
-<?php
-echo "HERE";
-      $language = mysqli_real_escape_string($db,$_POST['language']);
-      $country = mysqli_real_escape_string($db,$_POST['country']);
-      $genre = mysqli_real_escape_string($db,$_POST['genre']);
-      $plot = mysqli_real_escape_string($db,$_POST['plot']);
-      $tag_line = mysqli_real_escape_string($db,$_POST['tag_line']);
-        $sql = "INSERT INTO movie_data (language, country, genre, plot, tag_line)
-            VALUES ( '$language' , '$country', '$genre', '$plot', '$tag_line' )";
 
-                mysqli_query($db, $sql);
-                ;
-?>
 
 <div class="tab">Movie Trivia:
   <p><input name= "trivia" placeholder="Trivia" oninput="this.className = ''"></p>
 </div>
-<?php
-echo "HERE";
-      $trivia = mysqli_real_escape_string($db,$_POST['trivia']);
-      
-        $sql = "INSERT INTO movie_trivia (trivia)
-            VALUES ( '$trivia' )";
 
-                mysqli_query($db, $sql);
-                ;
-?>
 
 <div class="tab">Movie Media:
   <p><input name= "movie_link" placeholder="Movie link" oninput="this.className = ''"></p>
   <p><input name= "movie_link_type" placeholder="Link type" oninput="this.className = ''"></p>
 </div>
-<?php
-echo "HERE";
-      $movie_link = mysqli_real_escape_string($db,$_POST['movie_link']);
-      $movie_link_type = mysqli_real_escape_string($db,$_POST['movie_link_type']);
 
-        $sql = "INSERT INTO movies_data (m_link, m_link_type)
-            VALUES ( '$language' , '$country', '$genre', '$plot', '$tag_line' )";
-
-                mysqli_query($db, $sql);
-                ;
-?>
 
 <div style="overflow:auto;">
   <div style="float:right;">
@@ -100,9 +52,11 @@ echo "HERE";
   <span class="step"></span>
   <span class="step"></span>
   <span class="step"></span>
+  
 </div>
+</form>
 <style type="text/css">
-#regForm {
+#movieModify {
   background-color: #ffffff;
   margin: 100px auto;
   padding: 40px;
@@ -153,7 +107,7 @@ input.invalid {
 }
 </style>
 
-</html>
+
 <script>
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
@@ -189,7 +143,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("regForm").submit();
+    document.getElementById("movieModify").submit();
     return false;
   }
   // Otherwise, display the correct tab:
@@ -228,3 +182,4 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
+</html>
