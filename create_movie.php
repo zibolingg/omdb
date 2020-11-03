@@ -10,7 +10,7 @@
   
 <!DOCTYPE html>
 <html>
-<form id="movieModify" action="createTheMovie.php" method= "post">
+<form id="movieCreate" action="createTheMovie.php" method= "post">
 <h1>Create a movie</h1>
 
 <div class="tab">Movie Name:
@@ -118,7 +118,7 @@ function showTab(n) {
   x[n].style.display = "block";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
+    document.getElementById("submit").style.display = "none";
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
@@ -143,7 +143,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("movieModify").submit();
+    document.getElementById("movieCreate").submit();
     return false;
   }
   // Otherwise, display the correct tab:

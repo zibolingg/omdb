@@ -9,6 +9,9 @@ require 'db_configuration.php';
 global $db;
 ?>
 
+
+
+
 <!-- =====================================================================================================
 
 This page displays the information from all 12 tables.
@@ -41,6 +44,7 @@ country
 genre
 plot
 
+
 [A.3] Movie Media (table: movie_media)
 Display Type: Show this as a table
 
@@ -52,12 +56,6 @@ m_link_type
 Display Type: Name - value pairs
 
 keywords (show it as a comma separated list) 
-
-
-[A.5] Movie trivia (table: movie_trivia)
-Display Type: Heading and set of values (ordered by serial number starting with 1)
-
-trivia (show these as a list) 
 
 
 [B] PEOPLE Details
@@ -109,14 +107,14 @@ year_made
 <div class="right-content">
   <div class="container">
     <h3 style="color: #01B0F1;">[A.1] Movies -> Basic Data</h3>
-
+          
     <?php
 
 
     // query string for the Query A.1
     $sql_A1 = "SELECT movie_id, native_name, english_name, year_made 
-               FROM movies 
-               WHERE movie_id =" . $movie_id;
+              FROM movies
+              WHERE movie_id =" . $movie_id;
 
     if (!$sql_A1_result = $db->query($sql_A1)) {
       die('There was an error running query[' . $connection->error . ']');
@@ -140,6 +138,7 @@ year_made
 
 
 
+
 <!-- ================ [A.2] Extended Data (table: movie_data) ======================
 Display Type: Name - value pairs
 
@@ -156,24 +155,28 @@ TODO: Copy the code snippet from A.1, change the code to reflect Extended data
 
     <?php
 
-    $sql_A2 = "SELECT language, country, genre, plot FROM `movie_data` WHERE movie_data.movie_id =" . $movie_id;
+    //TODO: 
+    $sql_A2 = "SELECT movie_id, language, country, genre, plot
+              FROM movie_data
+              WHERE movie_id =" . $movie_id;
 
-   if (!$sql_A2_result = $db->query($sql_A2)) { 
-     die('There was an error running query[' . $connection->error . ']');
+    if (!$sql_A2_result = $db->query($sql_A2)) {
+      die('There was an error running query[' . $connection->error . ']');
     }
 
-  if ($sql_A2_result->num_rows > 0) {
-    $a2_tuple = $sql_A2_result->fetch_assoc();
-      echo '<br> Language : ' . $a2_tuple["language"] .
-      '<br> Country : ' . $a2_tuple["country"] .
-      '<br> Genre : ' . $a2_tuple["genre"] .
-      '<br> Plot :  ' . $a2_tuple["plot"];
-  } //end if
-  else {
-    echo "0 results";
-  } //end else
+    if ($sql_A2_result->num_rows > 0) {
+      $a2_tuple = $sql_A2_result->fetch_assoc();
+      echo '<br> Movie ID : ' . $a2_tuple["movie_id"] .
+        '<br> Native Name : ' . $a2_tuple["language"] .
+        '<br> English Name : ' . $a2_tuple["country"] .
+        '<br> Year Made :  ' . $a2_tuple["genre"];
+        '<br> Year Made :  ' . $a2_tuple["plot"];
+    } //end if
+    else {
+      echo "0 results";
+    } //end else
 
-  $sql_A2_result->close(); 
+    $sql_A2_result->close();
     ?>
 
   </div>
@@ -208,7 +211,9 @@ m_link_type
         <?php
 
         // query string for the Query A.1
-        $sql_A3 = "SELECT movie_id, movie_media_id, m_link, m_link_type FROM movie_media WHERE movie_id =" . $movie_id;
+        $sql_A3 = "SELECT movie_id, movie_media_id, m_link, m_link_type 
+              FROM movie_media
+              WHERE movie_id =" . $movie_id;
 
         if (!$sql_A3_result = $db->query($sql_A3)) {
           die('There was an error running query[' . $connection->error . ']');
@@ -239,116 +244,45 @@ m_link_type
 
 
 
+
+
 <!-- ================ [A.4] Movie Key Words (table: movie_keywords) ======================
 Display Type: Name - value pairs
 
 keywords (show it as a comma separated list) 
-
-ADD THIS SOMEHOW:
-$keyword = "";
-$keyword = $keyword  .$row["keyword"] . ",";
-
 ========================================================================= -->
 
 <div class="right-content">
   <div class="container">
     <h3 style="color: #01B0F1;">[A.4] Movie -> Key Words</h3>
 
-    <table class="display" id="keywords_table" style="width:100%">
-      <div class="table responsive">
+    <?
+    //TODO: 
+    $sql_A4 = "SELECT movie_id, keyword
+    FROM movie_keywords
+    WHERE movie_id =" . $movie_id;
 
-        <thead>
-          <tr>
-            <th> Keywords </th>
-            
-          </tr>
-        </thead>
+if (!$sql_A4_result = $db->query($sql_A4)) {
+die('There was an error running query[' . $connection->error . ']');
+}
 
-        <?php
+if ($sql_A4_result->num_rows > 0) {
+$a4_tuple = $sql_A4_result->fetch_assoc();
+echo '<br> Movie ID : ' . $a4_tuple["movie_id"] .
+'<br> keyword : ' . $a4_tuple["keyword"] ;
 
-        // query string for the Query A.1
-        $sql_A4 = "SELECT keyword FROM movie_keywords WHERE movie_id=" . $movie_id;
+} //end if
+else {
+echo "0 results";
+} //end else
 
-        // echo $sql_A4;
-
-        if (!$sql_A4_result = $db->query($sql_A4)) {
-          die('There was an error running query[' . $db->error . ']');
-        }
-
-        // this is 1 to many relationship
-        // So, many tuples may be returned
-        // We will display those in a table in a while loop
-        if ($sql_A4_result->num_rows > 0) {
-          // output data of each row
-          while ($a4_tuple = $sql_A4_result->fetch_assoc()) {
-            echo '<tr>
-                      <td>' . $a4_tuple["keyword"] . ' </span> </td>
-                  </tr>';
-          } //end while
-
-        } //end second if 
-
-        $sql_A4_result->close();
-        ?>
-
-    </table>
+$sql_A4_result->close();
+    ?>
   </div>
+  
+  
 </div>
 
-
-<!-- ================ [A.5] (table: movie_trivia) ======================
-Display Type: Heading and set of values (ordered by serial number starting with 1)
-
-trivia (show these as a list)
-========================================================================= -->
-
-
-
-<div class="right-content">
-  <div class="container">
-    <h3 style="color: #01B0F1;">[A.5] Movie -> Trivia</h3>
-
-    <table class="display" id="trivia_table" style="width:100%">
-      <div class="table responsive">
-
-        <thead>
-          <tr>
-            <th> Trivia </th>
-            
-          </tr>
-        </thead>
-
-        <?php
-
-        // query string for the Query A.1
-        $sql_A5 = "SELECT movie_trivia_name FROM `movie_trivia` WHERE movie_id=" . $movie_id;
-
-        if (!$sql_A5_result = $db->query($sql_A5)) {
-          die('There was an error running query[' . $db->error . ']');
-        }
-
-        // this is 1 to many relationship
-        // So, many tuples may be returned
-        // We will display those in a table in a while loop
-        if ($sql_A5_result->num_rows > 0) {
-          // output data of each row
-          $s_no = 1;
-          while ($a5_tuple = $sql_A5_result->fetch_assoc()) {
-            echo '<tr>
-                     <td> ' .$s_no .' : </td>
-                      <td>' . $a5_tuple["movie_trivia_name"] . ' </span> </td>
-                  </tr>';
-            $s_no = $s_no + 1;
-          } //end while
-
-        } //end second if 
-
-        $sql_A5_result->close();
-        ?>
-
-    </table>
-  </div>
-</div>
 
 
 
@@ -367,58 +301,34 @@ image_name
   <div class="container">
     <h3 style="color: #01B0F1;">[B.1] Movie -> People</h3>
 
-    <table class="display" id="movie_people_table" style="width:100%">
-      <div class="table responsive">
+    <?php
 
-        <thead>
-          <tr>
-            <th> Stage Name</th>
-            <th> First Name</th>
-            <th> Middle Name</th>
-            <th> Last Name</th>
-            <th> Role </th>
-            <th> Screen Name</th>
-            <th> Image name</th>
+    //TODO: 
+    $sql_B1 = "SELECT * from people natural join movie_people
+    
+    WHERE movie_id =" . $movie_id;
 
-          </tr>
-        </thead>
+if (!$sql_B1_result = $db->query($sql_B1)) {
+die('There was an error running query[' . $connection->error . ']');
+}
 
-        <?php
+if ($sql_B1_result->num_rows > 0) {
+$b1_tuple = $sql_B1_result->fetch_assoc();
+echo '<br> Movie ID : ' . $b1_tuple["movie_id"] .
+'<br> role : ' . $b1_tuple["role"] .
+'<br> screen name : ' . $b1_tuple["screen_name"] .
+'<br> first name : ' . $b1_tuple["first_name"] .
+'<br> middle name : ' . $b1_tuple["middle_name"] .
+'<br> last name : ' . $b1_tuple["last_name"] .
+'<br> image name : ' . $b1_tuple["image_name"] ;
 
-        // query string for the Query A.1
-        $sql_B1 = "SELECT stage_name, first_name, middle_name, last_name, gender, `role`, screen_name, image_name 
-                   FROM movie_people INNER JOIN people 
-                   ON movie_people.people_id = people.people_id 
-                   WHERE movie_people.movie_id=" . $movie_id;
+} //end if
+else {
+echo "0 results";
+} //end else
 
-
-        if (!$sql_B1_result = $db->query($sql_B1)) {
-          die('There was an error running query[' . $connection->error . ']');
-        }
-
-        // this is 1 to many relationship
-        // So, many tuples may be returned
-        // We will display those in a table in a while loop
-        if ($sql_B1_result->num_rows > 0) {
-          // output data of each row
-          while ($b1_tuple = $sql_B1_result->fetch_assoc()) {
-            echo '<tr>
-                      <td>' . $b1_tuple["stage_name"] . '</td>
-                      <td>' . $b1_tuple["first_name"] . '</td>
-                      <td>' . $b1_tuple["middle_name"] . '</td>
-                      <td>' . $b1_tuple["last_name"] . '</td>
-                      <td>' . $b1_tuple["role"] . '</td>
-                      <td>' . $b1_tuple["screen_name"] . '</td>
-                      <td>' . $b1_tuple["image_name"] . ' </span> </td>
-                  </tr>';
-          } //end while
-
-        } //end second if 
-
-        $sql_B1_result->close();
-        ?>
-
-    </table>
+$sql_B1_result->close();
+    ?>
   </div>
 </div>
 
@@ -428,7 +338,8 @@ image_name
 Display Type: Show this as a table
 
 title 
-lyrics (first 30 characters)
+lyrics
+screen name (from people)
 role (from song_people)
 keywords (from song_keywords, show this info as comma separated list
 media (from songs_media - show the IDs as comma separated list, media_link will be a hyper link)
@@ -438,46 +349,10 @@ media (from songs_media - show the IDs as comma separated list, media_link will 
   <div class="container">
     <h3 style="color: #01B0F1;">[C.1] Movie -> Songs</h3>
 
-    <table class="display" id="songs_table" style="width:100%">
-      <div class="table responsive">
+    <?php
 
-        <thead>
-          <tr>
-            <th> Title </th>
-            <th> Lyrics </th>
-          </tr>
-        </thead>
-
-        <?php
-
-        // query string for the Query A.1
-        $sql_C1 = "SELECT title, LEFT(lyrics,10) AS lyrics10
-                  FROM songs INNER JOIN movie_song 
-                  ON (movie_song.song_id = songs.song_id)
-                  WHERE movie_id=" . $movie_id;
-
-        if (!$sql_C1_result = $db->query($sql_C1)) {
-          die('There was an error running query[' . $db->error . ']');
-        }
-
-        // this is 1 to many relationship
-        // So, many tuples may be returned
-        // We will display those in a table in a while loop
-        if ($sql_C1_result->num_rows > 0) {
-          // output data of each row
-          while ($c1_tuple = $sql_C1_result->fetch_assoc()) {
-            echo '<tr>
-                      <td>' . $c1_tuple["title"] . '</td>
-                      <td>' . $c1_tuple["lyrics10"] . '</td>
-                  </tr>';
-          } //end while
-
-        } //end second if 
-
-        $sql_C1_result->close();
-        ?>
-
-    </table>
+    //TODO: 
+    ?>
   </div>
 </div>
 

@@ -2,7 +2,7 @@
 
   $nav_selected = "MOVIES"; 
   $left_buttons = "YES"; 
-  $left_selected = "SONGS";
+  $left_selected = "PEOPLE";
 
   include("./nav.php");
   global $db;
@@ -22,23 +22,15 @@
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>id</th>
-                        <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
-                        <th>Song ID</th>
-                        <th>Title</th>
-                        <th>Lyrics</th>
-
+                        <th>People ID</th>
+                        <th>Moive ID</th>
+                        <th>Role</th>
+                        <th>Screen Name </th>
                         <!-- TODO: Instead of these four columns, we now have to show the following columns in Iteration 6
-                        id, 
-                        native_name, 
-                        english_name, 
-                        year, 
-                        title (song)
-                        country, 
-                        genre, 
-                        plot (show the first 30 characters) -->
+                        People ID,
+                        Movie ID,
+                        Role,
+                        Screen Name(show the first 30 characters) -->
 
                 </tr>
               </thead>
@@ -47,7 +39,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_song` ON `movie_song`.`movie_id`= `movies`.`movie_id`INNER JOIN `songs` ON `songs`.`song_id`= `movie_song`.`song_id`";
+$sql = "SELECT * FROM `movies` INNER JOIN `movie_people` ON `movie_people`.`movie_id`= `movies`.`movie_id`" ;
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -60,13 +52,11 @@ $result = $db->query($sql);
                     // Add four more rows of data which you are getting from the database
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
-                                <td>'.$row["movie_id"].'</td>
-                                <td>'.$row["native_name"].' </span> </td>
-                                <td>'.$row["english_name"].'</td>
-                                <td>'.$row["year_made"].'</td>
-                                <td>'.$row["song_id"].'</td>
-                                <td>'.$row["title"].'</td>
-                                <td>'.$row["lyrics"].'</td>
+                                <td>'.$row["people_id"].'</td>
+                                <td>'.$row["movie_id"].' </span> </td>
+                                <td>'.$row["role"].'</td>
+                                <td>'.$row["screen_name"].'</td>
+                                
                             </tr>';
                     }//end while
                 }//end if
