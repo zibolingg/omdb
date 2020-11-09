@@ -1,8 +1,8 @@
 <?php
 
-  $nav_selected = "MOVIES"; 
+  $nav_selected = "SONGS";
   $left_buttons = "YES"; 
-  $left_selected = "SONGS";
+  $left_selected = "MOVIES";
 
   include("./nav.php");
   global $db;
@@ -13,7 +13,7 @@
 <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Movies -> Movies List with Songs</h3>
+      <h3 style = "color: #01B0F1;">Songs -> Songs List with Movies</h3>
 
         <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List with Songs</h3>
 

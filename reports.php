@@ -1,43 +1,41 @@
 <?php
-  $nav_selected = "REPORTS";
-  $left_buttons = "NO";
-  $left_selected = "";
+
+  $nav_selected = "MOVIES"; 
+  $left_buttons = "YES"; 
+  $left_selected = "MOVIES"; 
 
   include("./nav.php");
-  
- ?>
+  global $db;
+
+  ?>
+
 
 <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Reports</h3>
+      <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
+
+        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List</h3>
+
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>Movie Year</th>
+                        <th>year</th>
                         <th>Movie Count</th>
-                    
+                      
                 </tr>
               </thead>
 
-              <tfoot>
-                <tr>
-                        <th>Movie Year</th>
-                        <th>Movie Count</th>
-                </tr>
-                       
-              </tfoot>
+            
 
               <tbody>
 
               <?php
 
-$sql = "SELECT year_made, COUNT(year_made) as movie_count
-        FROM `movies`
-        GROUP BY year_made 
-        ORDER BY year_made Desc;";
+//$sql = "SELECT * from movies ORDER BY year_made ASC;";
+// BUild a SQL query "SELECT year_made, COUNT(native_name) AS movie_count from movies ORDER by year_made DSC"
 
 $result = $db->query($sql);
 
@@ -47,7 +45,7 @@ $result = $db->query($sql);
                         echo '<tr>
                                 <td>'.$row["year_made"].'</td>
                                 <td>'.$row["movie_count"].' </span> </td>
-                    
+                              
                             </tr>';
                     }//end while
                 }//end if

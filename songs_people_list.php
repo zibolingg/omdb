@@ -1,8 +1,8 @@
 <?php
 
-  $nav_selected = "MOVIES"; 
+  $nav_selected = "SONGS";
   $left_buttons = "YES"; 
-  $left_selected = "SONGS";
+  $left_selected = "PEOPLE";
 
   include("./nav.php");
   global $db;
@@ -13,32 +13,22 @@
 <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Movies -> Movies List with Songs</h3>
+      <h3 style = "color: #01B0F1;">Songs -> Songs List with People</h3>
 
-        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List with Songs</h3>
+        <h3><img src="images/movies.png" style="max-height: 35px;" />Songs List with People</h3>
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>id</th>
-                        <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
                         <th>Song ID</th>
                         <th>Title</th>
-                        <th>Lyrics</th>
+                        <th>role</th>
+                        <th>People ID</th>
+                        <th>Artitst</th>
+                       
 
-                        <!-- TODO: Instead of these four columns, we now have to show the following columns in Iteration 6
-                        id, 
-                        native_name, 
-                        english_name, 
-                        year, 
-                        title (song)
-                        country, 
-                        genre, 
-                        plot (show the first 30 characters) -->
 
                 </tr>
               </thead>
@@ -47,7 +37,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_song` ON `movie_song`.`movie_id`= `movies`.`movie_id`INNER JOIN `songs` ON `songs`.`song_id`= `movie_song`.`song_id`";
+$sql = "SELECT songs.`song_id`, `title`, `role`, `screen_name`, `people_id` AS `id` FROM `songs` INNER JOIN `song_people` ON `song_people`.`song_id`= `songs`.`song_id`INNER JOIN `people` ON `people`.`id`= `song_people`.`people_id`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -60,13 +50,11 @@ $result = $db->query($sql);
                     // Add four more rows of data which you are getting from the database
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
-                                <td>'.$row["movie_id"].'</td>
-                                <td>'.$row["native_name"].' </span> </td>
-                                <td>'.$row["english_name"].'</td>
-                                <td>'.$row["year_made"].'</td>
                                 <td>'.$row["song_id"].'</td>
                                 <td>'.$row["title"].'</td>
-                                <td>'.$row["lyrics"].'</td>
+                                <td>'.$row["role"].'</td>
+                                <td>'.$row["id"].'</td>
+                                <td>'.$row["screen_name"].'</td>
                             </tr>';
                     }//end while
                 }//end if

@@ -6,7 +6,7 @@
 
   include("./nav.php");
   global $db;
-
+  
   ?>
 
 
@@ -47,6 +47,7 @@ $result = $db->query($sql);
                                echo '<br><h3>Success! Your movie has been added!</h3>';
                            }
                        }
+                  
 
                 if ($result->num_rows > 0) {
                     // output data of each row

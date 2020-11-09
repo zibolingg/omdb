@@ -1,8 +1,8 @@
 <?php
 
-  $nav_selected = "MOVIES"; 
+  $nav_selected = "PEOPLE";
   $left_buttons = "YES"; 
-  $left_selected = "SONGS";
+  $left_selected = "MOVIES";
 
   include("./nav.php");
   global $db;
@@ -24,11 +24,12 @@
                 <tr id="table-first-row">
                         <th>id</th>
                         <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
-                        <th>Song ID</th>
-                        <th>Title</th>
-                        <th>Lyrics</th>
+                        <th>People ID</th>
+                        <th>Role</th>
+                        <th>Screen Name</th>
+                        <th>Fisrt Name </th>
+                        <th>Last Name </th>
+                        <th>Gender</th>
 
                         <!-- TODO: Instead of these four columns, we now have to show the following columns in Iteration 6
                         id, 
@@ -47,7 +48,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_song` ON `movie_song`.`movie_id`= `movies`.`movie_id`INNER JOIN `songs` ON `songs`.`song_id`= `movie_song`.`song_id`";
+$sql = "SELECT movies.`movie_id`, `native_name`, `first_name`, `last_name`, `role`, `screen_name`, `gender`, `people_id` AS `id` FROM `movies` INNER JOIN `movie_people` ON `movie_people`.`movie_id`= `movies`.`movie_id`INNER JOIN `people` ON `people`.`id`= `movie_people`.`people_id`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -62,11 +63,12 @@ $result = $db->query($sql);
                         echo '<tr>
                                 <td>'.$row["movie_id"].'</td>
                                 <td>'.$row["native_name"].' </span> </td>
-                                <td>'.$row["english_name"].'</td>
-                                <td>'.$row["year_made"].'</td>
-                                <td>'.$row["song_id"].'</td>
-                                <td>'.$row["title"].'</td>
-                                <td>'.$row["lyrics"].'</td>
+                                <td>'.$row["id"].'</td>
+                                <td>'.$row["role"].'</td>
+                                <td>'.$row["screen_name"].'</td>
+                                <td>'.$row["first_name"].'</td>
+                                <td>'.$row["last_name"].'</td>
+                                <td>'.$row["gender"].'</td>
                             </tr>';
                     }//end while
                 }//end if

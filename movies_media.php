@@ -2,7 +2,7 @@
 
   $nav_selected = "MOVIES"; 
   $left_buttons = "YES"; 
-  $left_selected = "SONGS";
+  $left_selected = "MEDIA";
 
   include("./nav.php");
   global $db;
@@ -22,23 +22,13 @@
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>id</th>
-                        <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
-                        <th>Song ID</th>
-                        <th>Title</th>
-                        <th>Lyrics</th>
+                        <th>Movie Media id</th>
+                        <th>Media Link</th>
+                        <th>Media Link Type </th>
+                        <th>Movie ID</th>
 
-                        <!-- TODO: Instead of these four columns, we now have to show the following columns in Iteration 6
-                        id, 
-                        native_name, 
-                        english_name, 
-                        year, 
-                        title (song)
-                        country, 
-                        genre, 
-                        plot (show the first 30 characters) -->
+
+                       
 
                 </tr>
               </thead>
@@ -47,7 +37,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_song` ON `movie_song`.`movie_id`= `movies`.`movie_id`INNER JOIN `songs` ON `songs`.`song_id`= `movie_song`.`song_id`";
+$sql = "SELECT * FROM `movies` INNER JOIN `movie_media` ON `movie_media`.`movie_id`= `movies`.`movie_id`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -60,13 +50,10 @@ $result = $db->query($sql);
                     // Add four more rows of data which you are getting from the database
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
+                                <td>'.$row["movie_media_id"].'</td>
+                                <td>'.$row["m_link"].' </span> </td>
+                                <td>'.$row["m_link_type"].'</td>
                                 <td>'.$row["movie_id"].'</td>
-                                <td>'.$row["native_name"].' </span> </td>
-                                <td>'.$row["english_name"].'</td>
-                                <td>'.$row["year_made"].'</td>
-                                <td>'.$row["song_id"].'</td>
-                                <td>'.$row["title"].'</td>
-                                <td>'.$row["lyrics"].'</td>
                             </tr>';
                     }//end while
                 }//end if

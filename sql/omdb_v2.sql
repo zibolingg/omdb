@@ -18,14 +18,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
--- What changes need to be done to upgrade to V.2?
--- 1. Change "screen_name" to "stage_name" in people  
--- 2. Add "screen_name" to "movie_people"
--- 3. Create a new table for "movie_quotes"
--- 4. Create a new table for "people_trivia"
--- 5. Create a new table for "song_trivia"
--- 6. Add new column called 'tag_line' to movie_data
--- 7. Add new column called "theme" to songs
 --
 -- Database: `omdb`
 --
