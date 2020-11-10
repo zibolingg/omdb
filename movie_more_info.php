@@ -111,7 +111,7 @@ if (isset($_GET['movie_id'])) {
         
         // query string for the Query A.1
         $sql_A3 = "SELECT movie_id, movie_media_id, m_link, m_link_type FROM movie_media WHERE movie_id =" . $movie_id;
-
+        
         if (!$sql_A3_result = $db->query($sql_A3)) {
           die('There was an error running query[' . $connection->error . ']');
         }
@@ -119,6 +119,8 @@ if (isset($_GET['movie_id'])) {
         // this is 1 to many relationship
         // So, many tuples may be returned
         // We will display those in a table in a while loop
+            $m_link='';
+             $shirtloc='images/movie_media/';
         if ($sql_A3_result->num_rows > 0) {
           // output data of each row
           while ($a3_tuple = $sql_A3_result->fetch_assoc()) {
@@ -128,6 +130,7 @@ if (isset($_GET['movie_id'])) {
                       <td>' . $a3_tuple["m_link"] . '</td>
                       <td>' . $a3_tuple["m_link_type"] . ' </span> </td>
                   </tr>';
+            echo '<img src="'.$shirtloc.$a3_tuple["m_link"].'" width="100" height="100" />';
           } //end while
             
             
@@ -137,8 +140,8 @@ if (isset($_GET['movie_id'])) {
         $sql_A3_result->close();
         ?>
         <figure>
-<?php $Shirtloc='image/Movie Media'; ?>
-          <img src="<?php echo $shirtloc; ?>'m_link'" width="952" height="119" />
+
+          
           <figcaption>Some more description</figcaption>
         </figure>
     </table>
