@@ -3,55 +3,34 @@
     $nav_selected = "LIST";
     $left_buttons = "NO";
     $left_selected = "";
-    
   require 'db_credentials.php';
      include("./nav.php");
+    
   ?>
   
 <!DOCTYPE html>
 <html>
-<form id="movieCreate" action="createTheMovie.php" method= "post">
-<h1>Create a movie</h1>
-
-<div class="tab"> Movie Name:
-  <p><input name= "native_name" placeholder="Native Name" oninput="this.className = ''"></p>
-  <p><input name= "english_name" placeholder="English Name" oninput="this.className = ''"></p>
-  <p><input name= "year" placeholder="Year" oninput="this.className = ''"></p>
-
-
-
-Movie Data:
-  <p><input name= "language" placeholder="Language" oninput="this.className = ''"></p>
-  <p><input name= "country" placeholder="Country" oninput="this.className = ''"></p>
-  <p><input name= "genre" placeholder="Genre" oninput="this.className = ''"></p>
-  <p><input name= "plot" placeholder="Plot" oninput="this.className = ''"></p>
-  <p><input name= "tag_line" placeholder="Tag line" oninput="this.className = ''"></p>
-
-
-
-Movie Trivia:
-  <p><input name= "trivia" placeholder="Trivia" oninput="this.className = ''"></p>
-
-
-
-Movie Media:
-  <p><input name= "movie_link" placeholder="Movie link" oninput="this.className = ''"></p>
-  <p><input name= "movie_link_type" placeholder="Link type" oninput="this.className = ''"></p>
+<form id="addSong" action="add_the_song.php" method= "post">
+<h1>Modify a movie
+<p><input type = "text"  name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"></p>
+<p><input type = "text"  name= "native_name" value=<?php echo $_GET["native_name"]; ?> placeholder="native_name" readonly="readonly"></p>
+</h1>
+<div class= "tab"> Add Song to movie:
+  <p><input name= "new_song" placeholder="Song Title 1" class="form-control" oninput="this.className = ''"></p>
+  <p><input name= "new_song2" placeholder="Song Title 2" class="form-control" oninput="this.className = ''"></p>
+  <p><input name= "new_song3" placeholder="Song title 3" class="form-control" oninput="this.className = ''"></p>
+  <p><input name= "new_song4" placeholder="Song Title 4" class="form-control" oninput="this.className = ''"></p>
+  <p><input name= "new_song5" placeholder="Song Title 5" class="form-control" oninput="this.className = ''"></p>
 </div>
-
-
 <div style="overflow:auto;">
-  <div style="float:right;">
-    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+  <div  class="text-left">
+           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Modify Movie</button>
   </div>
 </div>
-
 <div style="text-align:center;margin-top:40px;">
-  <span class="step"></span>
-  
-  
+<span class="step"></span>
 </div>
+
 </form>
 <style type="text/css">
 #movieModify {
@@ -104,8 +83,6 @@ input.invalid {
   background-color: #4CAF50;
 }
 </style>
-
-
 <script>
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
@@ -116,7 +93,7 @@ function showTab(n) {
   x[n].style.display = "block";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
-    document.getElementById("submit").style.display = "none";
+    document.getElementById("prevBtn").style.display = "none";
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
@@ -128,12 +105,9 @@ function showTab(n) {
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
 }
-
 function nextPrev(n) {
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
   // Hide the current tab:
   x[currentTab].style.display = "none";
   // Increase or decrease the current tab by 1:
@@ -141,35 +115,12 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("movieCreate").submit();
+    document.getElementById("addSong").submit();
     return false;
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);
 }
-
-function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false:
-      valid = false;
-    }
-  }
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
-  }
-  return valid; // return the valid status
-}
-
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
   var i, x = document.getElementsByClassName("step");
