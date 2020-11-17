@@ -19,8 +19,6 @@ include_once 'db_credentials.php';
           $sql = "UPDATE movies Set native_name = '$native_update', english_name = '$english_update', year_made = '$year_update' Where movie_id = '$movie_id'"
         ;
 
-        
-          
         mysqli_query($link, $sql);
         
       }

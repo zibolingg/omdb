@@ -2,7 +2,6 @@
 <?php
    
 include_once 'db_credentials.php';
-    echo "Esto es una preuba para ver la conection";
 
 	$db = mysqli_connect('localhost', 'root', '','OMDB');
 // Verificamos conexiones
@@ -40,6 +39,7 @@ echo "Connected successfully";
       $movie_link_type = $_POST['movie_link_type'];
 
     $sql4 = "INSERT INTO movies_data (m_link, m_link_type) VALUES ( '$movie_link' , '$movie_link_type' )";
+    
                 mysqli_query($db, $sql1);
                 mysqli_query($db, $sql2);
                 mysqli_query($db, $sql3);

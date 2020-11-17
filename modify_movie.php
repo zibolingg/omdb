@@ -12,11 +12,11 @@
 <html>
 <form id="movieModify" action="modifyTheMovies.php" method= "post">
 <h1>Modify a movie</h1>
-
+<div class= "tab"> Movie info to Modify:
   <p><input type = "text" class"form-control" name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"
  class="form-control"></p>
   <p><input type = "text" class="form-control" name= "native_name_update" placeholder="Modify Native Name" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "english_name_update" placeholder="Modify English Name" oninput="this.className = ''"></p>
+  <p><input name= "english_name_update" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
   <p><input name= "year_update" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
 </div>
 <div style="overflow:auto;">
