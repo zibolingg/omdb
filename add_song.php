@@ -13,18 +13,16 @@
 <form id="addSong" action="add_the_song.php" method= "post">
 <h1>Modify a movie
 <p><input type = "text"  name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"></p>
-<p><input type = "text"  name= "native_name" value=<?php echo $_GET["native_name"]; ?> placeholder="native_name" readonly="readonly"></p>
+
+
 </h1>
 <div class= "tab"> Add Song to movie:
-  <p><input name= "new_song" placeholder="Song Title 1" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "new_song2" placeholder="Song Title 2" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "new_song3" placeholder="Song title 3" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "new_song4" placeholder="Song Title 4" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "new_song5" placeholder="Song Title 5" class="form-control" oninput="this.className = ''"></p>
+  <p><textarea name= "new_songs[]" form="addSong" rows="10" cols="100" >
+  </textarea></p>
 </div>
 <div style="overflow:auto;">
   <div  class="text-left">
-           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Modify Movie</button>
+           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Add Song</button>
   </div>
 </div>
 <div style="text-align:center;margin-top:40px;">

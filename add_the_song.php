@@ -7,27 +7,31 @@ include_once 'db_credentials.php';
         die("Connection failed: " . mysqli_connect_error());
     }
     echo "Connected successfully";
-
-        $song = $_POST['new_song'];
-        $song2 = $_POST['new_song2'];
-        $song3 = $_POST['new_song3'];
-        $song4 = $_POST['new_song4'];
-        $song5 = $_POST['new_song5'];
-                            
-                $sql1 = "INSERT INTO songs(title)values('$song')";
-                $sql2 = "INSERT INTO songs(title)values('$song2')";
-                $sql3 = "INSERT INTO songs(title)values('$song3')";
-                $sql4 = "INSERT INTO songs(title)values('$song4')";
-                $sql5 = "INSERT INTO songs(title)values('$song5')";
-
-
-          
+    $songs = [];
+    $splitWords= [];
+    $_POST['new_song'];
+    if (isset($_POST['new_song'])){
+        $songs =$_POST['new_song'];
+        
+        
+        foreach ($songs as $i => $song) {
+                     //echo "this is i: $i and this is: $word and this is words: $words";
+//                    echo($i.'|'.$word.'|'.$engWords[$i].PHP_EOL);
+                    $splitWords = $song; //Remove dot at end if exists
+                    $splitWords = preg_replace('/\s+/', '', $splitWords);
+                    $array = explode(';', $splitWords); //split string into array seperated by ', '
+/* Use tab and newline as tokenizing characters as well  */
+            if (!empty($songs[$i])) {
+                foreach($array as $value){
+                   $sql= "INSERT INTO songs(title)values('$value')";
+                        }
+            }
+        }
+        mysqli_query($db, $sql);
+    }
+   
     
-                    mysqli_query($db, $sql1);
-                    mysqli_query($db, $sql2);
-                    mysqli_query($db, $sql3);
-                    mysqli_query($db, $sql4);
-                    mysqli_query($db, $sql5);
+                    
 
         header('location: movies.php?create=Success');
         mysqli_close($db);

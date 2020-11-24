@@ -30,16 +30,31 @@ Movie Data:
 
 
 Movie Trivia:
-  <p><input name= "trivia" placeholder="Trivia" oninput="this.className = ''"></p>
 
-
+Trivia: <p><textarea name= "trivia[]" form="movieCreate" rows="10" cols="100" >
+     </textarea></p>
 
 Movie Media:
-  <p><input name= "movie_link" placeholder="Movie link" oninput="this.className = ''"></p>
-  <p><input name= "movie_link_type" placeholder="Link type" oninput="this.className = ''"></p>
+ Media link: <p><textarea name= "movie_link[]" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
+
+  
+
+Movie KeyWords:
+
+   <p><textarea name= "movie_keyword[]" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
+
+Movie Numbers:
+   <p><input name= "movie_lenght" placeholder="Movie link" oninput="this.className = ''"></p>
+   <p><input name= "movie_time" placeholder="Movie link" oninput="this.className = ''"></p>
+   <p><input name= "movie_budget" placeholder="Movie link" oninput="this.className = ''"></p>
+   <p><input name= "movie_box_office" placeholder="Movie link" oninput="this.className = ''"></p>
+
+Movie quotes:
+    <p><textarea name= "movie_quote[]" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
 </div>
-
-
 <div style="overflow:auto;">
   <div style="float:right;">
     <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
@@ -123,7 +138,7 @@ function showTab(n) {
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").innerHTML = "Submit";
   } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").innerHTML = "Submit";
   }
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
