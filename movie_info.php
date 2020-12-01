@@ -222,6 +222,8 @@ m_link_type
         // this is 1 to many relationship
         // So, many tuples may be returned
         // We will display those in a table in a while loop
+        $m_link='';
+        $shirtloc='images/movie_media/';
         if ($sql_A3_result->num_rows > 0) {
           // output data of each row
           while ($a3_tuple = $sql_A3_result->fetch_assoc()) {
@@ -231,6 +233,7 @@ m_link_type
                       <td>' . $a3_tuple["m_link"] . '</td>
                       <td>' . $a3_tuple["m_link_type"] . ' </span> </td>
                   </tr>';
+             echo '<img src="'.$shirtloc.$a3_tuple["m_link"].'" width="100" height="100" />';
           } //end while
 
         } //end second if 

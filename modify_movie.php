@@ -12,12 +12,44 @@
 <html>
 <form id="movieModify" action="modifyTheMovies.php" method= "post">
 <h1>Modify a movie</h1>
-<div class= "tab"> Movie info to Modify:
+<div class= "tab"> Movie  Modify:
   <p><input type = "text" class"form-control" name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"
  class="form-control"></p>
   <p><input type = "text" class="form-control" name= "native_name_update" placeholder="Modify Native Name" class="form-control" oninput="this.className = ''"></p>
   <p><input name= "english_name_update" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
   <p><input name= "year_update" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
+  
+Movie Data:
+<p><input name= "language" placeholder="Language" oninput="this.className = ''"></p>
+<p><input name= "country" placeholder="Country" oninput="this.className = ''"></p>
+<p><input name= "genre" placeholder="Genre" oninput="this.className = ''"></p>
+<p><input name= "plot" placeholder="Plot" oninput="this.className = ''"></p>
+<p><input name= "tag_line" placeholder="Tag line" oninput="this.className = ''"></p>
+
+
+Modify Trivia: <p><textarea name= "trivia" form="movieCreate" rows="10" cols="100" >
+     </textarea></p>
+
+Modify Media:
+ Media link: <p><textarea name= "movie_link" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
+
+  
+
+Modify KeyWords:
+
+   <p><textarea name= "movie_keyword" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
+
+Modify Numbers:
+   <p><input name= "running_time" placeholder="Movie Time" oninput="this.className = ''"></p>
+   <p><input name= "budget" placeholder="Movie Budget" oninput="this.className = ''"></p>
+   <p><input name= "box_office" placeholder="Movie Box Office" oninput="this.className = ''"></p>
+
+Modify quotes:
+    <p><textarea name= "movie_quote" form="movieCreate" rows="10" cols="100" >
+   </textarea></p>
+
 </div>
 <div style="overflow:auto;">
   <div  class="text-left">

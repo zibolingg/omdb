@@ -16,7 +16,6 @@
       <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
 
     <button><a class="btn btn-sm" href="create_movie.php">Create a Movie</a></button>
-    <button><a class="btn btn-sm" href="SubirArchivo.php">Suba su propio archivo</a></button>
 
 <br>
 
@@ -58,9 +57,9 @@ $result = $db->query($sql);
                                 <td>'.$row["native_name"].' </span> </td>
                                 <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
-                                <td><a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
+                                <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'">View</a>
+                                    <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
                                     <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a>
-                                    <a class="btn btn-info btn-sm" href="movie_more_info.php?movie_id='.$row["movie_id"].'">Info</a>
                                     <a class="btn btn-success btn-sm" href="add_song.php?movie_id='.$row["movie_id"].'">Add Song</a></td>
 
                             </tr>';

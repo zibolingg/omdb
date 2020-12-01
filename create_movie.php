@@ -12,8 +12,8 @@
 <html>
 <form id="movieCreate" action="createTheMovie.php" method= "post">
 <h1>Create a movie</h1>
-
 <div class="tab"> Movie Name:
+  
   <p><input name= "native_name" placeholder="Native Name" oninput="this.className = ''"></p>
   <p><input name= "english_name" placeholder="English Name" oninput="this.className = ''"></p>
   <p><input name= "year" placeholder="Year" oninput="this.className = ''"></p>
@@ -31,42 +31,39 @@ Movie Data:
 
 Movie Trivia:
 
-Trivia: <p><textarea name= "trivia[]" form="movieCreate" rows="10" cols="100" >
+Trivia: <p><textarea name= "trivia" form="movieCreate" rows="10" cols="100" >
      </textarea></p>
 
 Movie Media:
- Media link: <p><textarea name= "movie_link[]" form="movieCreate" rows="10" cols="100" >
+ Media link: <p><textarea name= "movie_link" form="movieCreate" rows="10" cols="100" >
    </textarea></p>
 
   
 
 Movie KeyWords:
 
-   <p><textarea name= "movie_keyword[]" form="movieCreate" rows="10" cols="100" >
+   <p><textarea name= "movie_keyword" form="movieCreate" rows="10" cols="100" >
    </textarea></p>
 
 Movie Numbers:
-   <p><input name= "movie_lenght" placeholder="Movie link" oninput="this.className = ''"></p>
-   <p><input name= "movie_time" placeholder="Movie link" oninput="this.className = ''"></p>
-   <p><input name= "movie_budget" placeholder="Movie link" oninput="this.className = ''"></p>
-   <p><input name= "movie_box_office" placeholder="Movie link" oninput="this.className = ''"></p>
+   <p><input name= "running_time" placeholder="Movie Time" oninput="this.className = ''"></p>
+   <p><input name= "budget" placeholder="Movie Budget" oninput="this.className = ''"></p>
+   <p><input name= "box_office" placeholder="Movie Box Office" oninput="this.className = ''"></p>
 
 Movie quotes:
-    <p><textarea name= "movie_quote[]" form="movieCreate" rows="10" cols="100" >
+    <p><textarea name= "movie_quote" form="movieCreate" rows="10" cols="100" >
    </textarea></p>
 </div>
 <div style="overflow:auto;">
-  <div style="float:right;">
-    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-  </div>
+ <div class="text-left">
+  <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Create Movie</button>
+</div>
 </div>
 
 <div style="text-align:center;margin-top:40px;">
   <span class="step"></span>
-  
-  
 </div>
+
 </form>
 <style type="text/css">
 #movieModify {
@@ -131,14 +128,14 @@ function showTab(n) {
   x[n].style.display = "block";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
-    document.getElementById("submit").style.display = "none";
+    document.getElementById("prevBtn").style.display = "none";
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").innerHTML = "Submit";
   } else {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").innerHTML = "next";
   }
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
