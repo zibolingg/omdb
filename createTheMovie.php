@@ -9,15 +9,13 @@ if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
 }
 echo "Connected successfully";
-    $splitWords= [];
-    $movie = $_POST['english_name'];
+   $movie = $_POST['english_name'];
    $native = $_POST['native_name'];
-    $year = $_POST['year'];
-                        
-            $sql1 = "INSERT INTO movies(native_name,english_name,year_made)values('$native','$movie','$year')";
-    
-
-
+   $year = $_POST['year'];
+   
+            $sql1 = "INSERT INTO movies(native_name,english_name,year_made) values('$native','$movie','$year')"
+    ;
+      
                     
     
 	  $language = $_POST['language'];
@@ -26,91 +24,74 @@ echo "Connected successfully";
       $plot = $_POST['plot'];
       $tag_line = $_POST['tag_line'];
    
-    $sql2 = "INSERT INTO movie_data (language, country, genre, plot, tag_line) VALUES ( '$language' , '$country', '$genre', '$plot', '$tag_line' )";
+    $sql2 = "INSERT INTO movie_data(language,country,genre,plot,tag_line) values('$language','$country','$genre','$plot','$tag_line')"
+    ;
+    
+                
+                
+    
 
-                
-                
-    $trivia = $_POST['trivia'];
-      
-    $sql3 =
-
-                
+    
 
     $trivias = [];
-    $_POST['trivia'];
-        if (isset($_POST['trivia'])){
-            $trivias =$_POST['trivia'];
+    $trivias =$_POST['trivia'];
+    $trivia_ar = explode(PHP_EOL, $trivias);
+    $l = 0;
+    for ($l=0 ;$l< sizeof($trivia_ar); $l++){
+                $sql3 = "INSERT INTO movie_trivia(trivia) values('$trivia_ar[$l]')"
+        ;
+                 mysqli_query($db, $sql3);
+                 }
             
+                       
             
-            foreach ($trivias as $i => $trivia) {
-                         //echo "this is i: $i and this is: $word and this is words: $words";
-    //                    echo($i.'|'.$word.'|'.$engWords[$i].PHP_EOL);
-                        $splitWords = $word; //Remove dot at end if exists
-                        $splitWords = preg_replace('/\s+/', '', $splitWords);
-                        $array = explode(';', $splitWords); //split string into array seperated by ', '
-    /* Use tab and newline as tokenizing characters as well  */
-                if (!empty($trivia[$i])) {
-                    foreach($array as $value){
-                       $sql3= "INSERT INTO movie_trivia (trivia) VALUES ( '$value' )";
-                            }
-                }
-            }
-        }
+                
+    
        $links = [];
-       $_POST['movie_link'];
-           if (isset($_POST['movie_link'])){
-               $links =$_POST['movie_link'];
+       $links =$_POST['movie_link'];
+       $media_ar = explode(PHP_EOL, $links);
+       $i = 0;
+       for ($i ;$i< sizeof($media_ar); $i++){
+                   $sql4 = "INSERT INTO movie_media(m_link) VALUES('$media_ar[$i]')";
+                    mysqli_query($db, $sql4);
+            }
+                          
+                            
+                
                
-               
-               foreach ($links as $i => $link) {
-                           $splitWords = preg_replace('/\s+/', '', $splitWords);
-                           $array = explode(';', $splitWords); //split string into
-                   if (!empty($link[$i])) {
-                       foreach($array as $value){
-                          $sql4= "INSERT INTO m_link (m_link) VALUES ( '$value' )";
-                               }
-                   }
-               }
-           }
+           
         $keywords = [];
-        $_POST['movie_keyword'];
-            if (isset($_POST['movie_keyword'])){
-                $keywords =$_POST['movie_keyword'];
-                
-                
-                foreach ($keywords as $i => $keyword) {
-                            $splitWords = preg_replace('/\s+/', '', $splitWords);
-                            $array = explode(';', $splitWords); //split string into
-                    if (!empty($link[$i])) {
-                        foreach($array as $value){
-                           $sql3= "INSERT INTO m_link (movie_keyword) VALUES ( '$value' )";
-                                }
-                    }
-                }
-            }
+        $keywords = $_POST['movie_keyword'];
+        $keywords_ar = explode(PHP_EOL, $keywords);
+    $j = 0;
+        for ($j=0 ;$j< sizeof($keywords_ar); $j++){
+             $sql5= "INSERT INTO movie_keywords(keyword) values('$keywords_ar[$j]')";
+              mysqli_query($db, $sql5);
+              }
+    
+    
     $quotes = [];
-        $_POST['movie_quote'];
-            if (isset($_POST['movie_quote'])){
-                $quotes =$_POST['movie_quote'];
-                
-                
-                foreach ($quotes as $i => $quote) {
-                            $splitWords = preg_replace('/\s+/', '', $splitWords);
-                            $array = explode(';', $splitWords); //split string into
-                    if (!empty($quote[$i])) {
-                        foreach($array as $value){
-                           $sql3= "INSERT INTO m_link (movie_quote) VALUES ( '$value' )";
-                                }
-                    }
-                }
-            }
+    $quotes = $_POST['movie_quote'];
+    $quotes_ar = explode(PHP_EOL, $quotes);
+    $h = 0;
+    for ($h=0 ;$h< sizeof($quotes_ar); $h++){
+           $sql6= "INSERT INTO movie_quotes(movie_quote_name) VALUES ('$quotes_ar[$h]')";
+           mysqli_query($db, $sql6);
+    }
+
+    $box_office = $_POST['box_office'];
+    $running_time = $_POST['running_time'];
+    $budget = $_POST['budget'];
+                           
+               $sql7= "INSERT INTO movie_numbers(box_office,budget,running_time) values('$box_office','$budget','$running_time')"
+    ;
+    mysqli_query($db, $sql1);
     
+    mysqli_query($db, $sql2);
     
-                mysqli_query($db, $sql1);
-                mysqli_query($db, $sql2);
-                mysqli_query($db, $sql3);
-                mysqli_query($db, $sql4);
+    mysqli_query($db, $sql7);
                 
+    
 
 	header('location: movies.php?create=Success');
     mysqli_close($db);

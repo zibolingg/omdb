@@ -13,11 +13,9 @@
 <form id="addSong" action="add_the_song.php" method= "post">
 <h1>Modify a movie
 <p><input type = "text"  name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"></p>
-
-
 </h1>
 <div class= "tab"> Add Song to movie:
-  <p><textarea name= "new_songs[]" form="addSong" rows="10" cols="100" >
+  <p><textarea name= "new_songs" form="addSong" rows="10" cols="100" >
   </textarea></p>
 </div>
 <div style="overflow:auto;">
