@@ -10,13 +10,11 @@
   
 <!DOCTYPE html>
 <html>
-<form id="movieModify" action="modifyTheMovies.php" method= "post">
-<h1>Modify a movie</h1>
-<div class= "tab"> Movie  Modify:
+<form id="movieData" action="createTheData.php" method= "post">
+<h1>Create Movie Data</h1>
+<div class= "tab"> Movie  id:
   <p><input type = "text" class"form-control" name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"
  class="form-control"></p>
-  <p><input name= "english_name_update" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "year_update" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
   
 Movie Data:
 <p><input name= "language" placeholder="Language" oninput="this.className = ''"></p>
@@ -26,33 +24,33 @@ Movie Data:
 <p><input name= "tag_line" placeholder="Tag line" oninput="this.className = ''"></p>
 
 
-Modify Trivia: <p><textarea name= "trivia" form="movieModify" rows="10" cols="100" >
+Movie Trivia: <p><textarea name= "trivia" form="movieData" rows="10" cols="100" >
      </textarea></p>
 
 Modify Media:
- Media link: <p><textarea name= "movie_link" form="movieModify" rows="10" cols="100" >
+ Media link: <p><textarea name= "movie_link" form="movieData" rows="10" cols="100" >
    </textarea></p>
 
   
 
-Modify KeyWords:
+Movie KeyWords:
 
-   <p><textarea name= "movie_keyword" form="movieModify" rows="10" cols="100" >
+   <p><textarea name= "movie_keyword" form="movieData" rows="10" cols="100" >
    </textarea></p>
 
-Modify Numbers:
+Movie Numbers:
    <p><input name= "running_time" placeholder="Movie Time" oninput="this.className = ''"></p>
    <p><input name= "budget" placeholder="Movie Budget" oninput="this.className = ''"></p>
    <p><input name= "box_office" placeholder="Movie Box Office" oninput="this.className = ''"></p>
 
-Modify quotes:
-    <p><textarea name= "movie_quote" form="movieModify" rows="10" cols="100" >
+Movie quotes:
+    <p><textarea name= "movie_quote" form="movieData" rows="10" cols="100" >
    </textarea></p>
 
 </div>
 <div style="overflow:auto;">
   <div  class="text-left">
-           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Modify Movie</button>
+           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Create Data</button>
   </div>
 </div>
 <div style="text-align:center;margin-top:40px;">
@@ -143,7 +141,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("movieModify").submit();
+    document.getElementById("movieData").submit();
     return false;
   }
   // Otherwise, display the correct tab:

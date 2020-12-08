@@ -18,41 +18,6 @@
   <p><input name= "english_name" placeholder="English Name" oninput="this.className = ''"></p>
   <p><input name= "year" placeholder="Year" oninput="this.className = ''"></p>
 
-
-
-Movie Data:
-  <p><input name= "language" placeholder="Language" oninput="this.className = ''"></p>
-  <p><input name= "country" placeholder="Country" oninput="this.className = ''"></p>
-  <p><input name= "genre" placeholder="Genre" oninput="this.className = ''"></p>
-  <p><input name= "plot" placeholder="Plot" oninput="this.className = ''"></p>
-  <p><input name= "tag_line" placeholder="Tag line" oninput="this.className = ''"></p>
-
-
-
-Movie Trivia:
-
-Trivia: <p><textarea name= "trivia" form="movieCreate" rows="10" cols="100" >
-     </textarea></p>
-
-Movie Media:
- Media link: <p><textarea name= "movie_link" form="movieCreate" rows="10" cols="100" >
-   </textarea></p>
-
-  
-
-Movie KeyWords:
-
-   <p><textarea name= "movie_keyword" form="movieCreate" rows="10" cols="100" >
-   </textarea></p>
-
-Movie Numbers:
-   <p><input name= "running_time" placeholder="Movie Time" oninput="this.className = ''"></p>
-   <p><input name= "budget" placeholder="Movie Budget" oninput="this.className = ''"></p>
-   <p><input name= "box_office" placeholder="Movie Box Office" oninput="this.className = ''"></p>
-
-Movie quotes:
-    <p><textarea name= "movie_quote" form="movieCreate" rows="10" cols="100" >
-   </textarea></p>
 </div>
 <div style="overflow:auto;">
  <div class="text-left">
