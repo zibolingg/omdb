@@ -60,7 +60,8 @@ $result = $db->query($sql);
                                 <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'">View</a>
                                     <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
                                     <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a>
-                                    <a class="btn btn-success btn-sm" href="add_song.php?movie_id='.$row["movie_id"].'">Add Song</a></td>
+                                    <a class="btn btn-success btn-sm" href="add_song.php?movie_id='.$row["movie_id"].'">Add Song</a>
+                                    <a class="btn btn-default btn-sm" href="create_Data.php?movie_id='.$row["movie_id"].'">Create Data</a></td>
 
                             </tr>';
                     }//end while
