@@ -326,10 +326,8 @@ if (isset($_GET['movie_id'])) {
         <?php
 
         // query string for the Query A.1
-        $sql_C1 = "SELECT title, LEFT(lyrics,10) AS lyrics10
-                  FROM songs INNER JOIN movie_song 
-                  ON (movie_song.song_id = songs.song_id)
-                  WHERE movie_id=" . $movie_id;
+        $sql_C1 = "SELECT title FROM songs INNER JOIN movie_song ON (movie_song.song_id = songs.song_id)
+ WHERE movie_id=" . $movie_id;
 
         if (!$sql_C1_result = $db->query($sql_C1)) {
           die('There was an error running query[' . $db->error . ']');

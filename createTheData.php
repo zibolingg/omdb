@@ -27,7 +27,7 @@ include_once 'db_credentials.php';
         $trivia_ar = explode(PHP_EOL, $trivias);
         $l = 0;
         for ($l=0 ;$l< sizeof($trivia_ar); $l++){
-                    $sql2 = "INSERT INTO movie_trivia(movie_id,trivia) values('$movie_id','$trivia_ar[$l]')"
+                    $sql2 = "INSERT INTO movie_trivia(movie_id,movie_trivia_name) values('$movie_id','$trivia_ar[$l]')"
             ;
                      mysqli_query($link, $sql2);
                      }
