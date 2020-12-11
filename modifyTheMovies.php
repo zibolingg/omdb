@@ -40,7 +40,7 @@ include_once 'db_credentials.php';
          $trivia_ar = explode(PHP_EOL, $trivias);
         if (isset($_POST['trivia'])){
          for ($i=0 ;$i< sizeof($trivia_ar); $i++){
-                     $sql3 = "UPDATE movie_trivia SET trivia = '$trivia_ar[i]' WHERE movie_id = '$movie_id' ";
+                     $sql3 = "UPDATE movie_trivia SET movie_trivia_name = '$trivia_ar[i]' WHERE movie_id = '$movie_id' ";
                       mysqli_query($db, $sql3);
                       }
          }

@@ -155,7 +155,7 @@ TODO: Copy the code snippet from A.1, change the code to reflect Extended data
 
     <?php
 
-    //TODO: 
+    //TODO:
     $sql_A2 = "SELECT movie_id, language, country, genre, plot
               FROM movie_data
               WHERE movie_id =" . $movie_id;
@@ -167,10 +167,10 @@ TODO: Copy the code snippet from A.1, change the code to reflect Extended data
     if ($sql_A2_result->num_rows > 0) {
       $a2_tuple = $sql_A2_result->fetch_assoc();
       echo '<br> Movie ID : ' . $a2_tuple["movie_id"] .
-        '<br> Native Name : ' . $a2_tuple["language"] .
-        '<br> English Name : ' . $a2_tuple["country"] .
-        '<br> Year Made :  ' . $a2_tuple["genre"];
-        '<br> Year Made :  ' . $a2_tuple["plot"];
+        '<br> Languege : ' . $a2_tuple["language"] .
+        '<br> Country : ' . $a2_tuple["country"] .
+        '<br> Genre :  ' . $a2_tuple["genre"];
+        '<br> Plot :  ' . $a2_tuple["plot"];
     } //end if
     else {
       echo "0 results";
@@ -259,11 +259,9 @@ keywords (show it as a comma separated list)
   <div class="container">
     <h3 style="color: #01B0F1;">[A.4] Movie -> Key Words</h3>
 
-    <?
+    <?PHP
     //TODO: 
-    $sql_A4 = "SELECT movie_id, keyword
-    FROM movie_keywords
-    WHERE movie_id =" . $movie_id;
+    $sql_A4 = "SELECT * FROM movie_keywords WHERE movie_id = '$movie_id'";
 
 if (!$sql_A4_result = $db->query($sql_A4)) {
 die('There was an error running query[' . $connection->error . ']');
@@ -353,7 +351,26 @@ media (from songs_media - show the IDs as comma separated list, media_link will 
     <h3 style="color: #01B0F1;">[C.1] Movie -> Songs</h3>
 
     <?php
+          
+          $sql_C1 = "SELECT * from songs natural join movie_song
+          
+          WHERE movie_id =" . $movie_id;
 
+      if (!$sql_C1_result = $db->query($sql_C1)) {
+      die('There was an error running query[' . $connection->error . ']');
+      }
+
+      if ($sql_C1_result->num_rows > 0) {
+      $c1_tuple = $sql_C1_result->fetch_assoc();
+      echo '<br> Song ID : ' . $c1_tuple["song_id"] .
+      '<br> Title : ' . $c1_tuple["title"]  ;
+
+      } //end if
+      else {
+      echo "0 results";
+      } //end else
+
+      $sql_C1_result->close();
     //TODO: 
     ?>
   </div>
