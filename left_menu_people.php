@@ -7,19 +7,11 @@
   	<br/>People<br/></div>
   </a>
 
-
-  <a href="people_movies.php">
-  	<div <?php if($left_selected == "MOVIES")
+  <a href = "people_trivia.php">
+  	<div <?php if($left_selected == "TRIVIA")
   	{ echo 'class="menu-left-current-page"'; } ?>>
-  	<img src="./images/movies.png">
-  	<br/>Movies<br/></div>
-  </a>
-
-  <a href = "people_songs.php">
-  	<div <?php if($left_selected == "SONGS")
-  	{ echo 'class="menu-left-current-page"'; } ?>>
-  	<img src="./images/songs.png">
-  	<br/>Songs<br/></div>
+  	<img src="">
+  	<br/>Trivia<br/></div>
   </a>
 
 
