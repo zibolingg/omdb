@@ -12,7 +12,7 @@
             $people = $_POST['people'];
 
           }
-
+// Looks good to go - Jack Wirtz
 
   ?>
 
