@@ -527,6 +527,7 @@
 
 
             <?php
+            
             $count = 0;
             $query = mysqli_query($db, "SELECT * FROM `people` WHERE stage_name LIKE '%".$name3."%'
               OR first_name LIKE '%".$name3."%'
