@@ -15,8 +15,17 @@
   if(isset($_POST['people_search_button'])){
   $name3 = $_POST['people_search'];
   }
+  if(isset($_POST['movie_people_search_button'])){
+    $lead_actor = $_POST['lead_actor'];
+    $lead_actress = $_POST['lead_actress'];
+    $producer = $_POST['producer'];
+    $director = $_POST['director'];
+    $music_director = $_POST['music_director'];
+
+
+}
   ?>
-// Looks pretty good there!
+
 <div class="right-content">
     <div class="container">
 
@@ -37,6 +46,68 @@
           <input type="text" name="movie_search" placeholder="Enter movie to search its record...">
           <button type="submit" name="movie_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
+        <hr/>
+        <h3 style = "color: #01B0F1;">Search movies by role</h3>
+
+
+
+  <form method="post" action="advance_movie_search.php">
+  <div class="form-group">
+    <label for="lead_actor">Lead Actor</label>
+    <input type="text" class="form-control" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name">
+  </div>
+
+  <div class="form-group">
+    <label for="lead_actress">Lead Actress</label>
+    <input type="text" class="form-control" id="lead_actress" name="lead_actress" placeholder="Lead Actress Name">
+  </div>
+
+  <div class="form-group">
+    <label for="producer">Producer</label>
+    <input type="text" class="form-control" id="producer" name="producer" placeholder="producer Name">
+  </div>
+
+  <div class="form-group">
+    <label for="director">Director</label>
+    <input type="text" class="form-control" id="director" name="director" placeholder="director Name">
+  </div>
+
+  <div class="form-group">
+    <label for="music_director">Music Director</label>
+    <input type="text" class="form-control" id="music_director" name="music_director" placeholder="Music Director Name">
+  </div>
+
+
+
+  <button type="submit"  name="movie_people_search_button" class="btn btn-primary">Search</button>
+</form>
+
+
+
+
+        <!-- <form method="post" action="advance_movie_search.php">
+            <label for="lead_actor">Lead Actor : </label>
+          <input type="text" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name"><br>
+
+          <label for="lead_actress">Lead Actress : </label>
+          <input type="text" id="lead_actress" name="lead_actress" placeholder="Lead Actress Name"><br>
+
+          <label for="producer">Producer Name : </label>
+          <input type="text" id="producer" name="producer" placeholder="Producer Name"><br>
+
+          <label for="director">Director Name : </label>
+          <input type="text" id="director" name="director" placeholder="Director Name"><br>
+
+          <label for="music_director">Music Director Name : </label>
+          <input type="text" id="music_director" name="music_director" placeholder="Music Director Name">
+
+            <button type="submit" name="movie_people_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form> -->
+
+
+
+
+
       <?php }
       if(isset($_POST['people'])){ ?>
           <h3 style = "color: #01B0F1;">Search Peoples</h3>
@@ -634,4 +705,3 @@
  </style>
 
   <?php include("./footer.php"); ?>
-//looks good
