@@ -231,7 +231,7 @@ if(isset($_POST['people'])){ ?>
           </tbody>
           </table>
 
-
+//looks good
             <h3 style = "color: #01B0F1;">Movie People</h3>
             <table class="datatable table table-striped table-bordered datatable-style table-hover"
             id="info" cellpadding="0" cellspacing="0" border="0">
