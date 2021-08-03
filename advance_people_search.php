@@ -29,15 +29,15 @@
 
       <?php
       if(isset($_POST['songs'])){ ?>
-          <h3 style = "color: #01B0F1;">Search Songs</h3>
-        <form method="post" action="search_data.php">
-          <input type="text" name="song_search" placeholder="Enter song to search its record...">
-          <button type="submit" name="song_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+        <h3 style = "color: #01B0F1;">Search Songs</h3>
 
-        <hr/>
 
-        <form method="post" action="advance_song_search.php">
+      <form method="post" action="advance_song_search.php">
+
+        <div class="form-group">
+          <label for="song_search">Search Songs</label>
+          <input type="text" class="form-control" id="song_search" name="song_search" placeholder="Enter song to search its record...">
+        </div>
 
           <div class="form-group">
             <label for="lyricist">Lyricist</label>
@@ -80,20 +80,16 @@
 
       <?php }
       if(isset($_POST['movies'])){ ?>
-          <h3 style = "color: #01B0F1;">Search Movies</h3>
-        <form method="post" action="search_data.php">
-          <input type="text" name="movie_search" placeholder="Enter movie to search its record...">
-          <button type="submit" name="movie_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
-        <hr/>
         <h3 style = "color: #01B0F1;">Search movies by role</h3>
 
-// this looks better than what I came up with mine.  
 
 
+  <form method="post" action="advance_movie_search.php">
 
-
-        <form method="post" action="advance_movie_search.php">
+    <div class="form-group">
+      <label for="movie_search">Search Movie</label>
+      <input type="text" class="form-control" id="movie_search" name="movie_search" placeholder="Enter movie to search its record...">
+    </div>
         <div class="form-group">
           <label for="lead_actor">Lead Actor</label>
           <input type="text" class="form-control" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name">
@@ -129,21 +125,36 @@
 <?php }
 if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
     <h3 style = "color: #01B0F1;">Search Peoples</h3>
-  <form method="post" action="search_data.php">
-    <input type="text" name="people_search" placeholder="Enter People to search its record...">
-    <button type="submit" name="people_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-  </form>
 
-  <hr/>
   <form method="post" action="advance_people_search.php">
-  <div class="form-group">
-    <label for="stage_name">Stage Name</label>
-    <input type="text" class="form-control" id="stage_name" name="stage_name" placeholder="Stage Name">
+    <div class="form-group">
+      <label for="search_people">Search People</label>
+    <input type="text" id="search_people" class="form-control" name="people_search" placeholder="Enter People to search its record...">
   </div>
+    <div class="form-group">
+      <label for="stage_name">Stage Name</label>
+
+      <select name="stage_name" class="form-control">
+        <?php
+        $query = mysqli_query($db,"select * from people");
+        while($options = mysqli_fetch_assoc($query)){ ?>
+          <option value="<?php echo $options['stage_name']?>"><?php echo $options['stage_name'];?></option>
+
+        <?php }
+        ?>
+      </select>
+    </div>
 
   <div class="form-group">
     <label for="role">Role</label>
-    <input type="text" class="form-control" id="role" name="role" placeholder="Role">
+    <select name="role" class="form-control">
+      <option value="" disabled>Select One</option>
+      <option value="lead_actor">Lead Actor</option>
+      <option value="lead_actress">Lead Actress</option>
+      <option value="producer">Producer</option>
+      <option value="director">Director</option>
+      <option value="music_director">Music Director</option>
+    </select>
   </div>
 
 
@@ -151,11 +162,59 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
 </form>
 <?php } ?>
 
-//looks good
+
 
 <!-- Lead actor starts here-->
 
           <?php
+          if(!empty($_POST['people_search'])){
+            $people = $_POST['people_search'];
+            $query = mysqli_query($db,"select * from people where
+            stage_name LIKE '%".$people."%'
+            OR first_name LIKE '%".$people."%'
+            OR middle_name LIKE '%".$people."%'
+            OR last_name LIKE '%".$people."%'
+            ");
+            if(mysqli_num_rows($query)>0){
+              $count=0;
+              ?>
+              <br>
+              <table id="info" cellpadding="0" cellspacing="0" border="0"
+                  class="datatable table table-striped table-bordered datatable-style table-hover"
+                  >
+                    <thead>
+                      <tr id="table-first-row">
+                              <th>#</th>
+                              <th>Stage Name</th>
+                              <th>First Name</th>
+                              <th>Middle Name</th>
+                              <th>Last Name</th>
+                              <th>Gender</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <?php
+                      while($row = mysqli_fetch_assoc($query))
+                      {
+                        $count++;
+                        echo '<tr>';
+                        echo '<td>'.$count.'</td>';
+                        echo '<td>'.$row['stage_name'].'</td>';
+                        echo '<td>'.$row['first_name'].'</td>';
+                        echo '<td>'.$row['middle_name'].'</td>';
+                        echo '<td>'.$row['last_name'].'</td>';
+                        echo '<td>'.$row['gender'].'</td>';
+                        echo '</tr>';
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+            <?php }
+
+
+          }
+          else{
           if(!empty($stage_name) AND !empty($role)){
             ?>
             <h3 style = "color: #01B0F1;">Search Result</h3>
@@ -171,9 +230,10 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
             if(mysqli_num_rows($query)>0){
             $count ='0';
             ?>
-            <table class="table">
+            <table class="datatable table table-striped table-bordered datatable-style table-hover"
+            id="info" cellpadding="0" cellspacing="0" border="0">
             <thead>
-            <tr>
+            <tr id="table-first-row">
             <th scope="col">#</th>
             <th scope="col">People Name</th>
             <th scope="col">Stage Name</th>
@@ -208,7 +268,9 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
       else{
         echo '<h3>No Matches</h3>';
       }
-    } ?>
+    }
+
+  }?>
 
 <!-- Lead Actor Ends here -->
 <!-- Lead Actress Starts here -->
