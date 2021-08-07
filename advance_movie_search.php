@@ -21,8 +21,10 @@
     $producer = $_POST['producer'];
     $director = $_POST['director'];
     $music_director = $_POST['music_director'];
-// Looks good.
-// this is good.
+
+
+// this is looking good.
+
 }
   ?>
 
@@ -33,15 +35,15 @@
 
       <?php
       if(isset($_POST['songs'])){ ?>
-          <h3 style = "color: #01B0F1;">Search Songs</h3>
-        <form method="post" action="search_data.php">
-          <input type="text" name="song_search" placeholder="Enter song to search its record...">
-          <button type="submit" name="song_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+        <h3 style = "color: #01B0F1;">Search Songs</h3>
 
-        <hr/>
 
-        <form method="post" action="advance_song_search.php">
+      <form method="post" action="advance_song_search.php">
+
+        <div class="form-group">
+          <label for="song_search">Search Songs</label>
+          <input type="text" class="form-control" id="song_search" name="song_search" placeholder="Enter song to search its record...">
+        </div>
 
           <div class="form-group">
             <label for="lyricist">Lyricist</label>
@@ -85,20 +87,27 @@
 
       <?php }
       if(!isset($_POST['songs']) AND !isset($_POST['people'])){ ?>
-          <h3 style = "color: #01B0F1;">Search Movies</h3>
+          <!-- <h3 style = "color: #01B0F1;">Search Movies</h3>
         <form method="post" action="search_data.php">
           <input type="text" name="movie_search" placeholder="Enter movie to search its record...">
           <button type="submit" name="movie_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
-        <hr/>
+        <hr/> -->
         <h3 style = "color: #01B0F1;">Search movies by role</h3>
 
 
 
-//looks good
+
 
 
         <form method="post" action="advance_movie_search.php">
+
+          <div class="form-group">
+            <label for="movie_search">Search Movie</label>
+            <input type="text" class="form-control" id="movie_search" name="movie_search" placeholder="Enter movie to search its record...">
+          </div>
+
+
         <div class="form-group">
           <label for="lead_actor">Lead Actor</label>
           <input type="text" class="form-control" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name">
@@ -133,14 +142,15 @@
 
 <?php }
 if(isset($_POST['people'])){ ?>
-    <h3 style = "color: #01B0F1;">Search Peoples</h3>
-  <form method="post" action="search_data.php">
-    <input type="text" name="people_search" placeholder="Enter People to search its record...">
-    <button type="submit" name="people_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-  </form>
+  <h3 style = "color: #01B0F1;">Search Peoples</h3>
 
-  <hr/>
+
   <form method="post" action="advance_people_search.php">
+
+    <div class="form-group">
+      <label for="search_people">Search People</label>
+    <input type="text" id="search_people" class="form-control" name="people_search" placeholder="Enter People to search its record...">
+  </div>
   <div class="form-group">
     <label for="stage_name">Stage Name</label>
     <input type="text" class="form-control" id="stage_name" name="stage_name" placeholder="Stage Name">
@@ -148,7 +158,14 @@ if(isset($_POST['people'])){ ?>
 
   <div class="form-group">
     <label for="role">Role</label>
-    <input type="text" class="form-control" id="role" name="role" placeholder="Role">
+    <select name="role" class="form-control">
+      <option value="" disabled>Select One</option>
+      <option value="lead_actor">Lead Actor</option>
+      <option value="lead_actress">Lead Actress</option>
+      <option value="producer">Producer</option>
+      <option value="director">Director</option>
+      <option value="music_director">Music Director</option>
+    </select>
   </div>
 
 
@@ -161,6 +178,184 @@ if(isset($_POST['people'])){ ?>
 <!-- Lead actor starts here-->
 
           <?php
+
+          if(!empty($_POST['movie_search'])){
+            $name2 = $_POST['movie_search'];
+            ?>
+
+
+
+              <h3 style = "color: #01B0F1;">Movies Result</h3>
+            <table class="datatable table table-striped table-bordered datatable-style table-hover"
+            id="info" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+            <tr id="table-first-row">
+            <th scope="col">#</th>
+            <th scope="col">Native Name</th>
+            <th scope="col">English Name</th>
+            <th scope="col">Year made</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+              <?php
+              $count = 0;
+              $query = mysqli_query($db, "SELECT * FROM `movies` WHERE native_name LIKE '%".$name2."%'
+                OR english_name LIKE '%".$name2."%'
+                OR year_made LIKE '%".$name2."%'
+              ");
+              if(mysqli_num_rows($query)>0){
+              while($movies = mysqli_fetch_assoc($query)){
+              $count++;
+              ?>
+
+
+          <tr>
+
+          <th scope="row"><?php echo $count; ?></th>
+          <td><?php echo $movies['native_name']; ?></td>
+          <td><?php echo $movies['english_name'] ?></td>
+          <td><?php echo $movies['year_made'] ?></td>
+          </tr>
+
+          <?php
+          $count++;
+              }
+              ?>
+              <hr/>
+          <?php  }
+          else{
+          echo "<td><h4>No Matches</h4></td>";
+          }
+          ?>
+
+          </tbody>
+          </table>
+
+//looks good
+            <h3 style = "color: #01B0F1;">Movie People</h3>
+            <table class="datatable table table-striped table-bordered datatable-style table-hover"
+            id="info" cellpadding="0" cellspacing="0" border="0">
+            <thead>
+            <tr id="table-first-row">
+            <th scope="col">#</th>
+            <th scope="col">People Full name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Movies native name</th>
+            <th scope="col">Movie's English name</th>
+            <th scope="col">Year made</th>
+          </tr>
+            </thead>
+            <tbody>
+
+
+            <?php
+            $count1 = 0;
+            $query1 = mysqli_query($db, "select people.stage_name, people.first_name,people.middle_name, people.last_name,movie_people.role,movies.native_name, movies.english_name,
+            movies.year_made
+              from movie_people
+              join movies on movies.movie_id =movie_people.movie_id
+              join people on people.people_id = movie_people.people_id
+              where movies.native_name LIKE '%".$name2."%'
+              OR movies.english_name LIKE '%".$name2."%'
+              OR movies.year_made LIKE '%".$name2."%'
+              ");
+            if(mysqli_num_rows($query1)>0){
+            while($movie1 = mysqli_fetch_assoc($query1)){
+            $count1++;
+            ?>
+
+
+        <tr>
+
+        <th scope="row"><?php echo $count1; ?></th>
+        <td><?php echo $movie1['first_name']." ".$movie1['middle_name']." ".$movie1['last_name']; ?></td>
+        <td><?php echo $movie1['role'] ?></td>
+        <td><?php echo $movie1['native_name'] ?></td>
+        <td><?php echo $movie1['english_name']; ?></td>
+        <td><?php echo $movie1['year_made'] ?></td>
+        </tr>
+
+        <?php
+      } ?> <hr/>
+          <?php }
+          else{
+            echo "<td><h4>No Matches</h4></td>";
+          }
+
+        ?>
+
+        </tbody>
+        </table>
+
+
+              <h3 style = "color: #01B0F1;">Movie Song</h3>
+              <table class="datatable table table-striped table-bordered datatable-style table-hover"
+              id="info" cellpadding="0" cellspacing="0" border="0">
+              <thead>
+              <tr id="table-first-row">
+              <th scope="col">#</th>
+              <th scope="col">Song Title</th>
+              <th scope="col">Song Lyrics</th>
+              <th scope="col">Song Theme</th>
+              <th scope="col">Native Name</th>
+              <th scope="col">English name</th>
+              <th scope="col">Year made</th>
+              </tr>
+              </thead>
+              <tbody>
+
+
+              <?php
+              $count2 = 0;
+              $query2 = mysqli_query($db, "select songs.song_id, songs.title,songs.lyrics, songs.theme,movie_song.movie_id, movies.native_name,
+              movies.english_name, movies.year_made
+                from movie_song
+                join songs on songs.song_id =movie_song.song_id
+                join movies on movies.movie_id = movie_song.movie_id
+                where movies.native_name LIKE '%".$name2."%'
+                OR movies.english_name LIKE '%".$name2."%'
+                OR movies.year_made LIKE '%".$name2."%'
+              ");
+
+              if(mysqli_num_rows($query2)>0){
+              while($movie2 = mysqli_fetch_assoc($query2)){
+              $count2++;
+              ?>
+
+
+            <tr>
+
+            <th scope="row"><?php echo $count2; ?></th>
+            <td><?php echo $movie2['title']; ?></td>
+            <td><?php echo $movie2['lyrics'] ?></td>
+            <td><?php echo $movie2['theme'] ?></td>
+            <td><?php echo $movie2['native_name']; ?></td>
+            <td><?php echo $movie2['english_name']; ?></td>
+            <td><?php echo $movie2['year_made'] ?></td>
+            </tr>
+
+            <?php
+          } ?>
+              <hr/>
+            <?php }
+            else{
+              echo "<td><h4>No Matches</h4></td>";
+            }
+
+            ?>
+
+            </tbody>
+            </table>
+
+
+
+        <?php
+
+
+          }
+          else{
           if(!empty($lead_actor) AND empty($lead_actress) AND empty($producer) AND empty($director)
         AND empty($music_director)){
             ?>
@@ -178,9 +373,10 @@ if(isset($_POST['people'])){ ?>
             if(mysqli_num_rows($query)>0){
             $count ='0';
             ?>
-            <table class="table">
+            <table class="datatable table table-striped table-bordered datatable-style table-hover"
+            id="info" cellpadding="0" cellspacing="0" border="0">
             <thead>
-            <tr>
+            <tr id="table-first-row">
             <th scope="col">#</th>
             <th scope="col">People Name</th>
             <th scope="col">Movie's Native Name</th>
@@ -233,9 +429,10 @@ if(isset($_POST['people'])){ ?>
           if(mysqli_num_rows($query)>0){
           $count ='0';
           ?>
-          <table class="table">
+          <table class="datatable table table-striped table-bordered datatable-style table-hover"
+          id="info" cellpadding="0" cellspacing="0" border="0">
           <thead>
-          <tr>
+          <tr id="table-first-row">
           <th scope="col">#</th>
           <th scope="col">People Name</th>
           <th scope="col">Movie's Native Name</th>
@@ -289,9 +486,10 @@ if(isset($_POST['people'])){ ?>
             if(mysqli_num_rows($query)>0){
             $count ='0';
             ?>
-            <table class="table">
+            <table class="datatable table table-striped table-bordered datatable-style table-hover"
+            id="info" cellpadding="0" cellspacing="0" border="0">
             <thead>
-            <tr>
+            <tr id="table-first-row">
             <th scope="col">#</th>
             <th scope="col">People Name</th>
             <th scope="col">Movie's Native Name</th>
@@ -345,9 +543,10 @@ if(isset($_POST['people'])){ ?>
               if(mysqli_num_rows($query)>0){
               $count ='0';
               ?>
-              <table class="table">
+              <table class="datatable table table-striped table-bordered datatable-style table-hover"
+              id="info" cellpadding="0" cellspacing="0" border="0">
               <thead>
-              <tr>
+              <tr id="table-first-row">
               <th scope="col">#</th>
               <th scope="col">People Name</th>
               <th scope="col">Movie's Native Name</th>
@@ -400,9 +599,10 @@ if(isset($_POST['people'])){ ?>
                 if(mysqli_num_rows($query)>0){
                 $count ='0';
                 ?>
-                <table class="table">
+                <table class="datatable table table-striped table-bordered datatable-style table-hover"
+                id="info" cellpadding="0" cellspacing="0" border="0">
                 <thead>
-                <tr>
+                <tr id="table-first-row">
                 <th scope="col">#</th>
                 <th scope="col">People Name</th>
                 <th scope="col">Movie's Native Name</th>
@@ -466,9 +666,10 @@ if(isset($_POST['people'])){ ?>
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -547,9 +748,10 @@ if(isset($_POST['people'])){ ?>
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -630,9 +832,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -716,9 +919,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -803,9 +1007,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -887,9 +1092,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -969,9 +1175,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1058,9 +1265,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1142,9 +1350,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1226,9 +1435,10 @@ else{
       if(mysqli_num_rows($query2)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1318,9 +1528,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1429,9 +1640,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1540,9 +1752,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1651,9 +1864,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1760,9 +1974,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1871,9 +2086,10 @@ else{
         if(mysqli_num_rows($query3)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -1993,9 +2209,10 @@ else{
           if(mysqli_num_rows($query4)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -2136,9 +2353,10 @@ else{
           if(mysqli_num_rows($query4)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+    <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -2279,9 +2497,10 @@ else{
           if(mysqli_num_rows($query4)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+  <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -2431,9 +2650,10 @@ else{
             if(mysqli_num_rows($query5)>0){
     $count ='0';
     ?>
-    <table class="table">
+    <table class="datatable table table-striped table-bordered datatable-style table-hover"
+    id="info" cellpadding="0" cellspacing="0" border="0">
     <thead>
-    <tr>
+  <tr id="table-first-row">
     <th scope="col">#</th>
     <th scope="col">People Name</th>
     <th scope="col">Movie's Native Name</th>
@@ -2538,6 +2758,7 @@ else{
 }
 else{
   echo '<h3>No Matches</h3>';
+}
 }
 }
 ?>
