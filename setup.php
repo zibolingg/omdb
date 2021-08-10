@@ -99,6 +99,6 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
           echo 'alert("Kindly Upload a CSV file")';
           echo '</script>';
         }
-
+//looks good
       }
           ?>
