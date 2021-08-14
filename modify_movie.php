@@ -91,7 +91,7 @@ input.invalid {
 .step.active {
   opacity: 1;
 }
-
+/* looks good
 /* Mark the steps that are finished and valid: */
 .step.finish {
   background-color: #4CAF50;
