@@ -26,15 +26,18 @@ table.center {
 <body>
 <h2 style = "color: #01B0F1;">Year Made Count </h3>
 
-// Good jobs guys!
 
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
+  <table id="info" cellpadding="0" cellspacing="0" border="0"
+      class="datatable table table-striped table-bordered datatable-style table-hover"
+      width="100%" style="width: 100px;">
+
+  <thead>
+      <tr id="table-first-row">
         <th scope="col">#</th>
         <th scope="col">Year Made</th>
         <th scope="col">Movies Count</th>
+        <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -51,10 +54,56 @@ table.center {
          <th scope="row"><?php echo $count; ?></th>
          <td><?php echo $row['year_made']; ?></td>
          <td><?php echo $row['count(year_made)']; ?></td>
+         <td><a href="movies.php?id=<?php echo $row['year_made']; ?>">View all movies</a></td>
         </tr>
 
 
           <?php }
             ?>
-</body>
-</html>
+
+
+                    <script type="text/javascript" language="javascript">
+                $(document).ready( function () {
+
+                    $('#info').DataTable( {
+                        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                        dom: 'lfrtBip',
+                        buttons: [
+                            'copy', 'excel', 'csv', 'pdf'
+                        ] }
+                    );
+
+                    $('#info thead tr').clone(true).appendTo( '#info thead' );
+                    $('#info thead tr:eq(1) th').each( function (i) {
+                        var title = $(this).text();
+                        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+                        $( 'input', this ).on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        } );
+                    } );
+
+                    var table = $('#info').DataTable( {
+                        orderCellsTop: true,
+                        fixedHeader: true,
+                        retrieve: true
+                    } );
+
+                } );
+
+            </script>
+
+
+
+             <style>
+               tfoot {
+                 display: table-header-group;
+               }
+             </style>
+
+              <?php include("./footer.php"); ?>
