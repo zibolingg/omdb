@@ -67,7 +67,7 @@ if (isset($_GET['people_id'])) {
     else {
       echo "0 results";
     } //end else
-
+// Looks good!
     $sql_A1_result->close();
     ?>
   </tbody>
