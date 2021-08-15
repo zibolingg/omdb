@@ -11,7 +11,7 @@
   global $db;
   include("./nav.php");
 ?>
-
+// Looks good!
 <html>
 
 <head>
