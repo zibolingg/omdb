@@ -9,7 +9,7 @@
     $movie_id = $_GET["movie_id"];
 
   ?>
-
+//  Looking great!
 <!DOCTYPE html>
 <html>
 <form id="movieModify" action="modifyTheMovies.php" method= "POST">
