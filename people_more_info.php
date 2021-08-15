@@ -19,7 +19,7 @@ if (isset($_GET['people_id'])) {
 ?>
 
 
-
+// Looks great!
 
 <div class="right-content">
   <div class="container">
