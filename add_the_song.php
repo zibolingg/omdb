@@ -2,7 +2,8 @@
    
 include_once 'db_credentials.php';
     $db = mysqli_connect('localhost', 'root', '','OMDB');
-    // Verificamos conexiones
+    // Verify the connections
+	// throw the connect error
     if (!$db) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -26,10 +27,6 @@ include_once 'db_credentials.php';
          }
    
         
-    
-   
-    
-                    
         header('location: movies.php?create=Success');
         mysqli_close($db);
                     

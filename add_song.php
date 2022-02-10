@@ -69,12 +69,13 @@ input.invalid {
 }
 
 
-/* Mark the active step: */
+/* Mark the active step: Here are the steps*/
 .step.active {
   opacity: 1;
 }
 
-/* Mark the steps that are finished and valid: */
+/* Mark the steps that are finished and valid:
+  This a demo */
 .step.finish {
   background-color: #4CAF50;
 }
