@@ -1,7 +1,7 @@
 <?php
    
 include_once 'db_credentials.php';
-    $link = mysqli_connect('localhost','root','','OMDB');
+    $link = mysqli_connect('localhost','root','','omdb');
     
     if (!$link) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -15,11 +15,32 @@ include_once 'db_credentials.php';
           $movie_id =  mysqli_real_escape_string($link, $_POST['movie_id']);
           $english_update = $_POST['english_name_update'];
           $year_update = $_POST['year_update'];
+          $native_update = $_POST['native_name_update'];
        
         if (isset($_POST['english_name_update'])) {
-          $sql1 = "UPDATE movies Set english_name = '$english_update', year_made = '$year_update' Where movie_id = '$movie_id'"
+          $sql1 = "UPDATE movies SET english_name = '$english_update', year_made = '$year_update' WHERE movie_id = '$movie_id'"
             ;
             }
+        
+        if (isset($_POST['native_name_update'])){
+            $nativeJSON = strtolower(str_replace(" ", "", $native_update));
+            $sql8 = "UPDATE movies SET native_name = '$native_update', english_name = '$english_update', year_made = '$year_update' WHERE movie_id = '$movie_id'";
+            
+            //Make API call to find logical chars for base_chars
+            $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$nativeJSON."&language=English";
+            $jsonfile = file_get_contents($jsonLog);
+            $decodedData = json_decode(strstr($jsonfile, '{'));
+            $base_chars = implode(", ", $decodedData->data);
+            
+            //Make API call to find length of string for length
+            $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."$&language=English";
+            $jsonfile= file_get_contents($jsonLength);
+            $decodedData = json_decode(strstr($jsonfile, '{'));
+            $length = intval($decodedData->data);
+            
+            $sql9 = "UPDATE movie_numbers SET length = $length, base_chars = '$base_chars' WHERE movie_id = '$movie_id'";
+        }
+        
         $language = $_POST['language'];
            $country = $_POST['country'];
            $genre = $_POST['genre'];
@@ -90,11 +111,13 @@ include_once 'db_credentials.php';
              ;
               }
          mysqli_query($link, $sql1);
+         mysqli_query($link, $sql8);
+         mysqli_query($link, $sql9);
         
-         mysqli_query($link, $sql2);
-         
-         mysqli_query($link, $sql7);
-        
+//         mysqli_query($link, $sql2);
+//
+//         mysqli_query($link, $sql7);
+//
         
       }
     

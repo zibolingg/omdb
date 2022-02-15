@@ -5,7 +5,7 @@
     $left_selected = "";
   require 'db_credentials.php';
      include("./nav.php");
-    $db = mysqli_connect('localhost','root','','OMDB');
+    $db = mysqli_connect('localhost','root','','omdb');
     $movie_id = $_GET["movie_id"];
 
   ?>
@@ -34,7 +34,7 @@
   <p><input name= "native_name_update" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" ></p>
   <p><input name= "english_name_update" value="<?php echo $english_name; ?>" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
   <p><input name= "year_update" value="<?php echo $year_made; ?>" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
-  <input type="hidden" name="id" value="<?php echo $id; ?>">
+  <input type="hidden" name="movie_id" value="<?php echo $id; ?>">
 </div>
 <div style="overflow:auto;">
   <div  class="text-left">
