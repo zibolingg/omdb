@@ -37,7 +37,7 @@ echo "Connected successfully";
     //$base_chars = sort(strtolower(implode(", ", $decodedData->data)));
 
     //Make API call to find length of string for length
-    $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."$&language=English";
+    $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."&language=English";
     $jsonfile= file_get_contents($jsonLength);
     $decodedData = json_decode(strstr($jsonfile, '{'));
     $length = intval($decodedData->data);

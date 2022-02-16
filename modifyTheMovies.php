@@ -8,14 +8,15 @@ $db = db_connect();
           $movie_id =  mysqli_real_escape_string($db, $_POST['movie_id']);
           $english_update = $_POST['english_name_update'];
           $year_update = $_POST['year_update'];
-          $native_update = $_POST['native_name_update'];
        
         if (isset($_POST['english_name_update'])) {
           $sql1 = "UPDATE movies SET english_name = '$english_update', year_made = '$year_update' WHERE movie_id = '$movie_id'"
             ;
+            mysqli_query($db, $sql1);
             }
         
-        if (isset($_POST['native_name_update'])){
+        if (isset($_POST['native_name_update']) && !empty($_POST['native_name_update'])){
+            $native_update = $_POST['native_name_update'];
             $nativeJSON = strtolower(str_replace(" ", "", $native_update));
             $sql8 = "UPDATE movies SET native_name = '$native_update', english_name = '$english_update', year_made = '$year_update' WHERE movie_id = '$movie_id'";
             
@@ -26,12 +27,15 @@ $db = db_connect();
             $base_chars = implode(", ", $decodedData->data);
             
             //Make API call to find length of string for length
-            $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."$&language=English";
+            $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."&language=English";
             $jsonfile= file_get_contents($jsonLength);
             $decodedData = json_decode(strstr($jsonfile, '{'));
             $length = intval($decodedData->data);
             
             $sql9 = "UPDATE movie_numbers SET length = $length, base_chars = '$base_chars' WHERE movie_id = '$movie_id'";
+            mysqli_query($db, $sql8);
+            mysqli_query($db, $sql9);
+            
         }
         
         $language = $_POST['language'];
@@ -103,9 +107,7 @@ $db = db_connect();
                     $sql7= "UPDATE movie_numbers Set box_office = '$box_office',budget = '$budget',running_time = '$running_time' WHERE movie_id = '$movie_id' "
              ;
               }
-         mysqli_query($db, $sql1);
-         mysqli_query($db, $sql8);
-         mysqli_query($db, $sql9);
+         
         
 //         mysqli_query($link, $sql2);
 //
