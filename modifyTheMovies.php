@@ -1,18 +1,11 @@
 <?php
    
-include_once 'db_credentials.php';
-    $link = mysqli_connect('localhost','root','','omdb');
-    
-    if (!$link) {
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-        
-}
+include 'database.php';
+$db = db_connect();
     
     if (isset($_POST['movie_id'])) {
         
-          $movie_id =  mysqli_real_escape_string($link, $_POST['movie_id']);
+          $movie_id =  mysqli_real_escape_string($db, $_POST['movie_id']);
           $english_update = $_POST['english_name_update'];
           $year_update = $_POST['year_update'];
           $native_update = $_POST['native_name_update'];
@@ -110,9 +103,9 @@ include_once 'db_credentials.php';
                     $sql7= "UPDATE movie_numbers Set box_office = '$box_office',budget = '$budget',running_time = '$running_time' WHERE movie_id = '$movie_id' "
              ;
               }
-         mysqli_query($link, $sql1);
-         mysqli_query($link, $sql8);
-         mysqli_query($link, $sql9);
+         mysqli_query($db, $sql1);
+         mysqli_query($db, $sql8);
+         mysqli_query($db, $sql9);
         
 //         mysqli_query($link, $sql2);
 //
@@ -123,7 +116,7 @@ include_once 'db_credentials.php';
     
 
 	header('location: movies.php?updated=Success');
-    mysqli_close($link);
+    $db_disconnect($db);
 				
 ?>
     

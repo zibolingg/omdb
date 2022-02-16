@@ -1,23 +1,17 @@
 
 <?php $page_title = 'Delete your movie'; ?>
 <?php 
-     $nav_selected = "LIST";
-  $left_buttons = "NO";
-  $left_selected = "";
-  require 'db_credentials.php'; 
+    $nav_selected = "LIST";
+    $left_buttons = "NO";
+    $left_selected = "";
+    include 'database.php';
+    $db = db_connect();
     include("./nav.php");
 
 ?>
 <div class="container">
 <style>#title {text-align: center; color: darkgoldenrod;}</style>
 <?php
-include_once 'db_credentials.php';
-
-
-  $db = mysqli_connect('localhost','root','','omdb');
-
-
-	
      $id = $_GET['movie_id'];
     // Queries to delete from all tables containing movie_id as FK, then from movies
     $sql1 = "DELETE FROM movie_anagrams WHERE movie_id = '$id'";
@@ -53,7 +47,7 @@ include_once 'db_credentials.php';
         mysqli_query($db, $sql);
         
         header('location: movies.php?updated=Success');
-        mysqli_close($db);
+        db_disconnect($db);
 
         ?>
 

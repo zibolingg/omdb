@@ -3,9 +3,10 @@
     $nav_selected = "MOVIES";
     $left_buttons = "NO";
     $left_selected = "";
-  require 'db_credentials.php';
-     include("./nav.php");
-    $db = mysqli_connect('localhost','root','','omdb');
+    include 'database.php';
+    $db = db_connect();
+    include("./nav.php");
+    
     $movie_id = $_GET["movie_id"];
 
   ?>
@@ -29,6 +30,7 @@
         $id = $row['movie_id'];
       }
     }
+    db_disconnect($db);
     ?>
 <div class= "tab">
   <p><input name= "native_name_update" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" ></p>

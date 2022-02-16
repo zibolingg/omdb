@@ -1,9 +1,9 @@
 
 <?php
    
-include_once 'db_credentials.php';
+include 'database.php';
+$db = db_connect();
 
-	$db = mysqli_connect('localhost', 'root', '','omdb');
 // Verificamos conexiones
 if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
@@ -49,6 +49,6 @@ echo "Connected successfully";
     
 
 	header('location: movies.php?create=Success');
-    mysqli_close($db);
+    db_disconnect($db);
 				
 ?>
