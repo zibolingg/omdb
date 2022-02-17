@@ -55,6 +55,14 @@
     { echo 'class="menu-left-current-page"'; } ?>>
     <img src="./images/trivia.png">
     <br/>Trivia<br/></div>
+  </a><br>
+
+
+  <a href = "query_movies.php">
+    <div <?php if($left_selected == "TRIVIA")
+    { echo 'class="menu-left-current-page"'; } ?>>
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <br/>Search People's<br/></div>
   </a>
 
 

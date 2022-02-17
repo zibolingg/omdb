@@ -5,7 +5,7 @@
     for($i=1 ; $i<$total_elements ; $i++){
       if(!empty($_POST['song_id'.$i.''])){
       $song_id[$i] = $_POST['song_id'.$i.''];
-      $query = "INSERT INTO `movie_song`(`id`, `movie_id`, `song_id`) VALUES ('','$movie_id','$song_id[$i]')";
+      $query = "INSERT INTO `movie_song`(`movie_id`, `song_id`) VALUES ('$movie_id','$song_id[$i]')";
     $result = mysqli_query($db,$query);
     }
     else{

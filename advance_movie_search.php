@@ -23,8 +23,6 @@
     $music_director = $_POST['music_director'];
 
 
-// this is looking good.
-
 }
   ?>
 
@@ -34,7 +32,9 @@
     <br><br>
 
       <?php
-      if(isset($_POST['songs'])){ ?>
+      if(isset($_POST['songs'])){
+
+        ?>
         <h3 style = "color: #01B0F1;">Search Songs</h3>
 
 
@@ -153,7 +153,16 @@ if(isset($_POST['people'])){ ?>
   </div>
   <div class="form-group">
     <label for="stage_name">Stage Name</label>
-    <input type="text" class="form-control" id="stage_name" name="stage_name" placeholder="Stage Name">
+
+    <select name="stage_name" id='selUser' class="form-control">
+      <?php
+      $query = mysqli_query($db,"select * from people");
+      while($options = mysqli_fetch_assoc($query)){ ?>
+        <option value="<?php echo $options['stage_name']?>"><?php echo $options['stage_name'];?></option>
+
+      <?php }
+      ?>
+    </select>
   </div>
 
   <div class="form-group">
@@ -233,10 +242,10 @@ if(isset($_POST['people'])){ ?>
           </tbody>
           </table>
 
-//looks good
+
             <h3 style = "color: #01B0F1;">Movie People</h3>
             <table class="datatable table table-striped table-bordered datatable-style table-hover"
-            id="info" cellpadding="0" cellspacing="0" border="0">
+            id="info1" cellpadding="0" cellspacing="0" border="0">
             <thead>
             <tr id="table-first-row">
             <th scope="col">#</th>
@@ -292,7 +301,7 @@ if(isset($_POST['people'])){ ?>
 
               <h3 style = "color: #01B0F1;">Movie Song</h3>
               <table class="datatable table table-striped table-bordered datatable-style table-hover"
-              id="info" cellpadding="0" cellspacing="0" border="0">
+              id="info2" cellpadding="0" cellspacing="0" border="0">
               <thead>
               <tr id="table-first-row">
               <th scope="col">#</th>
@@ -2767,11 +2776,132 @@ else{
 
 
 
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
 
+  $('#info').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+    $('#info thead tr').clone(true).appendTo( '#info thead' );
+  $('#info thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info1').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+    $('#info1 thead tr').clone(true).appendTo( '#info1 thead' );
+  $('#info1 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info1').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info2').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+    $('#info2 thead tr').clone(true).appendTo( '#info2 thead' );
+  $('#info2 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info2').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+  <script>
+  $(document).ready(function(){
+
+      // Initialize select2
+      $("#selUser").select2();
+
+
+  });
+  </script>
  <style>
    tfoot {
      display: table-header-group;
    }
  </style>
+
+
+
+
+<!-- If we want to add any footer to the web pages, update the footer.-->
+
+<div id="foot"></div>
+
+
 
   <?php include("./footer.php"); ?>

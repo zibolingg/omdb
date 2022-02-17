@@ -24,7 +24,7 @@
     $director = $_POST['director'];
     $producer = $_POST['producer'];
 
-// Looks good to me!
+
 
 
 }
@@ -138,12 +138,12 @@ if(isset($_POST['people'])){ ?>
 
     <div class="form-group">
       <label for="search_people">Search People</label>
-    <input type="text" id="search_people" class="form-control" name="people_search" placeholder="Enter People to search its record...">
+    <input type="text" id="search_people"  class="form-control" name="people_search" placeholder="Enter People to search its record...">
   </div>
     <div class="form-group">
       <label for="stage_name">Stage Name</label>
 
-      <select name="stage_name" class="form-control">
+      <select name="stage_name" id='selUser' class="form-control">
         <?php
         $query = mysqli_query($db,"select * from people");
         while($options = mysqli_fetch_assoc($query)){ ?>
@@ -173,7 +173,7 @@ if(isset($_POST['people'])){ ?>
 <?php } ?>
 
 
-//looks good
+
 <!-- Lyricist starts here-->
 
           <?php
@@ -184,7 +184,7 @@ if(isset($_POST['people'])){ ?>
 
             <h3 style = "color: #01B0F1;">Song Result</h3>
           <table class="datatable table table-striped table-bordered datatable-style table-hover"
-          id="info" cellpadding="0" cellspacing="0" border="0">
+          id="info1" cellpadding="0" cellspacing="0" border="0">
           <thead>
           <tr id="table-first-row">
           <th scope="col">#</th>
@@ -233,7 +233,7 @@ if(isset($_POST['people'])){ ?>
           ?>
 
           <h3 style = "color: #01B0F1;">Song People</h3>
-          <table id="info" cellpadding="0" cellspacing="0" border="0"
+          <table id="info2" cellpadding="0" cellspacing="0" border="0"
               class="datatable table table-striped table-bordered datatable-style table-hover">
           <thead>
           <tr id="table-first-row">
@@ -296,7 +296,7 @@ if(isset($_POST['people'])){ ?>
             ?>
 
             <h3 style = "color: #01B0F1;">Movie Song</h3>
-            <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+            <table id="info3" cellpadding="0" cellspacing="0" border="0" width="100%"
                 class="datatable table table-striped table-bordered datatable-style table-hover">
             <thead>
             <tr id="table-first-row">
@@ -367,12 +367,13 @@ if(isset($_POST['people'])){ ?>
             if(!empty($lyricist)){ ?>
 
               <?php
-              $query = mysqli_query($db,"select movie_people.movie_id , movie_people.people_id,movie_people.role,
+
+              $query = mysqli_query($db,"select song_people.song_id , song_people.people_id,song_people.role,
               people.stage_name, people.first_name , people.middle_name, people.last_name
-              from movie_people
-              JOIN people ON people.people_id = movie_people.people_id
-              JOIN movies ON movies.movie_id = movie_people.movie_id
-              where movie_people.role ='lyricist'
+              from song_people
+              JOIN people ON people.people_id = song_people.people_id
+              JOIN songs ON songs.song_id = song_people.song_id
+              where song_people.role ='lyricist'
               AND (people.stage_name LIKE '%".$lyricist."%'
               OR people.first_name LIKE '%".$lyricist."%'
               OR people.middle_name LIKE '%".$lyricist."%'
@@ -380,7 +381,7 @@ if(isset($_POST['people'])){ ?>
               $count = 0;
               if(mysqli_num_rows($query)>0){ ?>
                 <h3 style = "color: #01B0F1;">Songs Result</h3>
-                <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                <table id="info4" cellpadding="0" cellspacing="0" border="0" width="100%"
                     class="datatable table table-striped table-bordered datatable-style table-hover">
                 <thead>
                 <tr id="table-first-row">
@@ -395,11 +396,11 @@ if(isset($_POST['people'])){ ?>
 
                 <?php
                   while($row = mysqli_fetch_assoc($query)){
-                  $movie_id = $row['movie_id'];
+                  $song_id = $row['song_id'];
                   $query1 = mysqli_query($db,"select songs.title, songs.lyrics, songs.theme
                   from songs
-                  JOIN movie_song ON movie_song.song_id = songs.song_id
-                  WHERE movie_song.movie_id LIKE '%".$movie_id."%'");
+                  JOIN song_people ON song_people.song_id = songs.song_id
+                  WHERE song_people.song_id LIKE '%".$song_id."%'");
                   if(mysqli_num_rows($query1)>0){
                   while($row1 = mysqli_fetch_assoc($query1)){
                     $count++;
@@ -435,12 +436,12 @@ if(isset($_POST['people'])){ ?>
              if(!empty($playback_singer)){ ?>
 
                <?php
-               $query = mysqli_query($db,"select movie_people.movie_id , movie_people.people_id,movie_people.role,
+               $query = mysqli_query($db,"select song_people.song_id , song_people.people_id,song_people.role,
                people.stage_name, people.first_name , people.middle_name, people.last_name
-               from movie_people
-               JOIN people ON people.people_id = movie_people.people_id
-               JOIN movies ON movies.movie_id = movie_people.movie_id
-               where movie_people.role ='playback_singer'
+               from song_people
+               JOIN people ON people.people_id = song_people.people_id
+               JOIN songs ON songs.song_id = song_people.song_id
+               where song_people.role ='singer'
                AND (people.stage_name LIKE '%".$playback_singer."%'
                OR people.first_name LIKE '%".$playback_singer."%'
                OR people.middle_name LIKE '%".$playback_singer."%'
@@ -448,7 +449,7 @@ if(isset($_POST['people'])){ ?>
                $count = 0;
                if(mysqli_num_rows($query)>0){ ?>
                  <h3 style = "color: #01B0F1;">Songs Result</h3>
-                 <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                 <table id="info5" cellpadding="0" cellspacing="0" border="0" width="100%"
                      class="datatable table table-striped table-bordered datatable-style table-hover">
                  <thead>
                  <tr id="table-first-row">
@@ -463,11 +464,11 @@ if(isset($_POST['people'])){ ?>
 
                  <?php
                    while($row = mysqli_fetch_assoc($query)){
-                   $movie_id = $row['movie_id'];
-                   $query1 = mysqli_query($db,"select songs.title, songs.lyrics, songs.theme
-                   from songs
-                   JOIN movie_song ON movie_song.song_id = songs.song_id
-                   WHERE movie_song.movie_id LIKE '%".$movie_id."%'");
+                     $song_id = $row['song_id'];
+                     $query1 = mysqli_query($db,"select songs.title, songs.lyrics, songs.theme
+                     from songs
+                     JOIN song_people ON song_people.song_id = songs.song_id
+                     WHERE song_people.song_id LIKE '%".$song_id."%'");
                    if(mysqli_num_rows($query1)>0){
                    while($row1 = mysqli_fetch_assoc($query1)){
                      $count++;
@@ -504,12 +505,12 @@ if(isset($_POST['people'])){ ?>
               if(!empty($music_director)){ ?>
 
                 <?php
-                $query = mysqli_query($db,"select movie_people.movie_id , movie_people.people_id,movie_people.role,
+                $query = mysqli_query($db,"select song_people.song_id , song_people.people_id,song_people.role,
                 people.stage_name, people.first_name , people.middle_name, people.last_name
-                from movie_people
-                JOIN people ON people.people_id = movie_people.people_id
-                JOIN movies ON movies.movie_id = movie_people.movie_id
-                where movie_people.role ='music_director'
+                from song_people
+                JOIN people ON people.people_id = song_people.people_id
+                JOIN songs ON songs.song_id = song_people.song_id
+                where song_people.role ='music_director'
                 AND (people.stage_name LIKE '%".$music_director."%'
                 OR people.first_name LIKE '%".$music_director."%'
                 OR people.middle_name LIKE '%".$music_director."%'
@@ -517,7 +518,7 @@ if(isset($_POST['people'])){ ?>
                 $count = 0;
                 if(mysqli_num_rows($query)>0){ ?>
                   <h3 style = "color: #01B0F1;">Songs Result</h3>
-                  <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                  <table id="info6" cellpadding="0" cellspacing="0" border="0" width="100%"
                       class="datatable table table-striped table-bordered datatable-style table-hover">
                   <thead>
                   <tr id="table-first-row">
@@ -532,11 +533,11 @@ if(isset($_POST['people'])){ ?>
 
                   <?php
                     while($row = mysqli_fetch_assoc($query)){
-                    $movie_id = $row['movie_id'];
-                    $query1 = mysqli_query($db,"select songs.title, songs.lyrics, songs.theme
-                    from songs
-                    JOIN movie_song ON movie_song.song_id = songs.song_id
-                    WHERE movie_song.movie_id LIKE '%".$movie_id."%'");
+                      $song_id = $row['song_id'];
+                      $query1 = mysqli_query($db,"select songs.title, songs.lyrics, songs.theme
+                      from songs
+                      JOIN song_people ON song_people.song_id = songs.song_id
+                      WHERE song_people.song_id LIKE '%".$song_id."%'");
                     if(mysqli_num_rows($query1)>0){
                     while($row1 = mysqli_fetch_assoc($query1)){
                       $count++;
@@ -584,7 +585,7 @@ if(isset($_POST['people'])){ ?>
                  $count = 0;
                  if(mysqli_num_rows($query)>0){ ?>
                    <h3 style = "color: #01B0F1;">Songs Result</h3>
-                   <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                   <table id="info7" cellpadding="0" cellspacing="0" border="0" width="100%"
                        class="datatable table table-striped table-bordered datatable-style table-hover">
                    <thead>
                    <tr id="table-first-row">
@@ -649,7 +650,7 @@ if(isset($_POST['people'])){ ?>
                   $count = 0;
                   if(mysqli_num_rows($query)>0){ ?>
                     <h3 style = "color: #01B0F1;">Songs Result</h3>
-                    <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                    <table id="info8" cellpadding="0" cellspacing="0" border="0" width="100%"
                         class="datatable table table-striped table-bordered datatable-style table-hover">
                     <thead>
                     <tr id="table-first-row">
@@ -716,7 +717,7 @@ if(isset($_POST['people'])){ ?>
                    $count = 0;
                    if(mysqli_num_rows($query)>0){ ?>
                      <h3 style = "color: #01B0F1;">Songs Result</h3>
-                     <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                     <table id="info9" cellpadding="0" cellspacing="0" border="0" width="100%"
                          class="datatable table table-striped table-bordered datatable-style table-hover">
                      <thead>
                      <tr id="table-first-row">
@@ -784,7 +785,7 @@ if(isset($_POST['people'])){ ?>
                     $count = 0;
                     if(mysqli_num_rows($query)>0){ ?>
                       <h3 style = "color: #01B0F1;">Songs Result</h3>
-                      <table id="info" cellpadding="0" cellspacing="0" border="0" width="100%"
+                      <table id="info10" cellpadding="0" cellspacing="0" border="0" width="100%"
                           class="datatable table table-striped table-bordered datatable-style table-hover">
                       <thead>
                       <tr id="table-first-row">
@@ -837,6 +838,401 @@ if(isset($_POST['people'])){ ?>
 
 }
   ?>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info thead tr').clone(true).appendTo( '#info thead' );
+  $('#info thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info1').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info1 thead tr').clone(true).appendTo( '#info1 thead' );
+  $('#info1 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info1').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info2').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info2 thead tr').clone(true).appendTo( '#info2 thead' );
+  $('#info2 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info2').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info3').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info3 thead tr').clone(true).appendTo( '#info3 thead' );
+  $('#info3 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info3').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info4').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info4 thead tr').clone(true).appendTo( '#info4 thead' );
+  $('#info4 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info4').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info5').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info5 thead tr').clone(true).appendTo( '#info5 thead' );
+  $('#info5 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info5').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info6').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info6 thead tr').clone(true).appendTo( '#info6 thead' );
+  $('#info6 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info6').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info7').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info7 thead tr').clone(true).appendTo( '#info7 thead' );
+  $('#info7 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info7').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info8').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info8 thead tr').clone(true).appendTo( '#info8 thead' );
+  $('#info8 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info8').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info9').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info9 thead tr').clone(true).appendTo( '#info9 thead' );
+  $('#info9 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info9').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info10').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info10 thead tr').clone(true).appendTo( '#info10 thead' );
+  $('#info10 thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info10').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+
+  <script>
+  $(document).ready(function(){
+
+      // Initialize select2
+      $("#selUser").select2();
+
+
+  });
+  </script>
 
  <style>
    tfoot {

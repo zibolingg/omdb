@@ -1,8 +1,8 @@
 <?php
 
-  $nav_selected = "MOVIES"; 
-  $left_buttons = "YES"; 
-  $left_selected = "DATA"; 
+  $nav_selected = "MOVIES";
+  $left_buttons = "YES";
+  $left_selected = "DATA";
 
   include("./nav.php");
   global $db;
@@ -23,22 +23,19 @@
               <thead>
                 <tr id="table-first-row">
                         <th>id</th>
-                        <th>Local Name</th>
-                        <th>English Name</th>
-                        <th>Year </th>
                         <th>Language</th>
                         <th>Country</th>
                         <th>Genre</th>
                         <th>Plot</th>
 
                         <!-- TODO: Instead of these four columns, we now have to show the following columns in Iteration 6
-                        id, 
-                        native_name, 
-                        english_name, 
-                        year, 
-                        language, 
-                        country, 
-                        genre, 
+                        id,
+                        native_name,
+                        english_name,
+                        year,
+                        language,
+                        country,
+                        genre,
                         plot (show the first 30 characters) -->
 
                 </tr>
@@ -48,7 +45,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_data` ON `movies`.movie_id = `movie_data`.movie_id;";
+$sql = "SELECT * FROM `movie_data`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -62,9 +59,6 @@ $result = $db->query($sql);
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
                                 <td>'.$row["movie_id"].'</td>
-                                <td>'.$row["native_name"].' </span> </td>
-                                <td>'.$row["english_name"].'</td>
-                                <td>'.$row["year_made"].'</td>
                                 <td>'.$row["language"].'</td>
                                 <td>'.$row["country"].'</td>
                                 <td>'.$row["genre"].'</td>
@@ -85,7 +79,7 @@ $result = $db->query($sql);
 
         <script type="text/javascript" language="javascript">
     $(document).ready( function () {
-        
+
         $('#info').DataTable( {
             dom: 'lfrtBip',
             buttons: [
@@ -97,7 +91,7 @@ $result = $db->query($sql);
         $('#info thead tr:eq(1) th').each( function (i) {
             var title = $(this).text();
             $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    
+
             $( 'input', this ).on( 'keyup change', function () {
                 if ( table.column(i).search() !== this.value ) {
                     table
@@ -107,18 +101,18 @@ $result = $db->query($sql);
                 }
             } );
         } );
-    
+
         var table = $('#info').DataTable( {
             orderCellsTop: true,
             fixedHeader: true,
             retrieve: true
         } );
-        
+
     } );
 
 </script>
 
-        
+
 
  <style>
    tfoot {

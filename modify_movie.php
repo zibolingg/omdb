@@ -3,14 +3,13 @@
     $nav_selected = "MOVIES";
     $left_buttons = "NO";
     $left_selected = "";
-    include 'database.php';
-    $db = db_connect();
-    include("./nav.php");
-    
+  require 'db_credentials.php';
+     include("./nav.php");
+    $db = mysqli_connect('localhost','root','','omdb');
     $movie_id = $_GET["movie_id"];
 
   ?>
-//  Looking great!
+
 <!DOCTYPE html>
 <html>
 <form id="movieModify" action="modifyTheMovies.php" method= "POST">
@@ -30,7 +29,6 @@
         $id = $row['movie_id'];
       }
     }
-    db_disconnect($db);
     ?>
 <div class= "tab">
   <p><input name= "native_name_update" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" ></p>
@@ -93,7 +91,7 @@ input.invalid {
 .step.active {
   opacity: 1;
 }
-/* looks good
+
 /* Mark the steps that are finished and valid: */
 .step.finish {
   background-color: #4CAF50;
@@ -148,4 +146,3 @@ function fixStepIndicator(n) {
 }
 </script>
 </html>
-

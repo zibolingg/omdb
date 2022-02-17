@@ -1,8 +1,9 @@
 <?php
     require 'db_configuration.php';
     $movie_id = $_POST['movie_id'];
-    $total_elements = $_POST['total_elements'];
 
+    $total_elements = $_POST['total_elements'];
+    
 
     if(isset($_POST['lead_actor'])){
       $role = "lead_actor";

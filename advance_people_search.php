@@ -2,7 +2,7 @@
   $nav_selected = "search_data";
   $left_buttons = "YES";
   $left_selected = "search_data";
-  include("./nav.php");
+  include("nav.php");
   global $db;
   if(isset($_POST['song_search_button'])){
   $name1 = $_POST['song_search'];
@@ -83,7 +83,7 @@
         <h3 style = "color: #01B0F1;">Search movies by role</h3>
 
 
-//looks good
+
   <form method="post" action="advance_movie_search.php">
 
     <div class="form-group">
@@ -134,7 +134,7 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
     <div class="form-group">
       <label for="stage_name">Stage Name</label>
 
-      <select name="stage_name" class="form-control">
+      <select name="stage_name" id='selUser' class="form-control">
         <?php
         $query = mysqli_query($db,"select * from people");
         while($options = mysqli_fetch_assoc($query)){ ?>
@@ -327,4 +327,53 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
     }
 
   }  ?>
-<!-- Lead Actress Ends here -->
+  <script type="text/javascript" language="javascript">
+  $(document).ready( function () {
+
+  $('#info').DataTable( {
+      dom: 'lfrtBip',
+      buttons: [
+          'copy', 'excel', 'csv', 'pdf'
+      ] }
+  );
+
+  $('#info thead tr').clone(true).appendTo( '#info thead' );
+  $('#info thead tr:eq(1) th').each( function (i) {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+
+      $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+              table
+                  .column(i)
+                  .search( this.value )
+                  .draw();
+          }
+      } );
+  } );
+
+  var table = $('#info').DataTable( {
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+  } );
+
+  } );
+
+  </script>
+  <script>
+  $(document).ready(function(){
+
+      // Initialize select2
+      $("#selUser").select2();
+
+
+  });
+  </script>
+ <style>
+   tfoot {
+     display: table-header-group;
+   }
+ </style>
+
+  <?php include("./footer.php"); ?>

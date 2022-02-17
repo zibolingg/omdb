@@ -7,10 +7,11 @@
   	<br/>People<br/></div>
   </a>
 
+
   <a href = "people_trivia.php">
   	<div <?php if($left_selected == "TRIVIA")
   	{ echo 'class="menu-left-current-page"'; } ?>>
-  	<img src="">
+  	<img src="./images/trivia.png">
   	<br/>Trivia<br/></div>
   </a>
 

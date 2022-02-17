@@ -1,7 +1,7 @@
 <?php
 
-  $nav_selected = "MOVIES"; 
-  $left_buttons = "YES"; 
+  $nav_selected = "MOVIES";
+  $left_buttons = "YES";
   $left_selected = "MEDIA";
 
   include("./nav.php");
@@ -28,7 +28,7 @@
                         <th>Movie ID</th>
 
 
-                       
+
 
                 </tr>
               </thead>
@@ -37,7 +37,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_media` ON `movie_media`.`movie_id`= `movies`.`movie_id`";
+$sql = "SELECT * FROM `movie_media`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -70,7 +70,7 @@ $result = $db->query($sql);
 
         <script type="text/javascript" language="javascript">
     $(document).ready( function () {
-        
+
         $('#info').DataTable( {
             dom: 'lfrtBip',
             buttons: [
@@ -82,7 +82,7 @@ $result = $db->query($sql);
         $('#info thead tr:eq(1) th').each( function (i) {
             var title = $(this).text();
             $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    
+
             $( 'input', this ).on( 'keyup change', function () {
                 if ( table.column(i).search() !== this.value ) {
                     table
@@ -92,18 +92,18 @@ $result = $db->query($sql);
                 }
             } );
         } );
-    
+
         var table = $('#info').DataTable( {
             orderCellsTop: true,
             fixedHeader: true,
             retrieve: true
         } );
-        
+
     } );
 
 </script>
 
-        
+
 
  <style>
    tfoot {
