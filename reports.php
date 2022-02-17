@@ -11,7 +11,7 @@
   global $db;
   include("./nav.php");
 ?>
-// Looks good!
+
 <html>
 
 <head>
@@ -41,10 +41,9 @@ table.center {
         </tr>
     </thead>
     <tbody>
-  
+
         <?php
         // $query = "select count(year_made), year_made from movies GROUP BY year_made";
-      // looks good
         $query = mysqli_query($db,"select count(year_made), year_made from movies GROUP BY year_made");
         $count = 0;
         while($row = mysqli_fetch_assoc($query)){
@@ -99,7 +98,7 @@ table.center {
 
             </script>
 
-      
+
 
              <style>
                tfoot {

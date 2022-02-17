@@ -2,9 +2,166 @@
   $nav_selected = "search_data";
   $left_buttons = "YES";
   $left_selected = "search_data";
-  include("./nav.php");
-  global $db;
-  if(isset($_POST['song_search_button'])){
+  // include("nav.php");
+  global $db; ?>
+
+
+  <?php
+    require_once('initialize.php');
+  ?>
+
+  <!DOCTYPE html>
+
+  <html>
+      <head>
+
+
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>A Basic Composer</title>
+          <link rel="stylesheet" href="mainStyleSheet.css">
+          <link rel="stylesheet" href="fonts/css/fontawesome.min.css">
+          <link rel="stylesheet" href="fonts/css/all.css">
+
+          <script src='ajax/jquery-3.2.1.min.js' type='text/javascript'></script>
+          <script src='ajax/select2/dist/js/select2.min.js' type='text/javascript'></script>
+          <link href='ajax/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+
+      </head>
+
+  <body class="body_background">
+  <div id="wrap">
+      <div id="nav">
+          <ul>
+              <a href="index.php">
+                <li class="horozontal-li-logo">
+                <img src ="./images/omdb_logo.png">
+                <br/>Online Movie Database</li>
+              </a>
+
+              <a href="index.php">
+                <li <?php if($nav_selected == "HOME"){ echo 'class="current-page"'; } ?>>
+                <img src="./images/home.png">
+                <br/>Home</li>
+              </a>
+
+              <a href="movies.php">
+                <li <?php if($nav_selected == "MOVIES"){ echo 'class="current-page"'; } ?>>
+                  <img src="./images/movies.png">
+                  <br/>Movies</li>
+              </a>
+
+              <a href="people.php">
+                <li <?php if($nav_selected == "PEOPLE"){ echo 'class="current-page"'; } ?>>
+                <img src="./images/people.png">
+                <br/>People</li>
+              </a>
+
+              <a href="songs.php">
+                <li <?php if($nav_selected == "SONGS"){ echo 'class="current-page"'; } ?>>
+                  <img src="./images/songs.png">
+                  <br/>Songs</li>
+              </a>
+
+              <a href="reports.php">
+                <li <?php if($nav_selected == "REPORTS"){ echo 'class="current-page"'; } ?>>
+                <img src="./images/reports.png">
+                <br/>Reports</li>
+              </a>
+
+             <a href="search_data.php">
+                <li <?php if($nav_selected == "search"){ echo 'class="current-page"'; } ?>>
+                  <img src="./images/search.png">
+                  <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+                  <br/>Search</li>
+              </a>
+
+
+          <a href="setup.php">
+            <li <?php if($nav_selected == "SETUP"){ echo 'class="current-page"'; } ?>>
+              <img src="./images/setup.png">
+              <br/>Setup</li>
+          </a>
+
+          <a href="about.php">
+            <li <?php if($nav_selected == "ABOUT"){ echo 'class="current-page"'; } ?>>
+              <img src="./images/about.png">
+              <br/>About</li>
+          </a>
+
+          <a href="help.php">
+            <li <?php if($nav_selected == "HELP"){ echo 'class="current-page"'; } ?>>
+              <img src="./images/help.png">
+              <br/>Help</li>
+          </a>
+
+          <li>
+          <form method="post" action="search.php">
+        <div class="input-group">
+    <div class="form-outline">
+      <input type="search" id="form1" style="width:50px; margin-right:5px; margin-top:7px;"name="text_search" class="form-control" />
+
+    <button type="submit" style=" margin-top:7px;" name="search" class="btn btn-primary">
+        <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+    </div>
+  </div>
+  </form>
+      </li>
+
+        </ul>
+        <br />
+      </div>
+
+
+      <table style="width:1250px">
+        <tr>
+          <?php
+              if ($left_buttons == "YES") {
+          ?>
+
+          <td style="width: 120px;" valign="top">
+          <?php
+              if ($nav_selected == "HOME") {
+                  include("./index.php");
+              } elseif ($nav_selected == "MOVIES") {
+                  include("./left_menu_movies.php");
+              } elseif ($nav_selected == "PEOPLE") {
+                  include("./left_menu_people.php");
+              } elseif ($nav_selected == "SONGS") {
+                  include("./left_menu_songs.php");
+              } elseif ($nav_selected == "REPORTS") {
+                  include("./left_menu_reports.php");
+              } elseif ($nav_selected == "PUZZLES") {
+                  include("./left_menu_puzzles.php");
+              }  elseif ($nav_selected == "SETUP") {
+              include("./left_menu_setup.php");
+            } elseif ($nav_selected == "ABOUT") {
+            include("./left_menu_about.php");
+            }elseif ($nav_selected == "HELP") {
+                  include("./left_menu_help.php");
+              }
+              elseif ($nav_selected == "search_data") {
+                    include("./left_search_data.php");
+                }
+               else {
+                  include("./left_menu_movies.php");
+              }
+
+          ?>
+          </td>
+          <td style="width: 1100px;" valign="top">
+          <?php
+            } else {
+          ?>
+          <td style="width: 100%;" valign="top">
+          <?php
+            }
+          ?>
+
+
+  <?php if(isset($_POST['song_search_button'])){
   $name1 = $_POST['song_search'];
   }
 
@@ -21,7 +178,7 @@
     $producer = $_POST['producer'];
     $director = $_POST['director'];
     $music_director = $_POST['music_director'];
-// looks goods man!
+
 
 }
   ?>
@@ -34,75 +191,171 @@
       <?php
       if(isset($_POST['songs'])){ ?>
           <h3 style = "color: #01B0F1;">Search Songs</h3>
-        <form method="post">
-          <input type="text" name="song_search" placeholder="Enter song to search its record...">
-          <button type="submit" name="song_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+
+
+        <form method="post" action="advance_song_search.php">
+
+          <div class="form-group">
+            <label for="song_search">Search Songs</label>
+            <input type="text"
+            style="width: 100%;
+            margin: 0 auto;
+            height:30px;"
+             class="form-control" id="song_search" name="song_search" placeholder="Enter song to search its record...">
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label for="lyricist">Lyricist</label>
+            <input type="text"
+            style="width: 100%;
+            margin: 0 auto;
+            height:30px;"
+            class="form-control" id="lyricist" name="lyricist" placeholder="lyricist Name">
+          </div><br>
+
+          <div class="form-group">
+            <label for="playback_singer">Playback Singer</label>
+            <input type="text"
+            style="width: 100%;
+            margin: 0 auto;
+            height:30px;"
+             class="form-control" id="playback_singer" name="playback_singer" placeholder="Playback Singer Name">
+          </div>
+<br>
+          <div class="form-group">
+            <label for="music_director">Music Director</label>
+            <input type="text"
+            style="width: 100%;
+            margin: 0 auto;
+            height:30px;"
+             class="form-control" id="music_director" name="music_director" placeholder="Music Director Name">
+          </div>
+<br>
+        <div class="form-group">
+          <label for="leading_actor">Leading Actor</label>
+          <input type="text"
+          style="width: 100%;
+          margin: 0 auto;
+          height:30px;"
+           class="form-control" id="leading_actor" name="leading_actor" placeholder="Leading Actor Name">
+        </div>
+<br>
+        <div class="form-group">
+          <label for="leading_actress">Leading Actress</label>
+          <input type="text"
+          style="width: 100%;
+          margin: 0 auto;
+          height:30px;"
+           class="form-control" id="leading_actress" name="leading_actress" placeholder="Leading Actress Name">
+        </div>
+<br>
+        <div class="form-group">
+          <label for="director">Director</label>
+          <input type="text"
+          style="width: 100%;
+          margin: 0 auto;
+          height:30px;"
+           class="form-control" id="director" name="director" placeholder="director Name">
+        </div>
+<br>
+        <div class="form-group">
+          <label for="producer">Producer</label>
+          <input type="text"
+          style="width: 100%;
+          margin: 0 auto;
+          height:30px;"
+           class="form-control" id="producer" name="producer" placeholder="producer Name">
+        </div>
+<br>
+
+        <button type="submit"
+        style="
+         border-radius: 8px;
+         font-weight: bold;
+         border: 0;
+         padding: 7px 15px 7px 15px;
+         font-size: 20px;
+         margin-right: 10px;"
+
+         name="song_people_search_button" class="btn btn-primary">Search</button>
+      </form>
+
 
       <?php }
       if(isset($_POST['movies'])){ ?>
-          <h3 style = "color: #01B0F1;">Search Movies</h3>
-        <form method="post">
-          <input type="text" name="movie_search" placeholder="Enter movie to search its record...">
-          <button type="submit" name="movie_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
-        <hr/>
+
         <h3 style = "color: #01B0F1;">Search movies by role</h3>
 
 
 
   <form method="post" action="advance_movie_search.php">
+
+    <div class="form-group">
+      <label for="movie_search">Search Movie</label>
+      <input type="text"
+      style="width: 100%;
+      margin: 0 auto;
+      height:30px;"
+       class="form-control" id="movie_search" name="movie_search" placeholder="Enter movie to search its record...">
+    </div><br>
+
   <div class="form-group">
     <label for="lead_actor">Lead Actor</label>
-    <input type="text" class="form-control" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name">
-  </div>
+    <input type="text"
+    style="width: 100%;
+    margin: 0 auto;
+    height:30px;"
+     class="form-control" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name">
+  </div><br>
 
   <div class="form-group">
     <label for="lead_actress">Lead Actress</label>
-    <input type="text" class="form-control" id="lead_actress" name="lead_actress" placeholder="Lead Actress Name">
-  </div>
+    <input type="text"
+    style="width: 100%;
+    margin: 0 auto;
+    height:30px;"
+    class="form-control" id="lead_actress" name="lead_actress" placeholder="Lead Actress Name">
+  </div><br>
 
   <div class="form-group">
     <label for="producer">Producer</label>
-    <input type="text" class="form-control" id="producer" name="producer" placeholder="producer Name">
-  </div>
+    <input type="text"
+    style="width: 100%;
+    margin: 0 auto;
+    height:30px;"
+     class="form-control" id="producer" name="producer" placeholder="producer Name">
+  </div><br>
 
   <div class="form-group">
     <label for="director">Director</label>
-    <input type="text" class="form-control" id="director" name="director" placeholder="director Name">
+    <input type="text"
+    style="width: 100%;
+    margin: 0 auto;
+    height:30px;"
+    class="form-control" id="director" name="director" placeholder="director Name">
   </div>
-
+<br>
   <div class="form-group">
     <label for="music_director">Music Director</label>
-    <input type="text" class="form-control" id="music_director" name="music_director" placeholder="Music Director Name">
+    <input type="text"
+    style="width: 100%;
+    margin: 0 auto;
+    height:30px;"
+    class="form-control" id="music_director" name="music_director" placeholder="Music Director Name">
   </div>
+<br>
 
 
-
-  <button type="submit"  name="movie_people_search_button" class="btn btn-primary">Search</button>
+  <button type="submit"   style="
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    padding: 7px 15px 7px 15px;
+    font-size: 20px;
+    margin-right: 10px;" name="movie_people_search_button" class="btn btn-primary">Search</button>
 </form>
 
-
-
-
-        <!-- <form method="post" action="advance_movie_search.php">
-            <label for="lead_actor">Lead Actor : </label>
-          <input type="text" id="lead_actor" name="lead_actor" placeholder="Lead Actor Name"><br>
-
-          <label for="lead_actress">Lead Actress : </label>
-          <input type="text" id="lead_actress" name="lead_actress" placeholder="Lead Actress Name"><br>
-
-          <label for="producer">Producer Name : </label>
-          <input type="text" id="producer" name="producer" placeholder="Producer Name"><br>
-
-          <label for="director">Director Name : </label>
-          <input type="text" id="director" name="director" placeholder="Director Name"><br>
-
-          <label for="music_director">Music Director Name : </label>
-          <input type="text" id="music_director" name="music_director" placeholder="Music Director Name">
-
-            <button type="submit" name="movie_people_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form> -->
 
 
 
@@ -111,10 +364,58 @@
       <?php }
       if(isset($_POST['people'])){ ?>
           <h3 style = "color: #01B0F1;">Search Peoples</h3>
-        <form method="post">
-          <input type="text" name="people_search" placeholder="Enter People to search its record...">
-          <button type="submit" name="people_search_button"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
+
+
+          <form method="post" action="advance_people_search.php">
+
+            <div class="form-group">
+              <label for="search_people">Search People</label>
+            <input type="text" id="search_people" style="width: 100%;
+            margin: 0 auto;
+            height:30px;"
+             name="people_search" placeholder="Enter People to search its record...">
+          </div><br/>
+
+          <div class="form-group" >
+            <label for="stage_name" >Stage Name</label>
+            <select name="stage_name" id='selUser' style="width: 100%;
+            margin: 0 auto;
+            padding: 10px;">
+
+              <?php
+              $query = mysqli_query($db,"select * from people");
+              while($options = mysqli_fetch_assoc($query)){ ?>
+                <option value="<?php echo $options['stage_name']?>"><?php echo $options['stage_name'];?></option>
+
+              <?php }
+              ?>
+            </select>
+          </div><br/>
+
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select name="role" style="width: 100%;
+          margin: 0 auto;
+          padding: 10px;">
+            <option value="" disabled>Select One</option>
+            <option value="lead_actor">Lead Actor</option>
+            <option value="lead_actress">Lead Actress</option>
+            <option value="producer">Producer</option>
+            <option value="director">Director</option>
+            <option value="music_director">Music Director</option>
+          </select>
+        </div><br/>
+
+
+        <button type="submit"  name="search" class="btn btn-primary"
+        style="
+        border-radius: 8px;
+        font-weight: bold;
+        border: 0;
+        padding: 7px 15px 7px 15px;
+        font-size: 20px;
+        margin-right: 10px;">Search</button>
+      </form>
       <?php }
 
 
@@ -527,7 +828,6 @@
 
 
             <?php
-            
             $count = 0;
             $query = mysqli_query($db, "SELECT * FROM `people` WHERE stage_name LIKE '%".$name3."%'
               OR first_name LIKE '%".$name3."%'
@@ -694,15 +994,18 @@
       <?php }  ?>
 
 
-
-
-
-// Looks good
-
  <style>
    tfoot {
      display: table-header-group;
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+ <script>
+ $(document).ready(function(){
+
+     // Initialize select2
+     $("#selUser").select2();
+
+
+ });
+ </script>

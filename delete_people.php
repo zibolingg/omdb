@@ -12,4 +12,3 @@ require 'db_configuration.php';
   }
 
 ?>
-// looks good

@@ -4,7 +4,7 @@
   $left_selected = "SONGS";
 
   include("./nav.php");
-  
+
  ?>
 
  <div class="right-content">
@@ -12,7 +12,7 @@
 
       <h3 style = "color: #01B0F1;">Scanner --> Releases</h3>
      <button><a class="btn btn-sm" href="create_song.php">Create a Song</a></button>
-           
+
     <br>
 
             <table id="info" cellpadding="0" cellspacing="0" border="0"
@@ -43,8 +43,10 @@
                                     <td>'.$row["lyrics"].'</td>
                                     <td><a class="btn btn-info btn-sm" href="song_info.php?song_id='.$row["song_id"].'">Display</a>
                                         <a class="btn btn-warning btn-sm" href="modify_song.php?song_id='.$row["song_id"].'">Modify</a>
-                                        <a class="btn btn-danger btn-sm" href="delete_song.php?song_id='.$row["song_id"].'">Delete</a>
-                                        <a class="btn btn-success btn-sm" href="songs_more_info.php?song_id='.$row["song_id"].'">More Info</a></td>
+                                        <a class="btn btn-danger btn-sm" href="delete_song1.php?song_id='.$row["song_id"].'">Delete</a>
+                                        <a class="btn btn-success btn-sm" href="songs_more_info.php?song_id='.$row["song_id"].'">More Info</a><br>
+                                        <a class="btn btn-info btn-sm" href="songs_people_list.php?song_id='.$row["song_id"].'">Add People</a>
+                                        </td>
                                 </tr>';
                         }//end while
                     }//end if
@@ -61,7 +63,7 @@
 
             <script type="text/javascript" language="javascript">
         $(document).ready( function () {
-            
+
             $('#info').DataTable( {
                 dom: 'lfrtBip',
                 buttons: [
@@ -73,7 +75,7 @@
             $('#info thead tr:eq(1) th').each( function (i) {
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-        
+
                 $( 'input', this ).on( 'keyup change', function () {
                     if ( table.column(i).search() !== this.value ) {
                         table
@@ -83,18 +85,18 @@
                     }
                 } );
             } );
-        
+
             var table = $('#info').DataTable( {
                 orderCellsTop: true,
                 fixedHeader: true,
                 retrieve: true
             } );
-            
+
         } );
 
     </script>
 
-            
+
 
      <style>
        tfoot {

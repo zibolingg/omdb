@@ -5,29 +5,166 @@
     $left_selected = "";
   require 'db_credentials.php';
      include("./nav.php");
-    
+
+
+           if(isset($_POST['checked_all'])){
+             $_SESSION['checked'] = "checked";
+
+           }
+           if(isset($_POST['uncheck'])){
+           unset($_SESSION['checked']);
+           }
+
+           if(isset($_POST['checked_all_delete'])){
+              $_SESSION['checked_delete'] = "checked";
+           }
+           if(isset($_POST['uncheck_delete'])){
+             unset($_SESSION['checked_delete']);
+           }
+
+
   ?>
-  
+
 <!DOCTYPE html>
 <html>
-<form id="addSong" action="add_the_song.php" method= "post">
-<h1>Modify a movie
-<p><input type = "text"  name= "movie_id" value=<?php echo $_GET["movie_id"]; ?> placeholder="movie_id" readonly="readonly"></p>
-</h1>
-<div class= "tab"> Add Song to movie:
-  <p><textarea name= "new_songs" form="addSong" rows="10" cols="100" >
-  </textarea></p>
-</div>
-<div style="overflow:auto;">
-  <div  class="text-left">
-           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Add Song</button>
-  </div>
-</div>
-<div style="text-align:center;margin-top:40px;">
-<span class="step"></span>
-</div>
+<h1>Modify a movie</h1>
 
-</form>
+<h2>Songs of this movie</h2>
+<form method="post" action="delete_song.php">
+  <table id="info" cellpadding="0" cellspacing="0" border="0"
+      class="datatable table table-striped table-bordered datatable-style table-hover"
+      width="100%" style="width: 100px;">
+              <thead>
+              <tr id="table-first-row">
+                <th>Select</th>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Lyrics</th>
+              <th scope="col">Theme</th>
+              </tr>
+              </thead>
+              <tbody>
+
+  <?php
+  $id = $_GET['movie_id'];
+
+  $count = '1';
+      $query = mysqli_query($db,"SELECT songs.*,movie_song.id
+      FROM movie_song
+      LEFT JOIN songs
+      ON movie_song.song_id = songs.song_id
+      WHERE movie_song.movie_id = ".$id);
+
+
+    if(mysqli_num_rows($query)>0){
+      while($row = mysqli_fetch_assoc($query)){
+
+
+  ?>
+
+
+            <tr>
+            <td><input type="checkbox" name="song_id<?php echo $count; ?>" value="<?php echo $row['id']; ?>"
+              <?php if(!empty($_SESSION['checked_delete'])){ ?>
+                checked="checked"
+              <?php }?>
+              ></td>
+            <th scope="row"><?php echo $count; ?></th>
+            <td><?php echo $row['title'] ?></td>
+            <td><?php echo $row['lyrics']; ?></td>
+            <td><?php echo $row['theme']; ?></td>
+
+            </tr>
+
+            <?php
+            $count++;
+                }
+                  }
+            ?>
+
+            </tbody>
+            </table>
+            <input type="hidden" name="movie_id" value="<?php echo $_GET['movie_id'] ; ?>" />
+                <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
+            <button type="submit" style="margin-left:500px;">Delete</button>
+            </form>
+            <form method="post">
+              <button type="submit" name="uncheck_delete">Uncheck all</button>
+              <button type="submit" name="checked_all_delete">Check all</button>
+            </form>
+
+
+
+            <hr/>
+            <h2>Other song</h2>
+            <form method="post" action="attach_song.php">
+              <table id="info1" cellpadding="0" cellspacing="0" border="0"
+                  class="datatable table table-striped table-bordered datatable-style table-hover"
+                  width="100%" style="width: 100px;">
+                          <thead>
+                        <tr id="table-first-row">
+                            <th>Select</th>
+                          <th scope="col">#</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Lyrics</th>
+                          <th scope="col">Theme</th>
+                        </tr>
+                          </thead>
+                          <tbody>
+
+
+              <?php
+              $id = $_GET['movie_id'];
+              $count = '1';
+
+              $query = mysqli_query($db,"Select A.*
+              from songs A where A.song_id not in (select song_id from movie_song )");
+              $num = mysqli_num_rows($query);
+              if($num>0){
+                while($row = mysqli_fetch_assoc($query))
+                {
+
+                  $title = $row['title'];
+                  $lyrics = $row['lyrics'];
+                  $theme = $row['theme'];
+                  $song_id = $row['song_id']
+
+              ?>
+
+
+                        <tr>
+
+                        <td><input type="checkbox" name="song_id<?php echo $count; ?>" value="<?php echo $song_id; ?>"
+                          <?php if(!empty($_SESSION['checked'])){?>
+                          checked
+                        <?php } ?>
+                          ></td>
+                        <th scope="row"><?php echo $count; ?></th>
+                        <td><?php echo $title; ?></td>
+                        <td><?php echo $lyrics; ?></td>
+                        <td><?php echo $theme; ?></td>
+
+
+                      </tr>
+                        <?php
+                        $count++;
+                      }
+                      }
+                        ?>
+                      </tbody>
+                      </table>
+                        <input type="hidden" name="movie_id" value="<?php echo $_GET['movie_id']; ?>" />
+                        <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
+
+
+
+                          <button type="submit" style="margin-left:500px;">Add in this movie</button>
+                          </form>
+                          <form method="post">
+                            <button type="submit" name="uncheck">Uncheck all</button>
+                            <button type="submit" name="checked_all">Check all</button>
+                          </form>
+
 <style type="text/css">
 #movieModify {
   background-color: #ffffff;
@@ -69,63 +206,82 @@ input.invalid {
 }
 
 
-/* Mark the active step: Here are the steps*/
+/* Mark the active step: */
 .step.active {
   opacity: 1;
 }
 
-/* Mark the steps that are finished and valid:
-  This a demo */
+/* Mark the steps that are finished and valid: */
 .step.finish {
   background-color: #4CAF50;
 }
 </style>
-<script>
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
 
-function showTab(n) {
-  // This function will display the specified tab of the form ...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-  // ... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-  // ... and run a function that displays the correct step indicator:
-  fixStepIndicator(n)
-}
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form... :
-  if (currentTab >= x.length) {
-    //...the form gets submitted:
-    document.getElementById("addSong").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class to the current step:
-  x[n].className += " active";
-}
+    $('#info').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info thead tr').clone(true).appendTo('#info thead');
+    $('#info thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
 </script>
-</html>
+
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+
+    $('#info1').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info1 thead tr').clone(true).appendTo('#info1 thead');
+    $('#info1 thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info1').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
+</script>
+<?php include("./footer.php"); ?>

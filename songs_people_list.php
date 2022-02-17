@@ -31,9 +31,11 @@
 
 <h2>People of this Song</h2>
 <form method="post" action="delete_song_people.php">
-              <table class="table">
+  <table id="info" cellpadding="0" cellspacing="0" border="0"
+      class="datatable table table-striped table-bordered datatable-style table-hover"
+      width="100%" style="width: 100px;">
               <thead>
-              <tr>
+      <tr id="table-first-row">
               <th>Select</th>
               <th scope="col">#</th>
               <th scope="col">People Full Name</th>
@@ -74,13 +76,7 @@
             <td><?php echo $row['gender'] ?></td>
             <td><?php echo $row['stage_name'] ?></td>
             <td><?php echo $row['role']; ?></td>
-            <td>
 
-
-
-
-
-            </td>
             </tr>
 
             <?php
@@ -105,9 +101,11 @@
             <hr/>
             <h2>Other Peoples</h2>
             <form method="post" action="song_people_list_post.php">
-                          <table class="table">
+              <table id="info1" cellpadding="0" cellspacing="0" border="0"
+                  class="datatable table table-striped table-bordered datatable-style table-hover"
+                  width="100%" style="width: 100px;">
                           <thead>
-                          <tr>
+                      <tr id="table-first-row">
                             <th>Select</th>
                           <th scope="col">#</th>
                           <th scope="col">Stage Name</th>
@@ -153,25 +151,19 @@
                         <td><?php echo $middle_name; ?></td>
                         <td><?php echo $last_name; ?></td>
                         <td><?php echo $gender; ?></td>
-                        <td>
-
-
-
-
-                        </td>
-
                       </tr>
                         <?php
                         $count++;
                       }
                       }
                         ?>
+                      </tbody>
+                      </table>
                         <input type="hidden" name="song_id" value="<?php echo $_GET['song_id']; ?>" />
                         <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
 
 
-                        </tbody>
-                        </table>
+
                         <div style="margin-left:200px;">
                           <button type="submit" name="music_director">Music Director</button>
                           <button type="submit" name="lyricist">Lyricist</button>
@@ -235,5 +227,74 @@ input.invalid {
 }
 </style>
 
-</html>
-// looks good
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+
+    $('#info').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info thead tr').clone(true).appendTo('#info thead');
+    $('#info thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
+</script>
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+
+    $('#info1').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info1 thead tr').clone(true).appendTo('#info1 thead');
+    $('#info1 thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info1').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
+</script>
+
+
+
+<?php include("./footer.php"); ?>

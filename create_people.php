@@ -1,13 +1,13 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
-    $nav_selected = "LIST";
+  $nav_selected = "PEOPLE";
     $left_buttons = "NO";
     $left_selected = "";
 
   require 'db_credentials.php';
      include("./nav.php");
   ?>
-// This is looking great!
+
 <!DOCTYPE html>
 <html>
 <form method= "post">
@@ -112,7 +112,7 @@ function showTab(n) {
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
 }
-//looks good
+
 function nextPrev(n) {
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("tab");
@@ -173,7 +173,7 @@ function fixStepIndicator(n) {
         $last_name  = $_POST['last_name'];
         $gender = $_POST['gender'];
         $image = "image file name";
-        
+
         $query = mysqli_query($db,"INSERT INTO `people`(`stage_name`, `first_name`, `middle_name`, `last_name`, `gender`, `image_name`)
          VALUES ('$stage_name','$first_name','$middle_name','$last_name','$gender','$image')");
 

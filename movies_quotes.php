@@ -36,7 +36,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movies` INNER JOIN `movie_media` ON `movie_media`.`movie_id`= `movies`.`movie_id`";
+$sql = "SELECT * FROM `movie_quotes`";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -44,13 +44,13 @@ $sql = "SELECT * FROM `movies` INNER JOIN `movie_media` ON `movie_media`.`movie_
 
 $result = $db->query($sql);
 
-                if ($result->num_rows < 0) {
+                if ($result->num_rows > 0) {
                     // output data of each row
                     // Add four more rows of data which you are getting from the database
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
-                                <td>'.$row["movie_media_id"].'</td>
-                                <td>'.$row["m_link"].' </span> </td>
+                                <td>'.$row["movie_quote_id"].'</td>
+                                <td>'.$row["movie_quote_name"].' </span> </td>
                                 <td>'.$row["movie_id"].'</td>
                             </tr>';
                     }//end while

@@ -12,7 +12,7 @@
 <h1>Search Lists</h1>
 
 
-// Looks pretty good there.
+
 
                   <h2>Movies Table</h2>
                   <table class="table">
@@ -211,4 +211,3 @@ input.invalid {
 </style>
 
 </html>
-//looks good

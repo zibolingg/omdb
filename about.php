@@ -1,6 +1,6 @@
 <?php
-	
-  // set the current page; 
+
+  // set the current page;
   $nav_selected = "ABOUT";
 
   // make the left menu buttons visible; options: YES, NO
@@ -43,15 +43,17 @@
 
 <h3 style = "color: #01B0F1;">About</h3>
 
-	<h3>Team</h3>
+	<h3>Team Cougars</h3>
 	<p>
 		<ul>
-      <li>Siva Jasthi (siva.jasthi@metrostate.edu) </li>
-      <li>First Last (first.last@metrostate.edu) </li>
-      
+      <li>Gada Abadulla </li>
+      <li>Yahya Mohammed</li>
+      <li>Kahin, Amadin</li>
+      <li>Wirtz, Jack</li>
+
 		</ul>
   </p>
-  
+
 
 
 </body>

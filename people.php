@@ -1,8 +1,8 @@
 <?php
 
-  $nav_selected = "PEOPLE"; 
-  $left_buttons = "YES"; 
-  $left_selected = "PEOPLE"; 
+  $nav_selected = "PEOPLE";
+  $left_buttons = "YES";
+  $left_selected = "PEOPLE";
 
   include("./nav.php");
   global $db;
@@ -17,6 +17,8 @@
 
         <h3><img src="images/people.png" style="max-height: 35px;" />People List</h3>
 
+          <button><a class="btn btn-sm" href="create_people.php">Create a People</a></button>
+          <br>
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
             width="100%" style="width: 100px;">
@@ -51,7 +53,9 @@ $result = $db->query($sql);
                                 <td><a class="btn btn-info btn-sm" href="people_info.php?people_id='.$row["people_id"].'">Display</a>
                                 <a class="btn btn-warning btn-sm" href="modify_people.php?people_id='.$row["people_id"].'">Modify</a>
                                 <a class="btn btn-danger btn-sm" href="delete_people.php?people_id='.$row["people_id"].'">Delete</a>
-                                <a class="btn btn-success btn-sm" href="people_more_info.php?people_id='.$row["people_id"].'">More Info</a></td>
+                                <a class="btn btn-success btn-sm" href="people_more_info.php?people_id='.$row["people_id"].'">More Info</a>
+
+                                </td>
 
                             </tr>';
                     }//end while
@@ -69,7 +73,7 @@ $result = $db->query($sql);
 
         <script type="text/javascript" language="javascript">
     $(document).ready( function () {
-        
+
         $('#info').DataTable( {
             dom: 'lfrtBip',
             buttons: [
@@ -81,7 +85,7 @@ $result = $db->query($sql);
         $('#info thead tr:eq(1) th').each( function (i) {
             var title = $(this).text();
             $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    
+
             $( 'input', this ).on( 'keyup change', function () {
                 if ( table.column(i).search() !== this.value ) {
                     table
@@ -91,18 +95,18 @@ $result = $db->query($sql);
                 }
             } );
         } );
-    
+
         var table = $('#info').DataTable( {
             orderCellsTop: true,
             fixedHeader: true,
             retrieve: true
         } );
-        
+
     } );
 
 </script>
 
-        
+
 
  <style>
    tfoot {

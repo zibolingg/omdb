@@ -31,9 +31,11 @@
 
 <h2>People of this Movie</h2>
 <form method="post" action="delete_movie_people.php">
-              <table class="table">
+  <table id="info" cellpadding="0" cellspacing="0" border="0"
+      class="datatable table table-striped table-bordered datatable-style table-hover"
+      width="100%" style="width: 100px;">
               <thead>
-              <tr>
+          <tr id="table-first-row">
               <th>Select</th>
               <th scope="col">#</th>
               <th scope="col">People Full Name</th>
@@ -47,8 +49,8 @@
 
   <?php
   $id = $_GET['movie_id'];
-
   $count = '1';
+
       $query = mysqli_query($db,"select movie_people.movie_people_id,people.stage_name, people.first_name, people.middle_name, people.last_name,people.gender,movie_people.role
       from movie_people
       left join people
@@ -74,13 +76,7 @@
             <td><?php echo $row['gender'] ?></td>
             <td><?php echo $row['stage_name'] ?></td>
             <td><?php echo $row['role']; ?></td>
-            <td>
 
-
-
-
-
-            </td>
             </tr>
 
             <?php
@@ -105,9 +101,11 @@
             <hr/>
             <h2>Other Peoples</h2>
             <form method="post" action="add_movie_people_post.php">
-                          <table class="table">
+              <table id="info1" cellpadding="0" cellspacing="0" border="0"
+                  class="datatable table table-striped table-bordered datatable-style table-hover"
+                  width="100%" style="width: 100px;">
                           <thead>
-                          <tr>
+                  <tr id="table-first-row">
                             <th>Select</th>
                           <th scope="col">#</th>
                           <th scope="col">Stage Name</th>
@@ -122,7 +120,9 @@
 
 
               <?php
-              $id = $_GET['movie_id'];
+              $id111 = $_GET['movie_id'];
+              // echo $id;
+              // exit();
               $count = '1';
 
               $query = mysqli_query($db,"Select * from people");
@@ -153,12 +153,7 @@
                         <td><?php echo $middle_name; ?></td>
                         <td><?php echo $last_name; ?></td>
                         <td><?php echo $gender; ?></td>
-                        <td>
 
-
-
-
-                        </td>
 
                       </tr>
                         <?php
@@ -166,12 +161,13 @@
                       }
                       }
                         ?>
-                        <input type="hidden" name="movie_id" value="<?php echo $_GET['movie_id']; ?>" />
+                      </tbody>
+                      </table>
+                        <input type="hidden" name="movie_id" value="<?php echo $id111; ?>" />
                         <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
 
 
-                        </tbody>
-                        </table>
+
                         <div style="margin-left:200px;">
                           <button type="submit" name="lead_actor">Lead Actor</button>
                           <button type="submit" name="lead_actress">Lead Actress</button>
@@ -239,4 +235,79 @@ input.invalid {
 }
 </style>
 
-</html>
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+
+    $('#info').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info thead tr').clone(true).appendTo('#info thead');
+    $('#info thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
+</script>
+
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+
+    $('#info1').DataTable({
+      dom: 'lfrtBip',
+      buttons: [
+        'copy', 'excel', 'csv', 'pdf'
+      ]
+    });
+
+    $('#info1 thead tr').clone(true).appendTo('#info1 thead');
+    $('#info1 thead tr:eq(1) th').each(function(i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+      $('input', this).on('keyup change', function() {
+        if (table.column(i).search() !== this.value) {
+          table
+            .column(i)
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+
+    var table = $('#info1').DataTable({
+      orderCellsTop: true,
+      fixedHeader: true,
+      retrieve: true
+    });
+
+  });
+</script>
+
+<style>
+  tfoot {
+    display: table-header-group;
+  }
+</style>
+
+<?php include("./footer.php"); ?>

@@ -4,7 +4,7 @@
   $left_selected = "";
 
   include("./nav.php");
-// This is looking great.
+
  ?>
 
  <div class="right-content">
@@ -99,6 +99,6 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
           echo 'alert("Kindly Upload a CSV file")';
           echo '</script>';
         }
-//looks good
+
       }
           ?>

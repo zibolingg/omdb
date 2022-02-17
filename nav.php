@@ -6,6 +6,8 @@
 
 <html>
     <head>
+
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +23,13 @@
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="./mainStyleSheet.css">
+        <link rel="stylesheet" href="fonts/css/fontawesome.min.css">
+        <link rel="stylesheet" href="fonts/css/all.css">
+
+        <script src='ajax/jquery-3.2.1.min.js' type='text/javascript'></script>
+        <script src='ajax/select2/dist/js/select2.min.js' type='text/javascript'></script>
+        <link href='ajax/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>
+
     </head>
 
 <body class="body_background">
@@ -63,10 +72,11 @@
               <br/>Reports</li>
             </a>
 
-           <a href="puzzles.php">
-              <li <?php if($nav_selected == "PUZZLES"){ echo 'class="current-page"'; } ?>>
-                <img src="./images/puzzles.png">
-                <br/>Puzzles</li>
+           <a href="search_data.php">
+              <li <?php if($nav_selected == "search"){ echo 'class="current-page"'; } ?>>
+                <img src="./images/search.png">
+                <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+                <br/>Search</li>
             </a>
 
 
@@ -88,6 +98,19 @@
             <br/>Help</li>
         </a>
 
+        <li>
+        <form method="post" action="search.php">
+      <div class="input-group">
+  <div class="form-outline">
+    <input type="search" id="form1" style="width:50px; margin-right:5px; margin-top:7px;"name="text_search" class="form-control" />
+
+  <button type="submit" style=" margin-top:7px;" name="search" class="btn btn-primary">
+      <i class="fa fa-search" aria-hidden="true"></i>
+  </button>
+  </div>
+</div>
+</form>
+    </li>
 
       </ul>
       <br />
@@ -120,9 +143,14 @@
           include("./left_menu_about.php");
           }elseif ($nav_selected == "HELP") {
                 include("./left_menu_help.php");
-            } else {
+            }
+            elseif ($nav_selected == "search_data") {
+                  include("./left_search_data.php");
+              }
+             else {
                 include("./left_menu_movies.php");
             }
+
         ?>
         </td>
         <td style="width: 1100px;" valign="top">
