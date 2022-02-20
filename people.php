@@ -4,8 +4,9 @@
   $left_buttons = "YES";
   $left_selected = "PEOPLE";
 
+  include("./database.php");
   include("./nav.php");
-  global $db;
+  $db = db_connect();
 
   ?>
 
@@ -65,6 +66,7 @@ $result = $db->query($sql);
                 }//end else
 
                  $result->close();
+                db_disconnect($db);
                 ?>
 
               </tbody>
