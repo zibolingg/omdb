@@ -61,7 +61,7 @@ if(isset($base_chars)){
     $count = count($decodedData->data);
     foreach ($decodedData->data as $datum){
         if($count > 1){
-           $query_conditions[] = "native_name like '%".$datum."%' or";
+           $query_conditions[] = "native_name like '%".$datum."%' and";
           $count = $count - 1;
         } else {
             $query_conditions[] = "native_name like '%".$datum."%'";
