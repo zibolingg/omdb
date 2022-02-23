@@ -102,3 +102,7 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
 
       }
           ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

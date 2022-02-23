@@ -1,7 +1,6 @@
 <?php
    
-include 'database.php';
-$db = db_connect();
+include("./nav.php");
     
     if (isset($_POST['movie_id'])) {
         
@@ -116,9 +115,9 @@ $db = db_connect();
         
       }
     
-
+    db_disconnect($db);
 	header('location: movies.php?updated=Success');
-    $db_disconnect($db);
+    
 				
 ?>
     

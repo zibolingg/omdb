@@ -1,5 +1,5 @@
 <?php
-    require 'db_configuration.php';
+    include("./nav.php");
     $song_id = $_POST['song_id'];
     $total_elements = $_POST['total_elements'];
 
@@ -32,6 +32,9 @@
     }
 
     }
+
+    db_disconnect($db);
+
      header("location:songs_people_list.php?song_id=$song_id");
 
 ?>

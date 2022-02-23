@@ -5,8 +5,7 @@ $left_selected = "NO";
 
 include("./nav.php");
 require 'bin/functions.php';
-require 'db_configuration.php';
-global $db;
+
 ?>
 
 <!-- =====================================================================================================
@@ -201,4 +200,7 @@ year_made
   }
 </style>
 
-<?php include("./footer.php"); ?>
+          <?php
+              db_disconnect($db);
+              include("./footer.php");
+          ?>

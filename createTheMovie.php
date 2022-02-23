@@ -1,14 +1,9 @@
 
 <?php
    
-include 'database.php';
-$db = db_connect();
+include("./nav.php");
 
-// Verificamos conexiones
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-echo "Connected successfully";
+
    $movie = $_POST['english_name'];
    $native = $_POST['native_name'];
    $nativeJSON = strtolower(str_replace(" ", "", $native));
@@ -47,8 +42,7 @@ echo "Connected successfully";
     $sql3 = "INSERT INTO movie_numbers(movie_id, length, base_chars) values ($movie_id, $length, '$base_chars')";
     mysqli_query($db, $sql3);
     
-
-	header('location: movies.php?create=Success');
     db_disconnect($db);
+	header('location: movies.php?create=Success');
 				
 ?>

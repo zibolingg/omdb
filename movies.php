@@ -4,9 +4,9 @@
   $left_buttons = "YES"; 
   $left_selected = "MOVIES"; 
 
-  include 'database.php';
+  
   include("./nav.php");
-  $db = db_connect();
+  
   
   ?>
 
@@ -72,7 +72,6 @@ $result = $db->query($sql);
                 }//end else
 
                  $result->close();
-                db_disconnect($db);
                 ?>
 
               </tbody>
@@ -123,4 +122,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+  <?php
+    db_disconnect($db);
+    include("./footer.php");
+  ?>

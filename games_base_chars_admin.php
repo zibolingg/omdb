@@ -9,7 +9,7 @@
 
 <!DOCTYPE html>
 <html>
-<form id="basecharAdmin" action="games.php" method= "POST">
+<form id="basecharAdmin" action="games_base_chars_admin.php" method= "POST">
 
 <h2>Welcome to the Base Characters Game!</h1>
 <h4>Enter a word to find its logical characters and all the movies that contain them.</h3>

@@ -4,8 +4,6 @@
     $nav_selected = "LIST";
     $left_buttons = "NO";
     $left_selected = "";
-    include 'database.php';
-    $db = db_connect();
     include("./nav.php");
 
 ?>
@@ -46,8 +44,8 @@
         mysqli_query($db, $sql9);
         mysqli_query($db, $sql);
         
-        header('location: movies.php?updated=Success');
         db_disconnect($db);
+        header('location: movies.php?updated=Success');
 
         ?>
 

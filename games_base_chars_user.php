@@ -1,7 +1,7 @@
 <?php
   $nav_selected = "GAMES";
   $left_buttons = "YES";
-  $left_selected = "ANAGRAMADMIN";
+  $left_selected = "ANAGRAMUSER";
 
   include("./nav.php");
   
@@ -9,7 +9,7 @@
 
 <!DOCTYPE html>
 <html>
-<form id="basecharAdmin" action="games.php" method= "POST">
+<form id="basecharUser" action="games_base_chars_user.php" method= "POST">
 
 <h2>Welcome to the Base Characters Game!</h1>
 <h4>Enter a word to find its logical characters and all the movies that contain them.</h3>
@@ -111,7 +111,7 @@ $result = $db->query($sql);
 
 </form>
 <style type="text/css">
-#basecharAdmin {
+#basecharUser {
   background-color: #ffffff;
   margin: auto;
   padding: 40px;
@@ -221,7 +221,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("basecharAdmin").submit();
+    document.getElementById("basecharUser").submit();
     return false;
   }
   // Otherwise, display the correct tab:

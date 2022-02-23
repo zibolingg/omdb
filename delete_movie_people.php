@@ -1,5 +1,5 @@
 <?php
-  require 'db_configuration.php';
+  include("./nav.php");
   $total_elements = $_POST['total_elements'];
 
   $movie_id = $_POST['movie_id'];
@@ -14,7 +14,7 @@
       // break;
     }
   }
-
+$db_disconnect($db);
 header("location:add_movie_people.php?movie_id=$movie_id")
 
 ?>

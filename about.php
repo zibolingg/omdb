@@ -43,13 +43,14 @@
 
 <h3 style = "color: #01B0F1;">About</h3>
 
-	<h3>Team Cougars</h3>
+	<h3>Who Helped?</h3>
 	<p>
 		<ul>
       <li>Gada Abadulla </li>
       <li>Yahya Mohammed</li>
       <li>Kahin, Amadin</li>
       <li>Wirtz, Jack</li>
+      <li>Boling-Green, Zachary</li>
 
 		</ul>
   </p>

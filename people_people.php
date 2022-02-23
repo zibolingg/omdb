@@ -5,7 +5,6 @@
   $left_selected = "PEOPLE"; 
 
   include("./nav.php");
-  global $db;
 
   ?>
 
@@ -22,11 +21,12 @@
             width="100%" style="width: 100px;">
               <thead>
                 <tr id="table-first-row">
-                        <th>id</th>
-                        <th>Screen Name </th>
+                        <th>people_id</th>
+                        <th>Stage Name </th>
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
+                        <th>Gender</th>
                         <th>Image </th>
                 </tr>
               </thead>
@@ -41,11 +41,12 @@ $result = $db->query($sql);
                     // output data of each row
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
-                                <td>'.$row["id"].'</td>
-                                <td>'.$row["screen_name"].' </span> </td>
+                                <td>'.$row["people_id"].'</td>
+                                <td>'.$row["stage_name"].' </span> </td>
                                 <td>'.$row["first_name"].'</td>
                                 <td>'.$row["middle_name"].'</td>
                                 <td>'.$row["last_name"].'</td>
+                                <td>'.$row["gender"].'</td>
                                 <td>'.$row["image_name"].'</td>
                             </tr>';
                     }//end while
@@ -54,7 +55,6 @@ $result = $db->query($sql);
                     echo "0 results";
                 }//end else
 
-                 $result->close();
                 ?>
 
               </tbody>
@@ -104,4 +104,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>
