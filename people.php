@@ -5,10 +5,10 @@
   $left_selected = "PEOPLE";
 
   include("./nav.php");
-  global $db;
 
   ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="right-content">
     <div class="container">
@@ -17,8 +17,8 @@
 
         <h3><img src="images/people.png" style="max-height: 35px;" />People List</h3>
 
-          <button><a class="btn btn-sm" href="create_people.php">Create a People</a></button>
-          <br>
+          <button title="Create Person"><a class="btn btn-sm" href="create_people.php"><i class = "fa fa-plus"></i></a></button>
+          <br><br>
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
             width="100%" style="width: 100px;">
@@ -29,6 +29,7 @@
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
+                        <th>Gender</th>
                         <th>Image </th>
                         <th>Action</th>
                 </tr>
@@ -49,11 +50,12 @@ $result = $db->query($sql);
                                 <td>'.$row["first_name"].'</td>
                                 <td>'.$row["middle_name"].'</td>
                                 <td>'.$row["last_name"].'</td>
+                                <td>'.$row["gender"].'</td>
                                 <td>'.$row["image_name"].'</td>
-                                <td><a class="btn btn-info btn-sm" href="people_info.php?people_id='.$row["people_id"].'">Display</a>
-                                <a class="btn btn-warning btn-sm" href="modify_people.php?people_id='.$row["people_id"].'">Modify</a>
-                                <a class="btn btn-danger btn-sm" href="delete_people.php?people_id='.$row["people_id"].'">Delete</a>
-                                <a class="btn btn-success btn-sm" href="people_more_info.php?people_id='.$row["people_id"].'">More Info</a>
+                                <td><a title="View Person" class="btn btn-info btn-sm" href="people_info.php?people_id='.$row["people_id"].'"><i class="fa fa-eye"></i></a>
+                                <a title="Modify Person" class="btn btn-warning btn-sm" href="modify_people.php?people_id='.$row["people_id"].'"><i class="fa fa-pencil"></i></a>
+                                <a title="Delete Person"class="btn btn-danger btn-sm" href="delete_people.php?people_id='.$row["people_id"].'"><i class="fa fa-close"></i></a>
+                                <a title="More Info" class="btn btn-success btn-sm" href="people_more_info.php?people_id='.$row["people_id"].'"><i class="fa fa-database"></i></a>
 
                                 </td>
 
@@ -114,4 +116,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

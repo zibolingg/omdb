@@ -3,7 +3,6 @@
     $nav_selected = "LIST";
     $left_buttons = "NO";
     $left_selected = "";
-  require 'db_credentials.php';
      include("./nav.php");
 
 
@@ -51,11 +50,11 @@
   $id = $_GET['movie_id'];
   $count = '1';
 
-      $query = mysqli_query($db,"select movie_people.movie_people_id,people.stage_name, people.first_name, people.middle_name, people.last_name,people.gender,movie_people.role
+      $query = mysqli_query($db,"select movie_people.people_id,people.stage_name, people.first_name, people.middle_name, people.last_name,people.gender,movie_people.role
       from movie_people
       left join people
       on movie_people.people_id =people.people_id
-      where movie_people.movie_id = ".$id);
+      where movie_people.movie_id = $id");
 
 
     if(mysqli_num_rows($query)>0){
@@ -310,4 +309,7 @@ input.invalid {
   }
 </style>
 
-<?php include("./footer.php"); ?>
+<?php
+db_disconnect($db);
+include("./footer.php");
+?>

@@ -1,11 +1,11 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
     $nav_selected = "MOVIES";
-    $left_buttons = "NO";
-    $left_selected = "";
-  require 'db_credentials.php';
-     include("./nav.php");
-    $db = mysqli_connect('localhost','root','','omdb');
+    $left_buttons = "YES";
+    $left_selected = "NO";
+  
+    include("./nav.php");
+    
     $movie_id = $_GET["movie_id"];
 
   ?>
@@ -29,6 +29,7 @@
         $id = $row['movie_id'];
       }
     }
+    
     ?>
 <div class= "tab">
   <p><input name= "native_name_update" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" ></p>
@@ -145,4 +146,8 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
+<?php
+db_disconnect($db);
+include("./footer.php");
+?>
 </html>

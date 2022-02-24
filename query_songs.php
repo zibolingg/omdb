@@ -3,7 +3,6 @@
     $nav_selected = "LIST";
     $left_buttons = "NO";
     $left_selected = "";
-  require 'db_credentials.php';
      include("./nav.php");
 
 
@@ -176,5 +175,8 @@ input.invalid {
   background-color: #4CAF50;
 }
 </style>
-
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>
 </html>

@@ -108,4 +108,7 @@
     </div>
 </div>
 
-<?php include("./footer.php"); ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

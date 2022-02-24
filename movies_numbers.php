@@ -5,7 +5,6 @@
   $left_selected = "Number";
 
   include("./nav.php");
-  global $db;
 
   ?>
 
@@ -24,6 +23,7 @@
                 <tr id="table-first-row">
                         <th>Movie Id</th>
                         <th>Running Time</th>
+                        <th>Base Characters</th>
                         <th>Length </th>
                         <th>Strngth</th>
                         <th>Weight</th>
@@ -54,6 +54,7 @@ $result = $db->query($sql);
                         echo '<tr>
                                 <td>'.$row["movie_id"].'</td>
                                 <td>'.$row["running_time"].' </span> </td>
+                                <td>'.$row["base_chars"].'</td>
                                 <td>'.$row["length"].'</td>
                                 <td>'.$row["strength"].'</td>
                                 <td>'.$row["weight"].'</td>
@@ -115,4 +116,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+  <?php
+    db_disconnect($db);
+    include("./footer.php");
+  ?>

@@ -2,8 +2,7 @@
   $nav_selected = "search_data";
   $left_buttons = "YES";
   $left_selected = "search_data";
-  include("nav.php");
-  global $db;
+  include("./nav.php");
   if(isset($_POST['song_search_button'])){
   $name1 = $_POST['song_search'];
   }
@@ -376,4 +375,7 @@ if(!isset($_POST['songs']) AND !isset($_POST['movies'])){ ?>
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+  <?php
+    db_disconnect($db);
+    include("./footer.php");
+  ?>

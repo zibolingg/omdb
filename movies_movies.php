@@ -4,19 +4,19 @@
   $left_buttons = "YES"; 
   $left_selected = "MOVIES"; 
 
-  include("./nav.php");
-  global $db;
+    include("./nav.php");
+
 
   ?>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="right-content">
     <div class="container">
 
       <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
 
-    <button><a class="btn btn-sm" href="create_movie.php">Create a Movie</a></button>
-       
+    <button title="Create Movie"><a class="btn btn-sm" href="create_movie.php"><i class = "fa fa-plus"></i></a></button>
+<br>
 <br>
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
@@ -47,9 +47,9 @@ $result = $db->query($sql);
                                 <td>'.$row["native_name"].' </span> </td>
                                 <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
-                                <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'">Display</a>
-                                    <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'">Modify</a>
-                                    <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'">Delete</a></td>          
+                                <td><a title="Display" class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'"><i class="fa fa-search"></i></a>
+                                    <a title="Modify" class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
+                                    <a title="Delete" class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-close"></i></a></td>
                             </tr>';
                     }//end while
                 }//end if
@@ -59,7 +59,6 @@ $result = $db->query($sql);
 
                  $result->close();
                 ?>
-
               </tbody>
         </table>
 
@@ -107,4 +106,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+  <?php
+    db_disconnect($db);
+    include("./footer.php");
+  ?>

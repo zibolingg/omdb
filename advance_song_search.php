@@ -3,7 +3,6 @@
   $left_buttons = "YES";
   $left_selected = "search_data";
   include("./nav.php");
-  global $db;
   if(isset($_POST['song_search_button'])){
   $name1 = $_POST['song_search'];
   }
@@ -1240,4 +1239,7 @@ if(isset($_POST['people'])){ ?>
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+  <?php
+    include("./footer.php");
+    db_disconnect($db);
+  ?>

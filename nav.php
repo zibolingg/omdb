@@ -22,7 +22,7 @@
         <title>A Basic Composer</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="./mainStyleSheet.css">
+        <link rel="stylesheet" href="styles/mainStyleSheet.css">
         <link rel="stylesheet" href="fonts/css/fontawesome.min.css">
         <link rel="stylesheet" href="fonts/css/all.css">
 
@@ -92,6 +92,12 @@
             <br/>About</li>
         </a>
 
+        <a href="games.php">
+          <li <?php if($nav_selected == "GAMES"){ echo 'class="current-page"'; } ?>>
+            <img src="./images/puzzles.png">
+            <br/>Games</li>
+        </a>
+
         <a href="help.php">
           <li <?php if($nav_selected == "HELP"){ echo 'class="current-page"'; } ?>>
             <img src="./images/help.png">
@@ -141,6 +147,8 @@
             include("./left_menu_setup.php");
           } elseif ($nav_selected == "ABOUT") {
           include("./left_menu_about.php");
+        } elseif ($nav_selected == "GAMES"){
+            include("./left_menu_games.php");
           }elseif ($nav_selected == "HELP") {
                 include("./left_menu_help.php");
             }

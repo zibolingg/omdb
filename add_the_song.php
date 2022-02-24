@@ -1,12 +1,6 @@
 <?php
    
-include_once 'db_credentials.php';
-    $db = mysqli_connect('localhost', 'root', '','OMDB');
-    // Verificamos conexiones
-    if (!$db) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-    echo "Connected successfully";
+include("./nav.php");
     $songs = [];
     $songs =$_POST['new_songs'];
     $songs_ar = explode(PHP_EOL, $songs);
@@ -31,7 +25,7 @@ include_once 'db_credentials.php';
     
                     
         header('location: movies.php?create=Success');
-        mysqli_close($db);
+        db_disconnect($db);
                     
     ?>
     

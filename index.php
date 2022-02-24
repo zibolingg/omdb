@@ -8,7 +8,6 @@
 
   // set the left menu button selected; options will change based on the main selection
   $left_selected = "";
-  global $db;
   include("./nav.php");
 ?>
 
@@ -109,4 +108,7 @@ table.center {
               });
             </script>
 
-            <?php include("./footer.php"); ?>
+            <?php
+                db_disconnect($db);
+                include("./footer.php");
+            ?>

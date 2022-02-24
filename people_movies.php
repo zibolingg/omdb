@@ -5,7 +5,6 @@
   $left_selected = "MOVIES";
 
   include("./nav.php");
-  global $db;
 
   ?>
 
@@ -126,4 +125,7 @@ $result = $db->query($sql);
    }
  </style>
 
-  <?php include("./footer.php"); ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

@@ -5,8 +5,6 @@ $left_selected = "NO";
 
 include("./nav.php");
 require 'bin/functions.php';
-require 'db_configuration.php';
-global $db;
 ?>
 
 
@@ -421,4 +419,7 @@ media (from songs_media - show the IDs as comma separated list, media_link will 
   }
 </style>
 
-<?php include("./footer.php"); ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

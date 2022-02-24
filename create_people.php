@@ -4,7 +4,6 @@
     $left_buttons = "NO";
     $left_selected = "";
 
-  require 'db_credentials.php';
      include("./nav.php");
   ?>
 

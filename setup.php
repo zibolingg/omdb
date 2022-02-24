@@ -76,12 +76,44 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
             if(!empty($data[$i][3])){$data4 = $data[$i][3];}
             if(!empty($data[$i][4])){$data5 = $data[$i][4];}
             if($table_name=="movies"){
-                $query = mysqli_query($db,"INSERT INTO `movies`(`native_name`, `english_name`, `year_made`)
-                VALUES ('$data1','$data2','$data3')");
+                $query = mysqli_query($db,"INSERT INTO movies (native_name, english_name, year_made)
+                select '$data1','$data2','$data3'
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM movies
+                    WHERE native_name = '$data1' AND year_made = '$data3'
+                )
+                ");
+                
+                if($query){
+                    $native_update = $data1;
+                    $nativeJSON = strtolower(str_replace(" ", "", $native_update));
+                    $query2 = "SELECT movie_id from movies where native_name = '$data1' and english_name = '$data2' and year_made = '$data3'";
+                    
+                    $result = mysqli_query($db, $query2);
+                    $row=mysqli_fetch_row($result);
+                    $movie_id = intval($row[0]);
+                    
+                    //Make API call to find logical chars for base_chars
+                    $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$nativeJSON."&language=English";
+                    $jsonfile = file_get_contents($jsonLog);
+                    $decodedData = json_decode(strstr($jsonfile, '{'));
+                    $base_chars = implode(", ", $decodedData->data);
+                    
+                    //Make API call to find length of string for length
+                    $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$nativeJSON."&language=English";
+                    $jsonfile= file_get_contents($jsonLength);
+                    $decodedData = json_decode(strstr($jsonfile, '{'));
+                    $length = intval($decodedData->data);
+                    
+                    $query3 = "INSERT INTO movie_numbers(movie_id, length, base_chars) values ($movie_id, $length, '$base_chars')";
+                    
+                    mysqli_query($db, $query3);
+                }
           }
           elseif ($table_name=="people") {
             $image_name = "image file name";
-            $query = mysqli_query($db,"INSERT INTO `people`(`stage_name`, `first_name`, `middle_name`, `last_name`, `gender`, `image_name`)
+            $query = mysqli_query($db,"INSERT INTO people (stage_name, first_name, middle_name, last_name, gender, image_name)
             VALUES ('$data1','$data2','$data3','$data4','$data5','$image_name')");
           }
           else{
@@ -102,3 +134,7 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
 
       }
           ?>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>

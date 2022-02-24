@@ -3,9 +3,9 @@
     $nav_selected = "LIST";
     $left_buttons = "NO";
     $left_selected = "";
-  require 'db_credentials.php';
+
      include("./nav.php");
-    $db = mysqli_connect('localhost','root','','omdb');
+    
     $song_id = $_GET["song_id"];
 
   ?>
@@ -54,6 +54,7 @@
     } //end else
 
     $sql_A1_result->close();
+    db_disconnect($db);
     ?>
 
 

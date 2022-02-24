@@ -2,13 +2,10 @@
   $nav_selected = "search_data";
   $left_buttons = "YES";
   $left_selected = "search_data";
-  // include("nav.php");
-  global $db; ?>
+  include("./nav.php");
 
+?>
 
-  <?php
-    require_once('initialize.php');
-  ?>
 
   <!DOCTYPE html>
 
@@ -1009,3 +1006,7 @@
 
  });
  </script>
+<?php
+    db_disconnect($db);
+    include("./footer.php");
+?>
