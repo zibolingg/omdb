@@ -94,8 +94,8 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
                     $row=mysqli_fetch_row($result);
                     $movie_id = intval($row[0]);
                     
-                    //Make API call to find logical chars for base_chars
-                    $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$nativeJSON."&language=English";
+                    //Make API call to find base_chars
+                    $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$nativeJSON."&language=Telugu";
                     $jsonfile = file_get_contents($jsonLog);
                     $decodedData = json_decode(strstr($jsonfile, '{'));
                     $base_chars = implode(", ", $decodedData->data);
