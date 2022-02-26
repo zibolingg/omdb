@@ -12,7 +12,7 @@
 <form id="basecharUser" action="games_base_chars_user.php" method= "POST">
 
 <h2>Welcome to the Base Characters Game!</h1>
-<h4>Enter a word to find its logical characters and all the movies that contain them.</h3>
+<h4>Enter a word to find its base characters and all the movies that contain them.</h3>
 
 <?php
 if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
@@ -24,7 +24,7 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
     $jsonfile = file_get_contents($jsonLog);
     $decodedData = json_decode(strstr($jsonfile, '{'));
     $base_chars = implode(", ", $decodedData->data);
-    echo "<p>The logical characters of ".$basecharinput." are: ";
+    echo "<p>The base characters of ".$basecharinput." are: ";
 
     echo "<b style='color:red'>".implode(", ", $decodedData->data)."</b>";
     echo "</p>";
