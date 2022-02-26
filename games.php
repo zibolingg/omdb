@@ -19,8 +19,8 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
     $basecharinput = $_POST['basecharinput'];
     $basecharJSON = strtolower(str_replace(" ", "", $basecharinput));
       
-    //Make API call to find logical chars for base_chars
-    $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$basecharJSON."&language=English";
+    //Make API call to find base_chars
+    $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$basecharJSON."&language=Telugu";
     $jsonfile = file_get_contents($jsonLog);
     $decodedData = json_decode(strstr($jsonfile, '{'));
     $base_chars = implode(", ", $decodedData->data);

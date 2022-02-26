@@ -19,8 +19,8 @@ include("./nav.php");
             $nativeJSON = strtolower(str_replace(" ", "", $native_update));
             $sql8 = "UPDATE movies SET native_name = '$native_update', english_name = '$english_update', year_made = '$year_update' WHERE movie_id = '$movie_id'";
             
-            //Make API call to find logical chars for base_chars
-            $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$nativeJSON."&language=English";
+            //Make API call to find base_chars
+            $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$nativeJSON."&language=Telugu";
             $jsonfile = file_get_contents($jsonLog);
             $decodedData = json_decode(strstr($jsonfile, '{'));
             $base_chars = implode(", ", $decodedData->data);
