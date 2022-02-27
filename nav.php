@@ -105,23 +105,19 @@
         </a>
 
         <li>
-        <form method="post" action="search.php">
-      <div class="input-group">
-  <div class="form-outline">
-    <input type="search" id="form1" style="width:50px; margin-right:5px; margin-top:7px;"name="text_search" class="form-control" />
-
-  <button type="submit" style=" margin-top:7px;" name="search" class="btn btn-primary">
-      <i class="fa fa-search" aria-hidden="true"></i>
-  </button>
-  </div>
-</div>
-</form>
+        
     </li>
 
       </ul>
       <br />
     </div>
+    <form method="post" action="search.php">
+    <input type="search" id="form1" style="width:12%; margin-right:5px; position:relative; right:90px; top:10px; display:inline-block;"name="text_search" class="form-control" />
 
+    <button type="submit" style=" display:inline-block; position:relative; right:90px; top:10px;" name="search" class="btn btn-primary">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+    </form>
 
     <table style="width:1250px">
       <tr>
@@ -169,3 +165,5 @@
         <?php
           }
         ?>
+
+
