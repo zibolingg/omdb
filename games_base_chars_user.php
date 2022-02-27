@@ -4,12 +4,24 @@
   $left_selected = "ANAGRAMUSER";
 
   include("./nav.php");
+
+    function mb_count_chars($input) {
+        $l = mb_strlen($input, 'utf8');
+        $unique = array();
+        for($i = 0; $i < $l; $i++) {
+            $char = mb_substr($input, $i, 1, 'utf8');
+            if(!array_key_exists($char, $unique))
+                $unique[$char] = 0;
+            $unique[$char]++;
+        }
+        return $unique;
+    }
   
  ?>
 
 <!DOCTYPE html>
 <html>
-<form id="basecharUser" action="games_base_chars_user.php" method= "POST">
+<form id="basecharAdmin" action="games_base_chars_user.php" method= "POST">
 
 <h2>Welcome to the Base Characters Game!</h1>
 <h4>Enter a word to find its base characters and all the movies that contain them.</h3>
@@ -23,10 +35,17 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
     $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$basecharJSON."&language=Telugu";
     $jsonfile = file_get_contents($jsonLog);
     $decodedData = json_decode(strstr($jsonfile, '{'));
+    $base_charRaw = implode("", $decodedData->data);
     $base_chars = implode(", ", $decodedData->data);
+    
+    //Make API call to find length of string for length
+    $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$basecharJSON."&language=Telugu";
+    $jsonfile= file_get_contents($jsonLength);
+    $decoder = json_decode(strstr($jsonfile, '{'));
+    $length = intval($decoder->data);
+    
     echo "<p>The base characters of ".$basecharinput." are: ";
-
-    echo "<b style='color:red'>".implode(", ", $decodedData->data)."</b>";
+    echo "<b style='color:red'>".$base_chars."</b>";
     echo "</p>";
    }
 ?>
@@ -36,6 +55,7 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
 <div style="overflow:auto;">
   <div  class="text-left">
            <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Go!</button>
+           <label id="label">Exact Length?<input name="length" type="checkbox" id="length" value='yes'></label>
   </div>
 </div>
 <br>
@@ -47,34 +67,47 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
                 <th>id</th>
                 <th>Native Name</th>
                 <th>English Name</th>
-                <th>Year </th>
+                <th>Year</th>
+                <th>Length</th>
+                <th>Base Characters</th>
 
         </tr>
       </thead>
 
       <tbody>
-
       <?php
-
-if(isset($base_chars)){
-    $query_conditions = [];
-    $count = count($decodedData->data);
-    foreach ($decodedData->data as $datum){
-        if($count > 1){
-           $query_conditions[] = "native_name like '%".$datum."%' and";
-          $count = $count - 1;
-        } else {
-            $query_conditions[] = "native_name like '%".$datum."%'";
-        }
-     }
-    $query_string = implode(" ", $query_conditions);
     
-$sql = "SELECT * from movies where ".$query_string." ORDER BY year_made ASC;";
+if(isset($base_chars)){
+    $query_conditions = "";
+    $query_conditions2 = "";
+    $characters = mb_count_chars($base_charRaw);
+    $count = count($decodedData->data);
+    if(!isset($_POST['length'])){
+        foreach ($decodedData->data as $datum){
+            if($count > 1){
+               $query_conditions .= "base_chars like '%".$datum."%' and ";
+                $count = $count - 1;
+            } else {
+                $query_conditions .= "base_chars like '%".$datum."%'";
+            }
+        }
+    }
+    if(isset($_POST['length'])){
+        $count = count($characters);
+        foreach ($characters as $key => $value){
+            if($count > 1){
+               $query_conditions2 .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
+                $count = $count - 1;
+            } else {
+                $query_conditions2 .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and length = $length";
+        }
+    }
+}
+    
+$sql = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ".$query_conditions2." ORDER BY year_made ASC;";
 
-$db->set_charset("utf8");
 
 $result = $db->query($sql);
-        header('Content-type: text/html; charset=utf-8');
         if(isset($_GET['create'])){
                    if($_GET["create"] == "Success"){
                        echo '<br><h3>Success! Your movie has been added!</h3>';
@@ -90,6 +123,8 @@ $result = $db->query($sql);
                         <td>'.$row["native_name"].' </span> </td>
                         <td>'.$row["english_name"].'</td>
                         <td>'.$row["year_made"].'</td>
+                        <td>'.$row["length"].'</td>
+                        <td>'.$row["base_chars"].'</td>
                     </tr>';
             }//end while
         }//end if
@@ -103,6 +138,7 @@ $result = $db->query($sql);
 
       </tbody>
 </table>
+
 </div>
 
 <div style="text-align:center;margin-top:40px;">
@@ -111,7 +147,7 @@ $result = $db->query($sql);
 
 </form>
 <style type="text/css">
-#basecharUser {
+#basecharAdmin {
   background-color: #ffffff;
   margin: auto;
   padding: 40px;
@@ -126,6 +162,18 @@ input {
   font-size: 17px;
   font-family: Raleway;
   border: 1px solid #aaaaaa;
+}
+
+#length{
+        width: auto;
+        margin: 5px;
+        vertical-align: center;
+        display: inline-block;
+
+}
+
+#label{
+    text-indent: 530px;
 }
 
 /* Mark input boxes that gets an error on validation: */
@@ -221,7 +269,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("basecharUser").submit();
+    document.getElementById("basecharAdmin").submit();
     return false;
   }
   // Otherwise, display the correct tab:
@@ -244,3 +292,4 @@ function fixStepIndicator(n) {
 db_disconnect($db);
 include("./footer.php");
 ?>
+
