@@ -6,12 +6,12 @@
   include("./nav.php");
 
  ?>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
  <div class="right-content">
     <div class="container">
 
       <h3 style = "color: #01B0F1;">Scanner --> Releases</h3>
-     <button><a class="btn btn-sm" href="create_song.php">Create a Song</a></button>
+     <button title="Create Song"><a class="btn btn-sm" href="create_song.php"><i class = "fa fa-plus"></i></a></button><br>
 
     <br>
 
@@ -41,11 +41,11 @@
                                     <td>'.$row["song_id"].'</td>
                                     <td>'.$row["title"].' </span> </td>
                                     <td>'.$row["lyrics"].'</td>
-                                    <td><a class="btn btn-info btn-sm" href="song_info.php?song_id='.$row["song_id"].'">Display</a>
-                                        <a class="btn btn-warning btn-sm" href="modify_song.php?song_id='.$row["song_id"].'">Modify</a>
-                                        <a class="btn btn-danger btn-sm" href="delete_song1.php?song_id='.$row["song_id"].'">Delete</a>
-                                        <a class="btn btn-success btn-sm" href="songs_more_info.php?song_id='.$row["song_id"].'">More Info</a><br>
-                                        <a class="btn btn-info btn-sm" href="songs_people_list.php?song_id='.$row["song_id"].'">Add People</a>
+                                    <td><a title="View" class="btn btn-info btn-sm" href="song_info.php?song_id='.$row["song_id"].'"><i class="fa fa-eye"></i></a>
+                                        <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?song_id='.$row["song_id"].'"><i class="fa fa-pencil"></i></a>
+                                        <a title="Delete" class="btn btn-danger btn-sm" href="delete_song1.php?song_id='.$row["song_id"].'"><i class="fa fa-close"></i></a>
+                                        <a title="More Info" class="btn btn-success btn-sm" href="songs_more_info.php?song_id='.$row["song_id"].'"><i class="fa fa-database"></i></a>
+                                        <a title="Add People" class="btn btn-info btn-sm" href="songs_people_list.php?song_id='.$row["song_id"].'"><i class = "fa fa-id-badge"></i></a>
                                         </td>
                                 </tr>';
                         }//end while

@@ -7,11 +7,13 @@
   
  ?>
 
- <div class="right-content">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="right-content">
     <div class="container">
 
       <h3 style = "color: #01B0F1;">Scanner --> Releases</h3>
-     <button><a class="btn btn-sm" href="create_song.php">Create a Song</a></button>
+     <button title="Create Song"><a class="btn btn-sm" href="create_song.php"><i class = "fa fa-plus"></i></a></button><br>
            
     <br>
 
@@ -41,9 +43,9 @@
                                     <td>'.$row["song_id"].'</td>
                                     <td>'.$row["title"].' </span> </td>
                                     <td>'.$row["lyrics"].'</td>
-                                    <td><a class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["song_id"].'">Display</a>
-                                        <a class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["song_id"].'">Modify</a>
-                                        <a class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["song_id"].'">Delete</a></td>
+                                    <td><a title="View" class="btn btn-info btn-sm" href="song_info.php?song_id='.$row["song_id"].'"><i class="fa fa-eye"></i></a>
+                                        <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?song_id='.$row["song_id"].'"><i class="fa fa-pencil"></i></a>
+                                        <a title="Delete" class="btn btn-danger btn-sm" href="delete_song1.php?song_id='.$row["song_id"].'"><i class="fa fa-close"></i></a></td>
                                 </tr>';
                         }//end while
                     }//end if
