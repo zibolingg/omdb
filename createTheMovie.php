@@ -4,13 +4,12 @@
 include("./nav.php");
 
 
-   $movie = $_POST['english_name'];
-   $native = $_POST['native_name'];
-   $nativeJSON = strtolower(str_replace(" ", "", $native));
-   $year = $_POST['year'];
+    $movie = $_POST['english_name'];
+    $native = $_POST['native_name'];
+    $nativeJSON = strtolower(str_replace(" ", "", $native));
+    $year = $_POST['year'];
    
-            $sql1 = "INSERT INTO movies(native_name,english_name,year_made) values('$native','$movie','$year')"
-    ;
+    $sql1 = "INSERT INTO movies(native_name,english_name,year_made) values('$native','$movie','$year')";
       
     mysqli_query($db, $sql1);
     

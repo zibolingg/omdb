@@ -23,16 +23,37 @@
 <!DOCTYPE html>
 <html>
 <body >
-<form id="movieModify" class="movieModify" action="modifyTheMovies.php" method= "POST">
+<?php
+if(isset($_GET['movie_id'])){
+    echo '<form id="movieModify" class="movieModify" action="modifyTheMovies.php" method= "POST">';
 
-<h1>Modify a movie</h1>
-<?PHP
+    echo '<h1>Modify a movie</h1>';
+
   $native_name = "";
   $english_name = "";
   $year_made = "";
   $id = "";
+  $running_time = "";
+  $budget = "";
+  $box_office = "";
+  $language = "";
+  $country = "";
+  $genre = "";
+  $plot = "";
+  $tag_line = "";
+  $keyword = [];
+  $anagram = [];
+  $anagram_id = [];
+  $movie_media_id = [];
+  $m_link = [];
+  $m_link_type = [];
+  $movie_quote_id = [];
+  $movie_quote_name = [];
+  $movie_trivia_id = [];
+  $movie_trivia_name = [];
+
     $sql = mysqli_query($db,"SELECT * FROM movies WHERE movie_id = '$movie_id'");
-      if(mysqli_num_rows($sql)>0){
+    if(mysqli_num_rows($sql)>0){
       while($row = mysqli_fetch_assoc($sql)){
         $native_name = $row['native_name'];
         $english_name = $row['english_name'];
@@ -40,73 +61,239 @@
         $id = $row['movie_id'];
       }
     }
-    
+    $sql2 = mysqli_query($db,"SELECT * FROM movie_numbers WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql2)>0){
+      while($row = mysqli_fetch_assoc($sql2)){
+        $running_time = $row['running_time'];
+        $budget = $row['budget'];
+        $box_office = $row['box_office'];
+      }
+    }
+    $sql3 = mysqli_query($db,"SELECT * FROM movie_data WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql3)>0){
+      while($row = mysqli_fetch_assoc($sql3)){
+        $language = $row['language'];
+        $country = $row['country'];
+        $genre = $row['genre'];
+        $plot = $row['plot'];
+        $tag_line = $row['tag_line'];
+      }
+    }
+    $sql4 = mysqli_query($db,"SELECT * FROM movie_keywords WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql4)>0){
+      while($row = mysqli_fetch_assoc($sql4)){
+        $keyword[] = $row['keyword'];
+      }
+    }
+    $sql5 = mysqli_query($db,"SELECT * FROM movie_anagrams WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql5)>0){
+      while($row = mysqli_fetch_assoc($sql5)){
+        $anagram[] = $row['anagram'];
+        $anagram_id[] = $row['anagram_id'];
+      }
+    }
+    $sql6 = mysqli_query($db,"SELECT * FROM movie_media WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql6)>0){
+      while($row = mysqli_fetch_assoc($sql6)){
+        $movie_media_id[] = $row['movie_media_id'];
+        $m_link[] = $row['m_link'];
+        $m_link_type[] = $row['m_link_type'];
+      }
+    }
+    $sql7 = mysqli_query($db,"SELECT * FROM movie_quotes WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql7)>0){
+      while($row = mysqli_fetch_assoc($sql7)){
+        $movie_quote_id[] = $row['movie_quote_id'];
+        $movie_quote_name[] = $row['movie_quote_name'];
+      }
+    }
+    $sql8 = mysqli_query($db,"SELECT * FROM movie_trivia WHERE movie_id = '$movie_id'");
+    if(mysqli_num_rows($sql8)>0){
+      while($row = mysqli_fetch_assoc($sql8)){
+        $movie_trivia_id[] = $row['movie_trivia_id'];
+        $movie_trivia_name[] = $row['movie_trivia_name'];
+      }
+    }
     ?>
   
-  <p><input name= "native_name_update" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" <?php echo $movieModify; ?> oninput="this.className =''"></p>
-  <p><input name= "english_name_update" value="<?php echo $english_name; ?>" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
-  <p><input name= "year_update" value="<?php echo $year_made; ?>" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
-  <input type="hidden" name="movie_id" value="<?php echo $id; ?>">
+    <label for="native_name"> Native Name </label>
+    <p><input name= "native_name_update" id="native_name" value="<?php echo $native_name; ?>" placeholder="Modify Native Name" class="form-control" <?php echo $movieModify; ?> oninput="this.className =''"></p>
+    <label for="english_name"> English Name </label>
+    <p><input name= "english_name_update" id="english_name" value="<?php echo $english_name; ?>" placeholder="Modify English Name" class="form-control" oninput="this.className = ''"></p>
+    <label for="year"> Year </label>
+    <p><input name= "year_update" id="year" value="<?php echo $year_made; ?>" class="form-control" placeholder="Modify Year" oninput="this.className = ''"></p>
+    <label for="running_time"> Running Time </label>
+    <p><input name= "running_time_update" id="running_time" value="<?php echo $running_time; ?>" placeholder="Modify Running Time" class="form-control" oninput="this.className =''"></p>
+    <label for="budget"> Budget </label>
+    <p><input name= "budget_update" id="budget" value="<?php echo $budget; ?>" placeholder="Modify Budget" class="form-control" oninput="this.className = ''"></p>
+    <label for="box_office"> Box Office </label>
+    <p><input name= "box_office_update" id="box_office" value="<?php echo $box_office; ?>" class="form-control" placeholder="Modify Box Office" oninput="this.className = ''"></p>
+    <label for="language"> Language </label>
+    <p><input name= "language_update" id="language" value="<?php echo $language; ?>" placeholder="Modify Language" class="form-control" oninput="this.className = ''"></p>
+    <label for="country"> Country </label>
+    <p><input name= "country_update" id="country" value="<?php echo $country; ?>" class="form-control" placeholder="Modify Country" oninput="this.className = ''"></p>
+    <label for="genre"> Genre </label>
+    <p><input name= "genre_update" id="genre" value="<?php echo $genre; ?>" placeholder="Modify Genre" class="form-control" oninput="this.className =''"></p>
+    <label for="plot"> Plot </label>
+    <p><input name= "plot_update" id="plot" value="<?php echo $plot; ?>" placeholder="Modify Plot" class="form-control" oninput="this.className = ''"></p>
+    <label for="tag_line"> Tag Line </label>
+    <p><input name= "tag_line_update" id="tag_line" value="<?php echo $tag_line; ?>" class="form-control" placeholder="Modify Tag Line" oninput="this.className = ''"></p>
+   
+<?php
+    if(sizeof($anagram_id) > 0){
+        for($i = 0; $i < sizeof($anagram_id); $i++){
+            echo '<label for="anagram'.$i.'"> Anagram #'.($i+1).' </label>';
+            echo '<p><input id="anagram'.$i.'" name= "anagram_update'.$i.'" value="'.$anagram[$i].'" class="form-control" placeholder="Modify Anagram for '.$anagram_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="anagram_id'.$i.'" value="'.$anagram_id[$i].'"><br>';
+        }
+    }
+    if(sizeof($keyword) > 0){
+        for($i = 0; $i < sizeof($keyword); $i++){
+            echo '<label for="keyword'.$i.'"> Keyword #'.($i+1).' </label>';
+            echo '<p><input id="keyword'.$i.'" name= "keyword_update'.$i.'" value="'.$keyword[$i].'" class="form-control" placeholder="Modify Keyword" oninput="this.className = """></p><br>';
+        }
+    }
+    if(sizeof($movie_media_id) > 0){
+        for($i = 0; $i < sizeof($movie_media_id); $i++){
+            echo '<label for="m_link'.$i.'"> Media Link #'.($i+1).' </label>';
+            echo '<p><input id="m_link'.$i.'" name= "m_link_update'.$i.'" value="'.$m_link[$i].'" class="form-control" placeholder="Modify Media Link for '.$movie_media_id[$i].'" oninput="this.className = """></p>';
+            echo '<label for="m_link_type'.$i.'"> Media Link Type #'.($i+1).' </label>';
+            echo '<p><input id="m_link_type'.$i.'" name= "m_link_type_update'.$i.'" value="'.$m_link_type[$i].'" class="form-control" placeholder="Modify Media Link type for '.$movie_media_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="movie_media_id'.$i.'" value="'.$movie_media_id[$i].'"><br>';
+        }
+    }
+    if(sizeof($movie_quote_id) > 0){
+        for($i = 0; $i < sizeof($movie_quote_id); $i++){
+            echo '<label for="quote'.$i.'"> Quote #'.($i+1).' </label>';
+            echo '<p><input id="quote'.$i.'" name= "movie_quote_name_update'.$i.'" value="'.$movie_quote_name[$i].'" class="form-control" placeholder="Modify Quote for '.$movie_quote_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="movie_quote_id'.$i.'" value="'.$movie_quote_id[$i].'"><br>';
+        }
+    }
+    if(sizeof($movie_trivia_id) > 0){
+        for($i = 0; $i < sizeof($movie_trivia_id); $i++){
+            echo '<label for="trivia'.$i.'"> Trivia #'.($i+1).' </label>';
+            echo '<p><input id="trivia'.$i.'" name= "movie_trivia_name_update'.$i.'" value="'.$movie_trivia_name[$i].'" class="form-control" placeholder="Modify Trivia for '.$movie_trivia_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="movie_trivia_id'.$i.'" value="'.$movie_trivia_id[$i].'"><br>';
+        }
+    }
+?>
+    
+    <input type="hidden" name="movie_id" value="<?php echo $id; ?>">
 
-<div style="overflow:auto;">
-  <div  class="text-left">
-           <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Modify Movie</button>
-  </div>
-</div>
-<div style="text-align:center;margin-top:40px;">
-<span class="step"></span>
-</div>
+    <div style="overflow:auto;">
+        <div  class="text-left">
+            <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">Modify Movie</button>
+        </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+    </div>
 
 </form>
-
-<form id="movieModify" class="addSong" action="post_modify_song.php"method= "POST">
-<h1>Modify a Song</h1>
 <?PHP
+}
+
+if(isset($_GET['song_id'])){
+    echo '<form id="movieModify" class="addSong" action="post_modify_song.php"method= "POST">';
+    echo '<h1>Modify a Song</h1>';
+
     $title = "";
     $lyrics = "";
     $theme = "";
-      $sql = mysqli_query($db, "SELECT * FROM songs WHERE song_id = '".$song_id."'");
-        if(mysqli_num_rows($sql)>0){
+    $song_trivia_id = [];
+    $song_trivia_name = [];
+    $keyword = [];
+    $song_media_id = [];
+    $s_link = [];
+    $s_link_type = [];
+    
+    $sql = mysqli_query($db, "SELECT * FROM songs WHERE song_id = '".$song_id."'");
+    if(mysqli_num_rows($sql)>0){
         while($row = mysqli_fetch_assoc($sql)){
           $song_id = $row['song_id'];
           $title = $row['title'];
           $lyrics = $row['lyrics'];
           $theme = $row['theme'];
         }
+    }
+    
+    $sql2 = mysqli_query($db,"SELECT * FROM song_trivia WHERE song_id = '".$song_id."'");
+    if(mysqli_num_rows($sql2)>0){
+      while($row = mysqli_fetch_assoc($sql2)){
+        $song_trivia_id[] = $row['song_trivia_id'];
+        $song_trivia_name[] = $row['song_trivia_name'];
       }
+    }
+    
+    $sql3 = mysqli_query($db,"SELECT * FROM song_keywords WHERE song_id = '".$song_id."'");
+    if(mysqli_num_rows($sql3)>0){
+      while($row = mysqli_fetch_assoc($sql3)){
+        $keyword[] = $row['keyword'];
+      }
+    }
+    
+    $sql4 = mysqli_query($db,"SELECT * FROM song_media WHERE song_id = '".$song_id."'");
+    if(mysqli_num_rows($sql4)>0){
+      while($row = mysqli_fetch_assoc($sql4)){
+        $song_media_id[] = $row['song_media_id'];
+        $s_link[] = $row['s_link'];
+        $s_link_type[] = $row['s_link_type'];
+      }
+    }
 ?>
-
-      
-        <input type="hidden" name="id" value="<?php echo $song_id; ?>">
+        
     <label for="title"> Title </label>
-   <p><input type="text" name="title" class="form-control" id="title" value="<?php echo $title; ?>" <?php echo $addSong; ?> ></p>
-
+    <p><input type="text" name="title" class="form-control" id="title" value="<?php echo $title; ?>" <?php echo $addSong; ?> ></p>
     <label for="lyrics">Lyrics</label>
     <p><input type="text" name="lyrics" class="form-control" id="lyrics" value="<?php echo $lyrics; ?>"></p>
-
-
     <label for="theme">Theme</label>
     <p><input type="text" name="theme" class="form-control" id="theme" value=" <?php echo $theme; ?> "></p>
         
-        <div style="overflow:auto;">
-          <div  class="text-left">
-                   <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">  Add Song  </button>
-          </div>
-        </div>
+    <input type="hidden" name="id" value="<?php echo $song_id; ?>">
         
-
-        <div style="text-align:center;margin-top:40px;">
+<?php
+    if(sizeof($song_trivia_id) > 0){
+        for($i = 0; $i < sizeof($song_trivia_id); $i++){
+            echo '<label for="trivia'.$i.'"> Trivia #'.($i+1).' </label>';
+            echo '<p><input id="trivia'.$i.'" name= "song_trivia_name_update'.$i.'" value="'.$song_trivia_name[$i].'" class="form-control" placeholder="Modify Trivia for '.$song_trivia_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="song_trivia_id'.$i.'" value="'.$song_trivia_id[$i].'"><br>';
+        }
+    }
+    if(sizeof($keyword) > 0){
+        for($i = 0; $i < sizeof($keyword); $i++){
+            echo '<label for="keyword'.$i.'"> Keyword #'.($i+1).' </label>';
+            echo '<p><input id="keyword'.$i.'" name= "song_keyword_update'.$i.'" value="'.$keyword[$i].'" class="form-control" placeholder="Modify Keyword" oninput="this.className = """></p>';
+        }
+    }
+    
+    if(sizeof($song_media_id) > 0){
+        for($i = 0; $i < sizeof($song_media_id); $i++){
+            echo '<label for="s_link'.$i.'"> Song Link #'.($i+1).' </label>';
+            echo '<p><input id="s_link'.$i.'" name= "s_link_update'.$i.'" value="'.$s_link[$i].'" class="form-control" placeholder="Modify Media Link for '.$song_media_id[$i].'" oninput="this.className = """></p>';
+            echo '<label for="s_link_type'.$i.'"> Media Link Type #'.($i+1).' </label>';
+            echo '<p><input id="s_link_type'.$i.'" name= "s_link_type_update'.$i.'" value=" '.$s_link_type[$i].'" class="form-control" placeholder="Modify Media Link type for '.$song_media_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="song_media_id'.$i.'" value="'.$song_media_id[$i].'"><br>';
+        }
+    }
+?>
+        
+    <div style="overflow:auto;">
+      <div  class="text-left">
+        <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">  Modify Song  </button>
+      </div>
+    </div>
+        
+    <div style="text-align:center;margin-top:40px;">
         <span class="step"></span>
-        </div>
-
-  
-
+    </div>
 
 </form>
 
 
 
 <?php
+}
     db_disconnect($db);
 ?>
 
