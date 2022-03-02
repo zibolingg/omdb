@@ -136,7 +136,7 @@ include("./nav.php");
         //Movie_Trivia Update
         if(!empty($movie_trivia_id)){
             for ($i = 0; $i < sizeof($movie_trivia_id); $i++){
-                $sql10 = "UPDATE movie_trivia SET movie_trivia_name = '$movie_trivia_name[$i]' WHERE movie_id = '$movie_id' and movie_trivia_id = '$movie_trivia_name[$i]'";
+                $sql10 = "UPDATE movie_trivia SET movie_trivia_name = '$movie_trivia_name[$i]' WHERE movie_id = '$movie_id' and movie_trivia_id = '$movie_trivia_id[$i]'";
                 mysqli_query($db, $sql10);
             }
         }

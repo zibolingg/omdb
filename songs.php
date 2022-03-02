@@ -33,6 +33,11 @@
 
     $sql = "SELECT * from songs ORDER BY song_id;";
     $result = $db->query($sql);
+    if(isset($_GET['updated'])){
+           if($_GET['updated'] == "Success"){
+               echo '<br><h3 style="color:orange;">Success! The movie has been updated.</h3>';
+           }
+    }
 
                     if ($result->num_rows > 0) {
                         // output data of each row

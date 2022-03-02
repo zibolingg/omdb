@@ -195,7 +195,7 @@ if(isset($_GET['movie_id'])){
 }
 
 if(isset($_GET['song_id'])){
-    echo '<form id="movieModify" class="addSong" action="post_modify_song.php"method= "POST">';
+    echo '<form id="movieModify" class="addSong" action="modifyTheSongs.php" method= "POST">';
     echo '<h1>Modify a Song</h1>';
 
     $title = "";
@@ -250,7 +250,7 @@ if(isset($_GET['song_id'])){
     <label for="theme">Theme</label>
     <p><input type="text" name="theme" class="form-control" id="theme" value=" <?php echo $theme; ?> "></p>
         
-    <input type="hidden" name="id" value="<?php echo $song_id; ?>">
+    <input type="hidden" name="song_id" value="<?php echo $song_id; ?>">
         
 <?php
     if(sizeof($song_trivia_id) > 0){
@@ -272,7 +272,7 @@ if(isset($_GET['song_id'])){
             echo '<label for="s_link'.$i.'"> Song Link #'.($i+1).' </label>';
             echo '<p><input id="s_link'.$i.'" name= "s_link_update'.$i.'" value="'.$s_link[$i].'" class="form-control" placeholder="Modify Media Link for '.$song_media_id[$i].'" oninput="this.className = """></p>';
             echo '<label for="s_link_type'.$i.'"> Media Link Type #'.($i+1).' </label>';
-            echo '<p><input id="s_link_type'.$i.'" name= "s_link_type_update'.$i.'" value=" '.$s_link_type[$i].'" class="form-control" placeholder="Modify Media Link type for '.$song_media_id[$i].'" oninput="this.className = """></p>';
+            echo '<p><input id="s_link_type'.$i.'" name= "s_link_type_update'.$i.'" value="'.$s_link_type[$i].'" class="form-control" placeholder="Modify Media Link type for '.$song_media_id[$i].'" oninput="this.className = """></p>';
             echo '<input type="hidden" name="song_media_id'.$i.'" value="'.$song_media_id[$i].'"><br>';
         }
     }
