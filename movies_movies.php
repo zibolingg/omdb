@@ -48,7 +48,7 @@ $result = $db->query($sql);
                                 <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
                                 <td><a title="Display" class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'"><i class="fa fa-search"></i></a>
-                                    <a title="Modify" class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
+                                    <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
                                     <a title="Delete" class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-close"></i></a></td>
                             </tr>';
                     }//end while

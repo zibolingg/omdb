@@ -22,7 +22,7 @@
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
-            width="100%" style="width: 100px;">
+            width="100%" style="width:100px;">
               <thead>
                 <tr id="table-first-row">
                         <th>id</th>
@@ -33,21 +33,26 @@
                 </tr>
               </thead>
 
-              <tbody>
+            <tbody>
 
               <?php
 
-$sql = "SELECT * from movies ORDER BY year_made ASC;";
+                $sql = "SELECT * from movies ORDER BY year_made ASC;";
 
-$db->set_charset("utf8");
+                $db->set_charset("utf8");
 
-$result = $db->query($sql);
+                $result = $db->query($sql);
                 header('Content-type: text/html; charset=utf-8');
                 if(isset($_GET['create'])){
-                           if($_GET["create"] == "Success"){
-                               echo '<br><h3>Success! Your movie has been added!</h3>';
-                           }
+                       if($_GET["create"] == "Success"){
+                           echo '<br><h3 style="color:#01B0F1;">Success! The movie has been added.</h3>';
                        }
+                }
+                if(isset($_GET['updated'])){
+                       if($_GET['updated'] == "Success"){
+                           echo '<br><h3 style="color:orange;">Success! The movie has been updated.</h3>';
+                       }
+                }
                   
 
                 if ($result->num_rows > 0) {
@@ -59,7 +64,7 @@ $result = $db->query($sql);
                                 <td>'.$row["english_name"].'</td>
                                 <td>'.$row["year_made"].'</td>
                                 <td><a title="View" class="btn btn-info btn-sm" href="movie_info.php?movie_id='.$row["movie_id"].'"><i class="fa fa-eye"></i></a>
-                                    <a title="Modify" class="btn btn-warning btn-sm" href="modify_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
+                                    <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
                                     <a title="Delete" class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-close"></i></a>
                                     <a title="Add Song" class="btn btn-success btn-sm" href="add_song.php?movie_id='.$row["movie_id"].'"><i class="fa fa-music"></i></a>
                                     <a title="Create Data" class="btn btn-default btn-sm" href="create_Data.php?movie_id='.$row["movie_id"].'"><i class="fa fa-database"></i></a></td>
