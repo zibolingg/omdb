@@ -75,46 +75,29 @@ if (isset($_POST['basecharinput']) && !empty($_POST['basecharinput'])){
       </thead>
 
       <tbody>
-      <?php
-    
-if(isset($base_chars)){
-    $query_conditions = "";
-    $query_conditions2 = "";
-    $characters = mb_count_chars($base_charRaw);
-    $count = count($decodedData->data);
-    if(!isset($_POST['length'])){
-        foreach ($decodedData->data as $datum){
-            if($count > 1){
-               $query_conditions .= "base_chars like '%".$datum."%' and ";
-                $count = $count - 1;
-            } else {
-                $query_conditions .= "base_chars like '%".$datum."%'";
-            }
-        }
-    }
-    if(isset($_POST['length'])){
+
+<?php
+    if(isset($base_chars)){
+        $query_conditions = "";
+        $query_conditions2 = "";
+        $characters = mb_count_chars($base_charRaw);
         $count = count($characters);
         foreach ($characters as $key => $value){
             if($count > 1){
-               $query_conditions2 .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
+               $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
                 $count = $count - 1;
             } else {
-                $query_conditions2 .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and length = $length";
+                $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value."";
+            }
         }
-    }
-}
-    
-$sql = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ".$query_conditions2." ORDER BY year_made ASC;";
+        if(isset($_POST['length'])){
+            $query_conditions2 = " and length = $length";
+        }
+        
+    $sql = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ".$query_conditions2." ORDER BY length asc;";
 
-
-$result = $db->query($sql);
-        if(isset($_GET['create'])){
-                   if($_GET["create"] == "Success"){
-                       echo '<br><h3>Success! Your movie has been added!</h3>';
-                   }
-               }
-          
-
+    $result = $db->query($sql);
+        
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
@@ -131,10 +114,9 @@ $result = $db->query($sql);
         else {
             echo "0 results";
         }//end else
-
          $result->close();
     }
-        ?>
+?>
 
       </tbody>
 </table>
@@ -213,6 +195,7 @@ input.invalid {
 $(document).ready( function () {
 
 $('#info').DataTable( {
+    "order": [[ 4, "asc" ]],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     dom: 'lfrtBip',
     buttons: [
