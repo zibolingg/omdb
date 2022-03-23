@@ -19,19 +19,6 @@
         return $unique;
     }
 
-    if(isset($_POST['movie_id'])){
-        $basecharinput = [];
-        $movie_id = $_POST['movie_id'];
-        foreach($_POST as $k => $v) {
-            if(strpos($k, 'input') === 0) {
-                $basecharinput[] = $v;
-            }
-        }
-        $basecharinput = trim(strtolower(implode("", $basecharinput)));
-        $sql4 = "select movies.*, movie_numbers.length, movie_numbers.base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where lower(replace(movies.native_name, ' ', '')) = '".$basecharinput."';";
-        $winner = mysqli_query($db, $sql4);
-    }
-
     if(isset($_POST['addAnagram'])){
         $flag = 'guess';
         $movie_id = $_POST['addAnagram'];
@@ -72,7 +59,7 @@
                 }
             }
 
-            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ORDER BY length asc;";
+            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." and movies.movie_id = ".$movie_id." ORDER BY length asc;";
 
             $winner = mysqli_query($db, $sql3);
         }
@@ -130,7 +117,7 @@
     <div id="game-board">
     </div>
     <br><br>
-    <?php if(isset($winner)){ ?>
+    <?php if($winner){ ?>
     <div class= "tab">
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
