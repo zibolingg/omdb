@@ -1,8 +1,28 @@
-h1 {
- text-align: center;
+html, body {
+    height: 100%;
+	 background: url(images/gameboard.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-h3{
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+h1 {
+ text-align: center;
+ font-family: "Games", sans-serif;
+}
+
+h3, h4, h5{
 	text-align: center;
 }
 
@@ -17,14 +37,29 @@ h3{
   flex-direction: column;
 }
 
-.letter-box {
+.input{
   border: 2px solid gray;
   border-radius: 3px;
   margin: 2px;
   font-size: 2.5rem;
   font-weight: 700;
   height: 6rem;
+  width: 50rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.letter-box {
+  border: 2px solid grey;
+  border-radius: 3px;
+  margin: 2px;
+  font-size: 2.5rem;
+  font-weight: 700;
   width: 6rem;
+  height: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,13 +67,14 @@ h3{
 }
 
 .display-box {
-  border: 2px solid gray;
+  border: 2px solid grey;
+  background-color: lightsteelblue;
   border-radius: 3px;
-  margin: 2px;
+  margin: 2px ;
   font-size: 2.5rem;
   font-weight: 700;
-  height: 6rem;
   width: 6rem;
+  height: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,6 +83,11 @@ h3{
 
 .filled-box {
   border: 2px solid black;
+}
+
+input, input[type="text"]{
+background-color:#000;
+color: plum;
 }
 
 .letter-row {
@@ -75,11 +116,3 @@ h3{
 table {
     margin: 0 auto; /* or margin: 0 auto 0 auto */
   }
-
-body { 
-  background: url(images/gameboard.jpg) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}

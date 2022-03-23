@@ -19,19 +19,6 @@
         return $unique;
     }
 
-    if(isset($_POST['movie_id'])){
-        $basecharinput = [];
-        $movie_id = $_POST['movie_id'];
-        foreach($_POST as $k => $v) {
-            if(strpos($k, 'input') === 0) {
-                $basecharinput[] = $v;
-            }
-        }
-        $basecharinput = trim(strtolower(implode("", $basecharinput)));
-        $sql4 = "select movies.*, movie_numbers.length, movie_numbers.base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where lower(replace(movies.native_name, ' ', '')) = '".$basecharinput."';";
-        $winner = mysqli_query($db, $sql4);
-    }
-
     if(isset($_POST['addAnagram'])){
         $flag = 'guess';
         $movie_id = $_POST['addAnagram'];
@@ -72,7 +59,7 @@
                 }
             }
 
-            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." and length = $length ORDER BY length asc;";
+            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." and movies.movie_id = ".$movie_id." ORDER BY length asc;";
 
             $winner = mysqli_query($db, $sql3);
         }
@@ -86,7 +73,7 @@
             $movie_id = $row['movie_id'];
             $native_name = strtolower(str_replace(" ", "", $row['native_name']));
         }
-        $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$native_name."&language=Telugu";
+        $jsonLog = "http://indic-wp.thisisjava.com/api/getLogicalChars.php?string=".$native_name."&language=Telugu";
         $jsonfile = file_get_contents($jsonLog);
         $decodedData = json_decode(strstr($jsonfile, '{'));
         $native_nameArr = $decodedData->data;
@@ -109,6 +96,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>A Basic Composer</title>
+    <link href="http://fonts.cdnfonts.com/css/games" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="styles/mainStyleSheet.css">
@@ -122,14 +110,14 @@
 <body>
     <h1> ADD AN ANAGRAM </h1>
     <div id="clues">
-    <?php if(!isset($_POST['movie_id']) ){ echo '<h3>Native Name: '.$row['native_name'].'</h3>';}?>
+    <?php if(!isset($_POST['movie_id']) ){ echo '<h4>Native Name: '.$row['native_name'].'</h4>';}?>
     </div>
     <div id="display-board">
     </div>
     <div id="game-board">
     </div>
     <br><br>
-    <?php if(isset($winner)){ ?>
+    <?php if($winner){ ?>
     <div class= "tab">
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"

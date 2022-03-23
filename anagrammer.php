@@ -3,8 +3,14 @@
     $db = db_connect();
     $movie_id = "";
     $anagrams = [];
+    $stringding = "";
+    if(isset($_POST['anagrams'])){
+        $anagrams = [];
+        $anagrams = $_POST['anagrams'];
+    }
     $flag = "";
     $native_name = "";
+    
 
     function mb_count_chars($input) {
         $l = mb_strlen($input, 'utf8');
@@ -21,87 +27,59 @@
     if(isset($_POST['movie_id'])){
         $basecharinput = [];
         $movie_id = $_POST['movie_id'];
+        
         foreach($_POST as $k => $v) {
             if(strpos($k, 'input') === 0) {
                 $basecharinput[] = $v;
             }
         }
-        $basecharinput = trim(strtolower(implode("", $basecharinput)));
-        $sql4 = "select movies.*, movie_numbers.length, movie_numbers.base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where lower(replace(movies.native_name, ' ', '')) = '".$basecharinput."';";
-        $winner = mysqli_query($db, $sql4);
+        $basecharinput = strtolower(str_replace(" ", "", implode("", $basecharinput)));
+        $basecharJSON = $basecharinput;
+        
+        $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$basecharJSON."&language=Telugu";
+        $jsonfile = file_get_contents($jsonLog);
+        $decodedData = json_decode(strstr($jsonfile, '{'));
+        $base_charRaw = implode("", $decodedData->data);
+        $base_chars = implode(", ", $decodedData->data);
+
+        //Make API call to find length of string for length
+        $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$basecharJSON."&language=Telugu";
+        $jsonfile= file_get_contents($jsonLength);
+        $decoder = json_decode(strstr($jsonfile, '{'));
+        $length = intval($decoder->data);
+
+        if(isset($base_chars)){
+            $query_conditions = "";
+            $characters = mb_count_chars($base_charRaw);
+            $count = count($characters);
+            foreach ($characters as $key => $value){
+                if($count > 1){
+                   $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
+                    $count = $count - 1;
+                } else {
+                    $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value."";
+                }
+            }
+
+            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ORDER BY length asc;";
+            $basechar_check = mysqli_query($db, $sql3);
+            if($basechar_check->num_rows >= 1){
+                $sql4 = "select movies.*, movie_numbers.length, movie_numbers.base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where movies.movie_id = ".$movie_id." and replace(lower(movies.native_name), ' ', '') = '".$basecharinput."';";
+                $winner = mysqli_query($db, $sql4);
+            } else {
+                $winner = '';
+                $here = "we're here";
+            }
+        }
     }
 
-//    if($flag == "winner"){
-//        $sql3 = "select movies.movie_id as movie_id, movies.native_name as native_name from movies left join movie_anagrams on movies.movie_id = movie_anagrams.movie_id group by movie_id having count(movie_anagrams.movie_id) < 3 order by rand() limit 1;";
-//        $result = mysqli_query($db, $sql3);
-//        if ($result->num_rows > 0){
-//            $row = $result->fetch_assoc();
-//            $movie_id = $row['movie_id'];
-//            $native_name = $row['native_name'];
-//        }
-//        $basecharinput = [];
-//
-//        foreach($_POST as $k => $v) {
-//            if(strpos($k, 'input') === 0) {
-//                $basecharinput[] = $v;
-//            }
-//        }
-//        $basecharinput = implode("", $basecharinput);
-//
-//        $basecharJSON = strtolower(str_replace(" ", "", $basecharinput));
-//        $test = $basecharJSON;
-//
-//        //Make API call to find base_chars
-//        $jsonLog = "http://indic-wp.thisisjava.com/api/getBaseCharacters.php?string=".$basecharJSON."&language=Telugu";
-//        $jsonfile = file_get_contents($jsonLog);
-//        $decodedData = json_decode(strstr($jsonfile, '{'));
-//        $base_charRaw = implode("", $decodedData->data);
-//        $base_chars = implode(", ", $decodedData->data);
-//
-//        //Make API call to find length of string for length
-//        $jsonLength = "http://indic-wp.thisisjava.com/api/getLength.php?string=".$basecharJSON."&language=Telugu";
-//        $jsonfile= file_get_contents($jsonLength);
-//        $decoder = json_decode(strstr($jsonfile, '{'));
-//        $length = intval($decoder->data);
-//
-//
-//
-//        if(isset($base_chars)){
-//            $query_conditions = "";
-//            $characters = mb_count_chars($base_charRaw);
-//            $count = count($characters);
-//            foreach ($characters as $key => $value){
-//                if($count > 1){
-//                   $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
-//                    $count = $count - 1;
-//                } else {
-//                    $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and length = ".$length."";
-//                }
-//            }
-//
-//            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." ORDER BY length asc;";
-//
-//            $winner = mysqli_query($db, $sql3);
-//        }
-//    }
-
-    if(empty($flag)){
+    if($flag != "winner" && !isset($_POST['movie_id'])){
         $sql = "select movie_id from movies where movie_id in (select movie_id from movie_anagrams) order by rand() limit 1;";
         $result = mysqli_query($db, $sql);
         if($result->num_rows == 1){
             $row = $result->fetch_assoc();
             $movie_id = $row["movie_id"];
         }
-        $sql2 = "select anagram from movie_anagrams where movie_id = '".$movie_id."' order by rand() limit 3";
-        $result = mysqli_query($db, $sql2);
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                $anagrams[] = $row['anagram'];
-            }//end while
-        }//end if
-    } else {
-        $movie_id = $_POST['movie_id'];
         $sql2 = "select anagram from movie_anagrams where movie_id = '".$movie_id."' order by rand() limit 3";
         $result = mysqli_query($db, $sql2);
         if ($result->num_rows > 0) {
@@ -126,6 +104,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>A Basic Composer</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://fonts.cdnfonts.com/css/games" rel="stylesheet">
+                
     <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="styles/mainStyleSheet.css">
     <link rel="stylesheet" href="fonts/css/all.css">
@@ -138,13 +118,14 @@
 <body>
     <h1> ANAGRAMMER </h1>
     <div id="clues">
-    <?php if(!isset($_POST['movie_id'])){ for($i = 0; $i < count($anagrams); $i++){echo "<h3>Base Characters Clue ".($i+1).": ".$anagrams[$i]."</h3><br>";}}?>
+    <?php if($winner->num_rows != 1){echo '<h5 style="color: purple;"> Welcome! Guess the name of the movie based on the following clues:</h5><br>';} ?>
     </div>
     <div id="display-board">
     </div>
+    <br>
     <div id="game-board">
     </div>
-    <br><br>
+    <br>
     <?php if(isset($winner)){ ?>
     <div class= "tab">
         <table id="info" cellpadding="0" cellspacing="0" border="0"
@@ -164,7 +145,7 @@
               <tbody>
 
         <?php
-                if ($winner->num_rows > 0) {
+                if ($winner->num_rows == 1) {
                     $flag = "winner";
                     // output data of each row
                     $row = $winner->fetch_assoc();
@@ -178,7 +159,7 @@
                             </tr>';
                 }//end if
                 else {
-                    echo "Whoops! Please Try Again.";
+                    echo "<div style='color:red;'>Whoops! Please Try Again.</div>";
                 }//end else
         ?>
               </tbody>
@@ -222,16 +203,14 @@ crossorigin="anonymous"></script>
             row.setAttribute("name","guess"+i)
             row.setAttribute("method", "post")
             row.setAttribute("id", "anagrammer")
-            for (let j = 0; j < characterCount; j++) {
-                let box = document.createElement("input")
-                box.className = "letter-box"
-                box.setAttribute("name", "input"+j)
-                box.setAttribute("minlength", "1")
-                box.setAttribute("maxlength", "1")
-                box.setAttribute("placeholder", " ?")
-                box.setAttribute("required", "")
-                row.appendChild(box)
-            }
+            let box = document.createElement("input")
+            box.className = "input"
+            box.setAttribute("name", "input")
+            box.setAttribute("minlength", "1")
+            box.setAttribute("maxlength", "100")
+            box.setAttribute("placeholder", "Guess The Movie!")
+            box.setAttribute("required", "")
+            row.appendChild(box)
             let submit = document.createElement("button")
             submit.innerHTML = "Good Luck!"
             submit.className = "submit-button"
@@ -239,8 +218,14 @@ crossorigin="anonymous"></script>
             submit.setAttribute("form", "anagrammer")
             submit.setAttribute("name", "movie_id")
             submit.setAttribute("value", <?php echo $movie_id;?>)
+            let input = document.createElement("input")
+            input.setAttribute("type", "hidden")
+            input.setAttribute("name", "anagrams[]")
+            input.setAttribute("value", <?php echo json_encode($anagrams); ?>)
+            input.setAttribute("form", "anagrammer")
             board.appendChild(row)
             board.appendChild(submit)
+            board.appendChild(input)
         }
         <?php } else { ?>
             let board = document.getElementById("game-board")
@@ -261,7 +246,6 @@ crossorigin="anonymous"></script>
         <?php } ?>
 	}
     initBoard()
-
 
     var container = document.getElementsByClassName("letter-row")[0];
     container.onkeyup = function(e) {
