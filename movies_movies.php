@@ -16,6 +16,8 @@
       <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
 
     <button title="Create Movie"><a class="btn btn-sm" href="create_movie.php"><i class = "fa fa-plus"></i></a></button>
+    <button title="Poster Upload"><a class="btn btn-sm" href="add_movie_posters.php"><i class = "fa fa-file-image-o"></i></a></button>
+
 <br>
 <br>
 

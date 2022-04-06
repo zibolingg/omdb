@@ -25,3 +25,8 @@ images/._anagram.png
 ._modify.php
 ._add_song.php
 ._add_movie_posters.php
+._database.php
+._db_credentials.php
+._delete_media.php
+._delete_poster.php
+._movies_movies.php

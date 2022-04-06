@@ -3,19 +3,18 @@
     $nav_selected = "MOVIES";
     $left_buttons = "YES";
     $left_selected = "NO";
+    $string_delete = "";
 
      include("./nav.php");
 
-    $sql = "select movie_id, native_name from movies;";
-
     $results_per_page = 20;
-    $sql = "select * from movies";
+    $sql = "select * from movies where movie_id not in (select movie_id from movie_media) order by movie_id desc;";
     $result = mysqli_query($db, $sql);
     $number_of_result = mysqli_num_rows($result);
 
     $number_of_page = ceil($number_of_result / $results_per_page);
 
-    if (!isset ($_GET['page']) ) {
+    if (!isset ($_GET['page']) || $_GET['page'] > $number_of_page) {
         $page = 1;
     } else {
         $page = $_GET['page'];
@@ -23,7 +22,7 @@
 
     $page_first_result = ($page-1) * $results_per_page;
 
-    $sql2 = "SELECT * FROM movies LIMIT " . $page_first_result . ',' . $results_per_page;
+    $sql2 = "SELECT * FROM movies where movie_id not in (select movie_id from movie_media) order by movie_id desc LIMIT " . $page_first_result . ',' . $results_per_page;
     $result = mysqli_query($db, $sql2);
   ?>
 
@@ -32,19 +31,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 <html>
 <body >
-<?php
-    echo '<a href = "add_movie_posters.php?page=' . $page - 1 . '">Previous    </a>';
-    echo '<a href = "add_movie_posters.php?page=' . $page + 1 . '">Next</a><br>';
-    $index = 0;
-//<iframe name="hiddenFrame" class="hide"></iframe>
-?>
 
-    <form name="poster_form" action="add_movie_posters.php" method='post' id="poster_form" class="poster" enctype = "multipart/form-data">
+    <form name="poster_form" action="add_movie_posters.php" method='post' id="poster_form" class="poster" enctype = "multipart/form-data" style="position:absolute;">
+<?php
+        if($page != 1){
+            echo '<a style="position:relative; left:68em;" href = "add_movie_posters.php?page=' . $page - 1 . '">Previous    </a>';
+        } else if ($page > $number_of_page){
+            $page = 1;
+        }
+        echo '<a style="position:relative; left:68.5em;" href = "add_movie_posters.php?page=' . $page + 1 . '">Next</a><br>';
+        $index = 0;
+?>
     <div class="container">
         <?php
         $count = 0;
@@ -53,35 +56,57 @@
             echo '<span class="drop-zone__prompt">'.$row['native_name'].'</span>';
             echo '<input type="file" name = "'.$count.'" id="media" form="poster_form" class="drop-zone__input">';
             echo '<input type="hidden" name = "movie'.$count.'" value = "'.$row['movie_id'].'">';
+            echo '<input type="hidden" name = "native'.$count.'" value = "'.$row['native_name'].'">';
+            echo '<input type="hidden" name = "year'.$count.'" value = "'.$row['year_made'].'">';
             echo '</div>';
             $count++;
             
         }?>
     </div>
-        <button type="submit" class="upload-image" name="submit">Submit</button>
     </form>
 
 
 <?php
 $flag = 0;
+$movie_id = [];
+$native_name = [];
+$year_made = [];
+foreach($_POST as $k => $v) {
+    if(strpos($k, 'movie') === 0) {
+        $movie_id[] = $v;
+    }
+    if(strpos($k, 'native') === 0) {
+        $native_name[] = $v;
+    }
+    if(strpos($k, 'year') === 0) {
+        $year_made[] = $v;
+    }
+}
 for($count = 0; $count < 20; $count++){
     if (is_uploaded_file($_FILES[$count]['tmp_name'])) {
         $uploads_dir = 'posters/';
         $tmp_name = $_FILES[$count]['tmp_name'];
-        $pic_name = $_FILES[$count]['name'];
-        if(move_uploaded_file($tmp_name, $uploads_dir.$pic_name)){
-            $flag = 1;
+        $og_name = $_FILES[$count]['name'];
+        $extension = end(explode('.', $og_name));
+        echo $extension;
+        $pic_name = $native_name[$count].'_'.$year_made[$count];
+        
+        if(move_uploaded_file($tmp_name, $uploads_dir.$pic_name.'.'.$extension)){
+            $movie_id = $movie_id[$count];
+            $m_link = $pic_name;
+            $m_link_type = $extension;
+            $sql = "insert ignore into movie_media (movie_id, m_link, m_link_type, movie_media_id) values (".$movie_id.", '".$m_link."', '".$m_link_type."', $movie_id);";
+            mysqli_query($db, $sql);
         } else {
             echo "Failed to Upload Images";
         }
     }
 }
-if($flag = 1){
-    echo "Success!";
-}
+
 ?>
 
 <?php
+        
     db_disconnect($db);
 ?>
 
@@ -106,8 +131,9 @@ if($flag = 1){
   font-weight: 500;
   font-size: 20px;
   cursor: pointer;
-  color: #cccccc;
+  color: #000000;
   border: 4px solid #000000;
+  background-color: #cccccc;
   border-radius: 10px;
   margin: 5px;
 }
@@ -148,9 +174,7 @@ input {
 document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
   const dropZoneElement = inputElement.closest(".drop-zone");
                                                        $('input[type="file"]').hide();
-  dropZoneElement.addEventListener("click", (e) => {
-    inputElement.click();
-  });
+  
 
   inputElement.addEventListener("change", (e) => {
     if (inputElement.files.length) {
@@ -185,10 +209,15 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
       updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
                                    
     }
+    
+
+   // Prevent the default form submit
+   e.preventDefault();
 
     dropZoneElement.classList.remove("drop-zone--over");
   });
 });
+
 
 /**
  * Updates the thumbnail on a drop zone element.
@@ -201,6 +230,7 @@ function updateThumbnail(dropZoneElement, file) {
 
   // First time - remove the prompt
   if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+    var elem = dropZoneElement.querySelector(".drop-zone__prompt");
     dropZoneElement.querySelector(".drop-zone__prompt").remove();
   }
 
@@ -210,8 +240,13 @@ function updateThumbnail(dropZoneElement, file) {
     thumbnailElement.classList.add("drop-zone__thumb");
     dropZoneElement.appendChild(thumbnailElement);
   }
+  var movie_id = dropZoneElement.firstChild.nextElementSibling.value;
+  var native_name = dropZoneElement.firstChild.nextElementSibling.nextElementSibling.value;
+  var year_made = dropZoneElement.firstChild.nextElementSibling.nextElementSibling.nextElementSibling.value;
+  var extension = file.name.split('.').pop();
+  var file_name = native_name+"_"+year_made+"."+extension;
 
-  thumbnailElement.dataset.label = file.name;
+  thumbnailElement.dataset.label = file_name;
 
   // Show thumbnail for image files
   if (file.type.startsWith("image/")) {
@@ -221,14 +256,65 @@ function updateThumbnail(dropZoneElement, file) {
     reader.onload = () => {
       thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
     };
+      
+    const form = document.getElementById('poster_form');
+
+     // Post data using the Fetch API
+    fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+    });
+    alert('Poster Uploaded Successfully');
+    
+    var button = document.createElement('button');
+    button.innerHTML = '<i class = "fa fa-times">';
+    button.type = "button";
+    button.style.position = "absolute";
+    button.style.bottom = '0';
+    button.style.left = '5px';
+    button.style.color = 'black';
+    thumbnailElement.appendChild(button);
+   
+    button.onclick = function () {
+        deleteImage(file_name);
+        deleteMovie(movie_id);
+        thumbnailElement.style.backgroundImage = null;
+        form.reset();
+        thumbnailElement.remove();
+        dropZoneElement.appendChild(elem);
+        dropZoneElement.classList.remove("drop-zone--over");
+    };
+      e.preventDefault();
   } else {
     thumbnailElement.style.backgroundImage = null;
   }
-    
-    
 }
 
+function deleteImage(file_name, movie_id)
+{
+    var check = confirm("Are you sure you want to delete this Image?")
+    if(check == true)
+    {
+        $.ajax({
+          url: 'delete_poster.php',
+          data: {'file' : "<?php echo dirname(__FILE__) . '/posters/'?>" + file_name },
+          success: function (response) {
+             alert(file_name + ' deleted');
+              
+          },
+          error: function () {
+               alert('Could not delete image');
+          }
+        });
+    }
+}
 
+function deleteMovie(movie_id)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET","delete_media.php?movie_id="+movie_id,true);
+    xmlhttp.send();
+}
 
 </script>
 </body>
