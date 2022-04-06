@@ -40,6 +40,11 @@
 
 $sql = "SELECT * from people ORDER BY first_name ASC;";
 $result = $db->query($sql);
+                if(isset($_GET['updated'])){
+                       if($_GET['updated'] == "Success"){
+                           echo '<br><h3 style="color:orange;">Success! The person has been updated.</h3>';
+                       }
+                }
 
                 if ($result->num_rows > 0) {
                     // output data of each row
@@ -53,7 +58,7 @@ $result = $db->query($sql);
                                 <td>'.$row["gender"].'</td>
                                 <td>'.$row["image_name"].'</td>
                                 <td><a title="View Person" class="btn btn-info btn-sm" href="people_info.php?people_id='.$row["people_id"].'"><i class="fa fa-eye"></i></a>
-                                <a title="Modify Person" class="btn btn-warning btn-sm" href="modify_people.php?people_id='.$row["people_id"].'"><i class="fa fa-pencil"></i></a>
+                                <a title="Modify Person" class="btn btn-warning btn-sm" href="modify.php?people_id='.$row["people_id"].'"><i class="fa fa-pencil"></i></a>
                                 <a title="Delete Person"class="btn btn-danger btn-sm" href="delete_people.php?people_id='.$row["people_id"].'"><i class="fa fa-close"></i></a>
                                 <a title="More Info" class="btn btn-success btn-sm" href="people_more_info.php?people_id='.$row["people_id"].'"><i class="fa fa-database"></i></a>
 

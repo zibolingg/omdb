@@ -8,15 +8,20 @@
     
     $song_id = $_GET["song_id"];
     $movie_id = $_GET["movie_id"];
+    $people_id = $_GET["people_id"];
 
     $movieModify = "";
     $addSong = "";
+    $addPerson = "";
 
     if(isset($_GET["movie_id"])){
         $movieModify = "autofocus";
     }
     elseif(isset($_GET["song_id"])){
         $addSong = "autofocus";
+    }
+    elseif(isset($_GET["people_id"])){
+        $addPerson = "autofocus";
     }
   ?>
 
@@ -289,7 +294,119 @@ if(isset($_GET['song_id'])){
     </div>
 
 </form>
+<?PHP
+}
 
+if(isset($_GET['people_id'])){
+    echo '<form id="movieModify" class="addPerson" action="modifyThePeople.php" method= "POST">';
+    echo '<h1>Modify People</h1>';
+
+    $stage_name = "";
+    $first_name = "";
+    $middle_name = "";
+    $last_name = "";
+    $gender = "";
+    $image_name = "";
+    $movie_id = [];
+    $role = [];
+    $screen_name = [];
+    $people_trivia_id = [];
+    $people_trivia_name = [];
+    $song_id = [];
+    $song_role = [];
+    
+    $sql = mysqli_query($db, "SELECT * FROM people WHERE people_id = '".$people_id."'");
+    if(mysqli_num_rows($sql)>0){
+        while($row = mysqli_fetch_assoc($sql)){
+          $people_id = $row['people_id'];
+          $stage_name = $row['stage_name'];
+          $first_name = $row['first_name'];
+          $middle_name = $row['middle_name'];
+          $last_name = $row['last_name'];
+          $gender = $row['gender'];
+          $image_name = $row['image_name'];
+        }
+    }
+    
+    $sql2 = mysqli_query($db,"SELECT * FROM movie_people WHERE people_id = '".$people_id."'");
+    if(mysqli_num_rows($sql2)>0){
+      while($row = mysqli_fetch_assoc($sql2)){
+        $movie_id[] = $row['movie_id'];
+        $role[] = $row['role'];
+        $screen_name[] = $row['screen_name'];
+      }
+    }
+    
+    $sql3 = mysqli_query($db,"SELECT * FROM people_trivia WHERE people_id = '".$people_id."'");
+    if(mysqli_num_rows($sql3)>0){
+      while($row = mysqli_fetch_assoc($sql3)){
+        $people_trivia_id[] = $row['people_trivia_id'];
+        $people_trivia_name[] = $row['people_trivia_name'];
+      }
+    }
+    
+    $sql4 = mysqli_query($db,"SELECT * FROM song_people WHERE people_id = '".$people_id."'");
+    if(mysqli_num_rows($sql4)>0){
+      while($row = mysqli_fetch_assoc($sql4)){
+        $song_id[] = $row['song_id'];
+        $song_role[] = $row['role'];
+      }
+    }
+?>
+        
+    <label for="stage_name">Stage Name</label>
+    <p><input type="text" name="stage_name" class="form-control" id="stage_name" value="<?php echo $stage_name; ?>" <?php echo $addPerson; ?> ></p>
+    <label for="first_name">First Name</label>
+    <p><input type="text" name="first_name" class="form-control" id="first_name" value="<?php echo $first_name; ?>"></p>
+    <label for="middle_name">Middle Name</label>
+    <p><input type="text" name="middle_name" class="form-control" id="middle_name" value="<?php echo $middle_name; ?>"></p>
+    <label for="last_name">Last Name</label>
+    <p><input type="text" name="last_name" class="form-control" id="last_name" value="<?php echo $last_name; ?>"></p>
+    <label for="gender">Gender</label>
+    <p><input type="text" name="gender" class="form-control" id="gender" value="<?php echo $gender; ?>"></p>
+    <label for="image_name">Image Name</label>
+    <p><input type="text" name="image_name" class="form-control" id="image_name" value="<?php echo $image_name; ?>"></p>
+        
+    <input type="hidden" name="people_id" value="<?php echo $people_id; ?>">
+        
+<?php
+    if(sizeof($movie_id) > 0){
+        for($i = 0; $i < sizeof($movie_id); $i++){
+            echo '<label for="screen_name'.$i.'"> Movie #'.($i+1).': Screen Name </label>';
+            echo '<p><input id="screen_name'.$i.'" name= "screen_name_update'.$i.'" value="'.$screen_name[$i].'" class="form-control" placeholder="Modify Screen Name for '.$movie_id[$i].'" oninput="this.className = """></p>';
+            echo '<label for="role'.$i.'"> Movie #'.($i+1).': Role </label>';
+            echo '<p><input id="role'.$i.'" name= "role_update'.$i.'" value="'.$role[$i].'" class="form-control" placeholder="Modify Role for '.$movie_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="movie_id'.$i.'" value="'.$movie_id[$i].'"><br>';
+        }
+    }
+    if(sizeof($people_trivia_id) > 0){
+        for($i = 0; $i < sizeof($people_trivia_id); $i++){
+            echo '<label for="people_trivia_name'.$i.'"> People Trivia #'.($i+1).' </label>';
+            echo '<p><input id="people_trivia_name'.$i.'" name= "people_trivia_name_update'.$i.'" value="'.$people_trivia_name[$i].'" class="form-control" placeholder="Modify Keyword for '.$people_trivia_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="people_trivia_id'.$i.'" value="'.$people_trivia_id[$i].'"><br>';
+        }
+    }
+    
+    if(sizeof($song_id) > 0){
+        for($i = 0; $i < sizeof($song_id); $i++){
+            echo '<label for="song_role'.$i.'"> Song #'.($i+1).' </label>';
+            echo '<p><input id="song_role'.$i.'" name= "song_role_update'.$i.'" value="'.$song_role[$i].'" class="form-control" placeholder="Modify Song Role for '.$song_id[$i].'" oninput="this.className = """></p>';
+            echo '<input type="hidden" name="song_id'.$i.'" value="'.$song_id[$i].'"><br>';
+        }
+    }
+?>
+        
+    <div style="overflow:auto;">
+      <div  class="text-left">
+        <button type="submit" name="submit" class="btn btn-primary btn-md align-items-center">  Modify Person  </button>
+      </div>
+    </div>
+        
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+    </div>
+
+</form>
 
 
 <?php
@@ -398,3 +515,4 @@ function fixStepIndicator(n) {
 </script>
 </body>
 </html>
+
