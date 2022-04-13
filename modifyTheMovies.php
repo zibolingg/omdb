@@ -90,12 +90,22 @@ include("./nav.php");
         
         //Movie_Data Update
         if (isset($_POST['language_update']) && isset($_POST['country_update']) && isset($_POST['genre_update']) && isset($_POST['plot_update']) && isset($_POST['tag_line_update'])) {
-            $sql4 = "UPDATE movie_data SET language = '$language_update', country = '$country_update', genre = '$genre_update', plot = '$plot_update', tag_line = '$tag_line_update' WHERE movie_id = '$movie_id'";
+            
+            $sqlCheck = "select * from movie_data where movie_id = $movie_id;";
+            $flag = mysqli_query($db, $sqlCheck);
+            
+            if(mysqli_num_rows($flag) > 0){
+                $sql4 = "UPDATE movie_data SET language = '$language_update', country = '$country_update', genre = '$genre_update', plot = '$plot_update', tag_line = '$tag_line_update' WHERE movie_id = '$movie_id'";
+           } else {
+            $sql4 = "insert into movie_data (movie_id, language, country, genre, plot, tag_line) values (".$movie_id.", '".$language_update."', '".$country_update."', '".$genre_update."', '".$plot_update."', '".$tagline_update."');";
+            }
             mysqli_query($db, $sql4);
+            
         }
         
         //Movie_Numbers Update
         if(isset($_POST['box_office_update']) && isset($_POST['budget_update']) && isset($_POST['running_time_update'])){
+            
             $sql5= "UPDATE movie_numbers SET box_office = '$box_office_update', budget = '$budget_update', running_time = '$running_time_update' WHERE movie_id = '$movie_id'";
             mysqli_query($db, $sql5);
         }

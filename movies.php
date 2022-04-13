@@ -17,6 +17,7 @@
       <h3 style = "color: #01B0F1;">Movies -> Movies List</h3>
 
     <button title="Create Movie"><a class="btn btn-sm" href="create_movie.php"><i class = "fa fa-plus"></i></a></button>
+    <button title="Poster Upload"><a class="btn btn-sm" href="add_movie_posters.php"><i class = "fa fa-file-image-o"></i></a></button>
 <br>
 <br>
 
@@ -67,6 +68,7 @@
                                     <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?movie_id='.$row["movie_id"].'"><i class="fa fa-pencil"></i></a>
                                     <a title="Delete" class="btn btn-danger btn-sm" href="delete_movie.php?movie_id='.$row["movie_id"].'"><i class="fa fa-close"></i></a>
                                     <a title="Add Song" class="btn btn-success btn-sm" href="add_song.php?movie_id='.$row["movie_id"].'"><i class="fa fa-music"></i></a>
+                                    <a title="Add People" class="btn btn-info btn-sm" href="add_people.php?movie_id='.$row["movie_id"].'"><i class = "fa fa-id-badge"></i></a>
                                     <a title="Create Data" class="btn btn-default btn-sm" href="create_Data.php?movie_id='.$row["movie_id"].'"><i class="fa fa-database"></i></a></td>
 
                             </tr>';
