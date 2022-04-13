@@ -166,6 +166,8 @@ if (isset($_GET['movie_id'])) {
     }
     $result->close();
 
+if(count($song_id) > 0){
+
 foreach($song_id as $song){
     $sql_C = "SELECT people.stage_name, song_people.role from people natural join song_people natural join movie_song WHERE movie_song.song_id = ".$song." and movie_song.movie_id = ".$movie_id.";";
 
@@ -180,21 +182,7 @@ foreach($song_id as $song){
 }
     $result->close();
 
-    $sql_C2 = "SELECT * from songs natural join movie_song WHERE movie_song.movie_id =".$movie_id.";";
-
-    $result = $db->query($sql_C2);
-
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-             $song_id[] = $row["song_id"];
-             $title[] = $row["title"];
-             $lyrics[] = $row["lyrics"];
-             $theme[] = $row["theme"];
-        }
-    }
-    $result->close();
-
-
+}
     $sql_C3 = "SELECT * from movie_quotes WHERE movie_id =".$movie_id.";";
 
     $result = $db->query($sql_C3);
@@ -228,21 +216,59 @@ foreach($song_id as $song){
   <div class="cellphone-container">
       <div class="movie">
         <h1><?php echo $native_name;?></h1>
-        <div class="movie-img"><img src="posters/<?php echo $m_link[0].'.'.$m_link_type[0];?>" alt="Girl in a jacket" style="width:300px;height:300px;"></img></div>
+        <div class="movie-img">
+        <?php if(!empty(trim($m_link[0]))){ ?>
+        <img src="posters/<?php echo $m_link[0].'.'.$m_link_type[0];?>" alt="<?php echo $m_link[0];?>" style="width:300px;height:300px;"></img>
+        <?php } else { ?>
+            <img src="images/no-image.png" alt="No Image" style="width:300px;height:300px;"></img>
+        <?php } ?>
+        </div>
         <div class="text-movie-cont">
           <div class="mr-grid summary-row">
             <div class="col">
                 <br>
-                <h5>SUMMARY</h5>
+                <h5>SUMMARY:</h5>
                <ul class="movie-likes">
-                <?php if(isset($english_name)){?><li>English Name: <?php echo $english_name; ?></li><?php }?>
-                <li>Year Released: <?php echo $year_made;?></li>
-                <li>Language: <?php echo $language;?></li>
-                <li>Country: <?php echo $country;?></li>
-                <li>Genre: <?php echo $genre; ?></li>
-                <li>Running Time: <?php echo $running_time;?></li>
-                <li>Budget: $<?php echo $budget; ?></li>
-                <li>Box Office: $<?php echo $box_office;?></li>
+                <?php if(!empty(trim($english_name))){?>
+                    <li>English Name: <?php echo $english_name; ?></li>
+                <?php } else {?>
+                    <li>English Name: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($year_made))){?>
+                    <li>Year Released: <?php echo $year_made; ?></li>
+                <?php } else {?>
+                    <li>Year Released: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($language))){?>
+                    <li>Language: <?php echo $language; ?></li>
+                <?php } else {?>
+                    <li>Language: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($country))){?>
+                    <li>Country: <?php echo $country; ?></li>
+                <?php } else {?>
+                    <li>Country: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($genre))){?>
+                    <li>Genre: <?php echo $genre; ?></li>
+                <?php } else {?>
+                    <li>Genre: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($running_time))){?>
+                    <li>Run Time: <?php echo $running_time; ?></li>
+                <?php } else {?>
+                    <li>Run Time: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($budget))){?>
+                    <li>Budget: <?php echo $budget; ?></li>
+                <?php } else {?>
+                    <li>Budget: N/A</li>
+                <?php } ?>
+                <?php if(!empty(trim($box_office))){?>
+                    <li>Box Office: <?php echo $box_office; ?></li>
+                <?php } else {?>
+                    <li>Box Office: N/A</li>
+                <?php } ?>
                 <br>
               </ul>
             </div>
@@ -250,7 +276,18 @@ foreach($song_id as $song){
           <div class="mr-grid plot-row">
             <div class="col1">
             <h5>PLOT:</h5>
-              <p class="movie-description"><?php echo $plot; ?></p>
+                <ul class="movie-plot">
+                <?php if(!empty($plot)){ ?>
+                    <?php if(!empty(trim($plot))){ ?>
+                        <p class="movie-description"><?php echo $plot; ?></p>
+                    <?php } else { ?>
+                        <p class="movie-description">N/A</p>
+                    <?php } ?>
+                <?php } else {
+                    echo "<li>Plot N/A</li>";
+                }
+                ?>
+                </ul>
             </div>
           </div>
             <br>
@@ -259,9 +296,25 @@ foreach($song_id as $song){
             <h5>CAST:</h5>
               <ul class="movie-actors">
                 <?php
-                    for($i = 0; $i < count($people_id); $i++){
-                        echo "<p>".$stage_name[$i].": ".$role[$i];
-                        echo "<li style='text-indent:30px;'>Billing: ".$screen_name[$i]."</li></p>";
+                    if(empty($people_id)){
+                        echo "<li>Cast Info N/A</li>";
+                    } else {
+                        for($i = 0; $i < count($people_id); $i++){
+                            if(count($stage_name) > 0 && !empty(trim($stage_name[$i]))){
+                                echo "<p>Stage Name: ".$stage_name[$i];
+                                if(count($role) > 0 && !empty(trim($role[$i]))){
+                                    echo "<li style='text-indent:30px;'>Role: ".$role[$i]."</li>";
+                                } else {
+                                        echo "<li style='text-indent:30px;'>Role: N/A</li>";
+                                }
+                                if(count($screen_name) > 0 && !empty(trim($screen_name[$i]))){
+                                    echo "<li style='text-indent:30px;'>Billing: ".$screen_name[$i]."</li>";
+                                } else {
+                                    echo "<li style='text-indent:30px;'>Billing: N/A</li>";
+                                }
+                                echo "</p>";
+                            }
+                        }
                     }
                 ?>
               </ul>
@@ -272,13 +325,24 @@ foreach($song_id as $song){
               <br>
               <h5>SOUNDTRACK:</h5>
                 <ul class="movie-actors">
-
                   <?php
+                    if(count($song_id) > 0){
                       for($i = 0; $i < count($song_id); $i++){
-                          echo "<p>".$title[$i].": ".$song_people[$i]." - ".$song_people_role[$i];
-                          echo "<li style='text-indent:30px;'>Lyrics: ".$lyrics[$i]."</li></p>";
-                          echo "<li style='text-indent:30px;'>Theme: ".$theme[$i]."</li></p>";
+                          echo "<p>".$title[$i]." - by ".$song_people[$i].", ".$song_people_role[$i];
+                          if(count($lyrics) > 0 && !empty(trim($lyrics[$i]))){
+                              echo "<li style='text-indent:30px;'>Lyrics: ".$lyrics[$i]."</li></p>";
+                          } else {
+                              echo "<li style='text-indent:30px;'>Lyrics: N/A</li>";
+                          }
+                          if(count($theme) > 0 && !empty(trim($theme[$i]))){
+                              echo "<li style='text-indent:30px;'>Theme: ".$theme[$i]."</li></p>";
+                          } else{
+                              echo "<li style='text-indent:30px;'>Theme: N/A</li>";
+                          }
                       }
+                    } else {
+                        echo "<li>No Songs Listed</li>";
+                    }
                   ?>
                 </ul>
               </div>
