@@ -2,7 +2,7 @@
 
   $nav_selected = "PEOPLE";
   $left_buttons = "YES";
-  $left_selected = "Trivia";
+  $left_selected = "TRIVIA";
 
   include("./nav.php");
 

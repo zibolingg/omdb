@@ -185,11 +185,8 @@ a {
   font-weight: bold;
 }
 .menu-left-current-page{
-    width: 120px;
-    background-image: url('images/left_selected.png');
-    background-repeat: no-repeat;
-    background-position: 70% 50%;
-    background-size: 20%;
+    border-bottom: 1px solid #000000;
+	max-width: 60px;
 }
 #menu-left img {
   max-height: 50px;

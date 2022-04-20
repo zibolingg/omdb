@@ -1,7 +1,7 @@
 <?php
   $nav_selected = "SONGS";
   $left_buttons = "YES";
-  $left_selected = "Media";
+  $left_selected = "MEDIA";
 
   include("./nav.php");
 

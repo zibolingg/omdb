@@ -40,6 +40,11 @@
 
 $sql = "SELECT * from people ORDER BY first_name ASC;";
 $result = $db->query($sql);
+                if(isset($_GET['create'])){
+                       if($_GET["create"] == "Success"){
+                           echo '<br><h3 style="color:#01B0F1;">Success! The person has been added.</h3>';
+                       }
+                }
                 if(isset($_GET['updated'])){
                        if($_GET['updated'] == "Success"){
                            echo '<br><h3 style="color:orange;">Success! The person has been updated.</h3>';

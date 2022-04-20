@@ -23,6 +23,7 @@
                             <th>id</th>
                             <th>Song Name</th>
                             <th>Lyrics</th>
+                            <th>Theme</th>
                             <th> Actions </th>
                     </tr>
                   </thead>
@@ -35,7 +36,12 @@
     $result = $db->query($sql);
     if(isset($_GET['updated'])){
            if($_GET['updated'] == "Success"){
-               echo '<br><h3 style="color:orange;">Success! The movie has been updated.</h3>';
+               echo '<br><h3 style="color:orange;">Success! The song has been updated.</h3>';
+           }
+    }
+    if(isset($_GET['create'])){
+           if($_GET['create'] == "Success"){
+               echo '<br><h3 style="color:#01B0F1;">Success! The song has been added.</h3>';
            }
     }
 
@@ -46,6 +52,7 @@
                                     <td>'.$row["song_id"].'</td>
                                     <td>'.$row["title"].' </span> </td>
                                     <td>'.$row["lyrics"].'</td>
+                                    <td>'.$row["theme"].'</td>
                                     <td><a title="View" class="btn btn-info btn-sm" href="song_info.php?song_id='.$row["song_id"].'"><i class="fa fa-eye"></i></a>
                                         <a title="Modify" class="btn btn-warning btn-sm" href="modify.php?song_id='.$row["song_id"].'"><i class="fa fa-pencil"></i></a>
                                         <a title="Delete" class="btn btn-danger btn-sm" href="delete_song1.php?song_id='.$row["song_id"].'"><i class="fa fa-close"></i></a>

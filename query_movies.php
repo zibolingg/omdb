@@ -1,8 +1,8 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
     $nav_selected = "LIST";
-    $left_buttons = "NO";
-    $left_selected = "";
+    $left_buttons = "YES";
+    $left_selected = "SEARCH";
   
      include("./nav.php");
 
@@ -41,7 +41,7 @@
              if(mysqli_num_rows($query)>0){
                while($row = mysqli_fetch_assoc($query)){
                  $people_id = $row['people_id'];
-                 $name = $row['first_name'].' '.$row['middle_name'].''.$row['last_name'];
+                 $name = $row['first_name'].' '.$row['middle_name'].' '.$row['last_name'];
                  ?>
 
                   <option value="<?php echo $people_id; ?>"><?php echo $name; ?></option>

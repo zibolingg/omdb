@@ -68,9 +68,31 @@
   <?php
 
   $count = '1';
-      $query = mysqli_query($db,"SELECT * from songs;");
+      $query1 = mysqli_query($db,"select songs.song_id from songs left join movie_song on movie_song.song_id = songs.song_id where movie_song.movie_id = $movie_id");
+      $avoid_songs = [];
+      $attempt = '';
+    if(mysqli_num_rows($query1)>0){
+      while($row = mysqli_fetch_assoc($query1)){
+          $avoid_songs[] = $row['song_id'];
+      }
+        $attempt = "select * from songs where ";
 
+        $count = 0;
+        while ($count < count($avoid_songs)){
+            if(($count + 1) != count($avoid_songs)){
+                $attempt .= 'song_id != '.$avoid_songs[$count].' and ';
+            } else {
+                $attempt .= 'song_id != '.$avoid_songs[$count];
+            }
+            $count++;
+        }
+    } else {
+        $attempt = 'select * from songs';
+    }
 
+    
+
+    $query = mysqli_query($db, $attempt);
     if(mysqli_num_rows($query)>0){
       while($row = mysqli_fetch_assoc($query)){
 

@@ -2,7 +2,7 @@
 
   $nav_selected = "MOVIES";
   $left_buttons = "YES";
-  $left_selected = "Number";
+  $left_selected = "NUMBERS";
 
   include("./nav.php");
 

@@ -104,7 +104,19 @@ $test = '';
             <td><input type="checkbox" class="add" id="add" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" onclick="addPeople(this)"></td>
           <td><?php echo $row['people_id']; ?></td>
           <td><?php echo $row['stage_name']; ?></td>
-          <td><input type="text" class="add" id="add" name="role<?php echo $count; ?>" placeholder="Add Role"></td>
+          <td>
+              <select class="add" name="role<?php echo $count; ?>" disabled>
+                  <option value="" disabled selected>Select Role</option>
+                  <option value="Lead Actor">Lead Actor</option>
+                  <option value="Lead Actress">Lead Actress</option>
+                  <option value="Supporting Actor">Supporting Actor</option>
+                  <option value="Supporting Actress">Supporting Actress</option>
+                  <option value="Producer">Producer</option>
+                  <option value="Director">Director</option>
+                  <option value="Music Director">Music Director</option>
+                  <option value="Other">Other</option>
+              </select>
+          </td>
           <td><input type="text" class="add" id="add" name="screen_name<?php echo $count; ?>" placeholder="Add Screen Name"></td>
 
             </tr>
@@ -308,10 +320,12 @@ function addPeople(source){
     if(original.checked == true){
         original.required = true;
         next.required = true;
+        next.disabled = false;
         next2.required = true;
     } else {
         original.required = false;
         next.required = false;
+        next.disabled = true;
         next2.required = false;
     }
 }

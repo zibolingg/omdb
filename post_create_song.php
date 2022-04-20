@@ -7,10 +7,7 @@
           $a = "INSERT INTO `songs`(`title`, `lyrics`, `theme`) VALUES ('$title','$lyrics','$theme')";
           $query = mysqli_query($db,$a);
           db_disconnect($db);
-          echo ("<script LANGUAGE='JavaScript'>
-          window.alert('Succesfully Added');
-          window.location.href='create_song.php';
-          </script>");
+          header('Location: songs.php?create=Success');
 
         }
 ?>

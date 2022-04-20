@@ -1,6 +1,6 @@
 <div id="menu-left">
 
-<a href="people_people.php">
+<a href="people.php">
   	<div <?php if($left_selected == "PEOPLE")
   	{ echo 'class="menu-left-current-page"'; } ?>>
   	<img src="./images/people.png">

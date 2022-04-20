@@ -12,6 +12,7 @@ include("./nav.php");
     $s_link_update = [];
     $s_link_type_update = [];
       
+    echo $song_id;
     foreach($_POST as $k => $v) {
       if(strpos($k, 'song_trivia_name_update') === 0) {
           $song_trivia_name_update[] = $v;
@@ -34,9 +35,9 @@ include("./nav.php");
     }
 
       //Songs Update
-      if(isset($_POST['title']) && isset($_POST['lyrics']) && isset($_POST['genre'])){
+      if(isset($_POST['title'])){
           $sql = "UPDATE songs SET
-          title='$title', lyrics='$lyrics', theme='$theme' WHERE song_id='$song_id'";
+          title='$title', lyrics='$lyrics', theme='$theme' WHERE song_id=$song_id";
           mysqli_query($db , $sql);
       }
       

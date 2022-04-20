@@ -19,7 +19,7 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="styles/custom_nav.css" type="text/css">
-        <title>A Basic Composer</title>
+        <title>Online Movie Database (OMDB)</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="styles/mainStyleSheet.css">
@@ -140,18 +140,16 @@
             } elseif ($nav_selected == "PUZZLES") {
                 include("./left_menu_puzzles.php");
             }  elseif ($nav_selected == "SETUP") {
-            include("./left_menu_setup.php");
-          } elseif ($nav_selected == "ABOUT") {
-          include("./left_menu_about.php");
-        } elseif ($nav_selected == "GAMES"){
-            include("./left_menu_games.php");
-          }elseif ($nav_selected == "HELP") {
+                include("./left_menu_setup.php");
+            } elseif ($nav_selected == "ABOUT") {
+                include("./left_menu_about.php");
+            } elseif ($nav_selected == "GAMES"){
+                include("./left_menu_games.php");
+            } elseif ($nav_selected == "HELP") {
                 include("./left_menu_help.php");
-            }
-            elseif ($nav_selected == "search_data") {
-                  include("./left_search_data.php");
-              }
-             else {
+            } elseif ($nav_selected == "search_data") {
+                include("./left_search_data.php");
+            } else {
                 include("./left_menu_movies.php");
             }
 

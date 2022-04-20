@@ -1,6 +1,6 @@
 <div id="menu-left">
 
-<a href="songs_list.php">
+<a href="songs.php">
   	<div <?php if($left_selected == "SONGS")
   	{ echo 'class="menu-left-current-page"'; } ?>>
   	<img src="./images/songs.png">
@@ -29,7 +29,7 @@
   </a><br>
 
   <a href = "query_songs.php">
-    <div <?php if($left_selected == "TRIVIA")
+    <div <?php if($left_selected == "SEARCH")
     { echo 'class="menu-left-current-page"'; } ?>>
     <i class="fa fa-search"  aria-hidden="true"></i>
     <br/>Search People<br/></div>

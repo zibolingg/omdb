@@ -175,7 +175,8 @@ function fixStepIndicator(n) {
 
         $query = mysqli_query($db,"INSERT INTO `people`(`stage_name`, `first_name`, `middle_name`, `last_name`, `gender`, `image_name`)
          VALUES ('$stage_name','$first_name','$middle_name','$last_name','$gender','$image')");
-
+        db_disconnect($db);
+        header('Location: people.php?create=Success');
       }
 
 ?>

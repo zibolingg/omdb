@@ -1,3 +1,4 @@
+
 <?php
 $nav_selected = "MOVIES";
 $left_buttons = "YES";
@@ -211,24 +212,24 @@ foreach($song_id as $song){
 ?>
 
 
-
-<div class="container">
+<div class="background" id="background"></div>
+<div class="container" id="container">
   <div class="cellphone-container">
       <div class="movie">
         <h1><?php echo $native_name;?></h1>
         <div class="movie-img">
         <?php if(!empty(trim($m_link[0]))){ ?>
-        <img src="posters/<?php echo $m_link[0].'.'.$m_link_type[0];?>" alt="<?php echo $m_link[0];?>" style="width:300px;height:300px;"></img>
+        <img src="posters/<?php echo $m_link[0].'.'.$m_link_type[0];?>" alt="<?php echo $m_link[0];?>" class="movie-image" id="movie-image" onclick="if(flag == true){ enlargeImg();} else { resetImg();}" style="width:300px;height:300px;"></img>
         <?php } else { ?>
-            <img src="images/no-image.png" alt="No Image" style="width:300px;height:300px;"></img>
+            <img class="movie-image" id="movie-image" src="images/no-image.png" alt="No Image" onclick="if(flag == true){ enlargeImg();} else { resetImg();}" style="width:300px;height:300px;"></img>
         <?php } ?>
         </div>
         <div class="text-movie-cont">
           <div class="mr-grid summary-row">
             <div class="col">
                 <br>
-                <h5>SUMMARY:</h5>
-               <ul class="movie-likes">
+                <button type="button" class="collapsible">SUMMARY</button>
+               <ul class="movie-section">
                 <?php if(!empty(trim($english_name))){?>
                     <li>English Name: <?php echo $english_name; ?></li>
                 <?php } else {?>
@@ -269,14 +270,14 @@ foreach($song_id as $song){
                 <?php } else {?>
                     <li>Box Office: N/A</li>
                 <?php } ?>
-                <br>
               </ul>
             </div>
           </div>
           <div class="mr-grid plot-row">
             <div class="col1">
-            <h5>PLOT:</h5>
-                <ul class="movie-plot">
+            <br>
+            <button type="button" class="collapsible">PLOT</button>
+                <ul class="movie-section">
                 <?php if(!empty($plot)){ ?>
                     <?php if(!empty(trim($plot))){ ?>
                         <p class="movie-description"><?php echo $plot; ?></p>
@@ -293,8 +294,8 @@ foreach($song_id as $song){
             <br>
           <div class="mr-grid actors-row">
             <div class="col2">
-            <h5>CAST:</h5>
-              <ul class="movie-actors">
+            <button type="button" class="collapsible">CAST</button>
+              <ul class="movie-section">
                 <?php
                     if(empty($people_id)){
                         echo "<li>Cast Info N/A</li>";
@@ -303,14 +304,14 @@ foreach($song_id as $song){
                             if(count($stage_name) > 0 && !empty(trim($stage_name[$i]))){
                                 echo "<p>Stage Name: ".$stage_name[$i];
                                 if(count($role) > 0 && !empty(trim($role[$i]))){
-                                    echo "<li style='text-indent:30px;'>Role: ".$role[$i]."</li>";
+                                    echo "<li>Role: ".$role[$i]."</li>";
                                 } else {
-                                        echo "<li style='text-indent:30px;'>Role: N/A</li>";
+                                        echo "<li>Role: N/A</li>";
                                 }
                                 if(count($screen_name) > 0 && !empty(trim($screen_name[$i]))){
-                                    echo "<li style='text-indent:30px;'>Billing: ".$screen_name[$i]."</li>";
+                                    echo "<li>Billing: ".$screen_name[$i]."</li><br>";
                                 } else {
-                                    echo "<li style='text-indent:30px;'>Billing: N/A</li>";
+                                    echo "<li>Billing: N/A</li><br>";
                                 }
                                 echo "</p>";
                             }
@@ -320,24 +321,24 @@ foreach($song_id as $song){
               </ul>
             </div>
           </div>
-            <div class="mr-grid cast-row">
+            <div class="movie_section">
               <div class="col2">
               <br>
-              <h5>SOUNDTRACK:</h5>
-                <ul class="movie-actors">
+                <button type="button" class="collapsible">SOUNDTRACK</button>
+                <ul class="movie-section">
                   <?php
                     if(count($song_id) > 0){
                       for($i = 0; $i < count($song_id); $i++){
                           echo "<p>".$title[$i]." - by ".$song_people[$i].", ".$song_people_role[$i];
                           if(count($lyrics) > 0 && !empty(trim($lyrics[$i]))){
-                              echo "<li style='text-indent:30px;'>Lyrics: ".$lyrics[$i]."</li></p>";
+                              echo "<li>Lyrics: ".$lyrics[$i]."</li></p>";
                           } else {
-                              echo "<li style='text-indent:30px;'>Lyrics: N/A</li>";
+                              echo "<li>Lyrics: N/A</li>";
                           }
                           if(count($theme) > 0 && !empty(trim($theme[$i]))){
-                              echo "<li style='text-indent:30px;'>Theme: ".$theme[$i]."</li></p>";
+                              echo "<li>Theme: ".$theme[$i]."</li></p>";
                           } else{
-                              echo "<li style='text-indent:30px;'>Theme: N/A</li>";
+                              echo "<li>Theme: N/A</li>";
                           }
                       }
                     } else {
@@ -353,6 +354,33 @@ foreach($song_id as $song){
   </div>
 </div>
 <style>
+
+h1 {
+    color: #00A4CCFF;
+    text-shadow: 2px 2px 0px #ffed4b, 4px 4px 0px #5c5f72;
+    font: 40px 'BazarMedium';
+    letter-spacing: 10px;
+    width: 300px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.collapsible{
+    width: 300px;
+    color: #ffed4b;
+    text-shadow: 1px 1px 0px #2c2e38, 1px 1px 0px #5c5f72;
+    font: 14px 'BazarMedium';
+    letter-spacing: 10px;
+    background-color: #00A4CCFF;
+}
+
+.movie-section {
+    display: none;
+    justify-content: left;
+    min-height: 20vh;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+                                
 .container {
   display: flex;
   justify-content: center;
@@ -361,11 +389,57 @@ foreach($song_id as $song){
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 800px;
   margin: auto;
-background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+  background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
   font-family: arial;
 }
-</style>
+                              
+li {
+   max-width: 90%;
+}
 
+.movie-img {
+    border-color: #00A4CCFF;
+    border-style: outset;
+    border-width: 5px;
+}
+                              
+                              
+</style>
+                              
+<script>
+                            
+var section = document.getElementsByClassName("collapsible");
+
+for (var i = 0; i < section.length; i++) {
+    section[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+    });
+}
+                              
+img = document.getElementById("movie-image");
+body = document.getElementById("container");
+button = document.getElementsByClass('collapsible');
+var flag = true;
+function enlargeImg() {
+  img.style.transform = "scale(2.2)";
+  img.style.position = "relative";
+  img.style.top = '50px';
+  flag = false;
+}
+                              
+function resetImg() {
+  img.style.transform = "scale(1)";
+  img.style.removeProperty('position');
+  flag = true;
+}
+</script>
+                              
 <?php
     db_disconnect($db);
     include("./footer.php");

@@ -12,25 +12,16 @@
 <html>
 <h1>Add a song</h1>
 
-
-<form method="post" action="post_create_song.php">
-  <div class="form-group">
+<form method="post" action="create_song.php">
     <label for="title">Title</label>
-    <input type="text" name="title" class="form-control" id="title" placeholder="Enter Title">
-    </div>
-  <div class="form-group">
+    <p><input name= "title" placeholder="Title" ></p>
     <label for="lyrics">Lyrics</label>
-    <input type="text" name="lyrics" class="form-control" id="lyrics" placeholder="Enter Lyrics">
-  </div>
-
-  <div class="form-group">
+    <p><input name= "lyrics" placeholder="Lyrics"></p>
     <label for="theme">Theme</label>
-    <input type="text" name="theme" class="form-control" id="theme" placeholder="Enter Theme">
-  </div>
+    <p><input name= "theme" placeholder="Theme" ></p>
 
-  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" name="create_song" class="btn btn-primary">Submit</button>
 </form>
-            <hr/>
 
 
 
@@ -85,5 +76,20 @@ input.invalid {
   background-color: #4CAF50;
 }
 </style>
+<?php
+if(isset($_POST['create_song'])){
+  $title = $_POST['title'];
+  $lyrics = $_POST['lyrics'];
+  $theme = $_POST['theme'];
 
+  $query = mysqli_query($db, "select song_id from songs order by song_id desc limit 1;");
+  $row = $query->fetch_assoc();
+  $song_id = $row['song_id'] + 1;
+
+  $result = mysqli_query($db, "INSERT INTO `songs`(`song_id`, `title`, `lyrics`, `theme`) VALUES ($song_id, '$title', '$lyrics', '$theme')");
+
+  db_disconnect($db);
+  header('Location: songs.php?create=Success');
+}
+?>
 </html>
