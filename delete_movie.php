@@ -11,6 +11,14 @@
 <style>#title {text-align: center; color: darkgoldenrod;}</style>
 <?php
      $id = $_GET['movie_id'];
+    $sql10 = "SELECT m_link, m_link_type from movie_media where movie_id = '$id'";
+    $query = mysqli_query($db, $sql10);
+
+    if(mysqli_num_rows($query) > 0){
+        $row = mysqli_fetch_assoc($query);
+    }
+    $file_name = 'posters/'.$row['m_link'].'.'.$row['m_link_type'];
+    unlink($file_name);
     // Queries to delete from all tables containing movie_id as FK, then from movies
     $sql1 = "DELETE FROM movie_anagrams WHERE movie_id = '$id'";
     $sql2 = "DELETE FROM movie_numbers WHERE movie_id = '$id'";
@@ -45,7 +53,7 @@
         mysqli_query($db, $sql);
         
         db_disconnect($db);
-        header('location: movies.php?updated=Success');
+        header('location: movies.php?delete=Success');
 
         ?>
 

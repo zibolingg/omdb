@@ -54,6 +54,12 @@
                            echo '<br><h3 style="color:orange;">Success! The movie has been updated.</h3>';
                        }
                 }
+
+                if(isset($_GET['delete'])){
+                       if($_GET['delete'] == "Success"){
+                           echo '<br><h3 style="color:#FF0000;">Success! The movie has been deleted.</h3>';
+                       }
+                }
                   
 
                 if ($result->num_rows > 0) {
