@@ -84,16 +84,15 @@ foreach($_POST as $k => $v) {
 }
 for($count = 0; $count < 20; $count++){
     if (is_uploaded_file($_FILES[$count]['tmp_name'])) {
+        $movie_id = $movie_id[$count];
         $uploads_dir = 'posters/';
         $tmp_name = $_FILES[$count]['tmp_name'];
         $og_name = $_FILES[$count]['name'];
         $extension = end(explode('.', $og_name));
-        echo $extension;
+        echo $movie_id;
         $pic_name = $native_name[$count].'_'.$year_made[$count];
-        
         if(move_uploaded_file($tmp_name, $uploads_dir.$pic_name.'.'.$extension)){
-            $movie_id = $movie_id[$count];
-            $m_link = $pic_name;
+            $m_link = str_replace("'", "''", $pic_name);
             $m_link_type = $extension;
             $sql = "insert ignore into movie_media (movie_id, m_link, m_link_type, movie_media_id) values (".$movie_id.", '".$m_link."', '".$m_link_type."', $movie_id);";
             mysqli_query($db, $sql);
@@ -174,11 +173,14 @@ input {
 document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
   const dropZoneElement = inputElement.closest(".drop-zone");
                                                        $('input[type="file"]').hide();
-  
+  var count = 0;
 
   inputElement.addEventListener("change", (e) => {
     if (inputElement.files.length) {
-      updateThumbnail(dropZoneElement, inputElement.files[0]);
+        if(count == 0){
+            count++;
+            updateThumbnail(dropZoneElement, inputElement.files[0]);
+        }
     }
   });
 
@@ -205,9 +207,11 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
     e.preventDefault();
 
     if (e.dataTransfer.files.length) {
-      inputElement.files = e.dataTransfer.files;
-      updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
-                                   
+        if(count == 0){
+          count++;
+          inputElement.files = e.dataTransfer.files;
+          updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+        }
     }
     
 
@@ -216,9 +220,7 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
 
     dropZoneElement.classList.remove("drop-zone--over");
   });
-});
-
-
+                                                       
 /**
  * Updates the thumbnail on a drop zone element.
  *
@@ -227,7 +229,6 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
  */
 function updateThumbnail(dropZoneElement, file) {
   let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
-
   // First time - remove the prompt
   if (dropZoneElement.querySelector(".drop-zone__prompt")) {
     var elem = dropZoneElement.querySelector(".drop-zone__prompt");
@@ -245,7 +246,6 @@ function updateThumbnail(dropZoneElement, file) {
   var year_made = dropZoneElement.firstChild.nextElementSibling.nextElementSibling.nextElementSibling.value;
   var extension = file.name.split('.').pop();
   var file_name = native_name+"_"+year_made+"."+extension;
-
   thumbnailElement.dataset.label = file_name;
 
   // Show thumbnail for image files
@@ -265,7 +265,7 @@ function updateThumbnail(dropZoneElement, file) {
         body: new FormData(form),
     });
     alert('Poster Uploaded Successfully');
-    
+    form.reset();
     var button = document.createElement('button');
     button.innerHTML = '<i class = "fa fa-times">';
     button.type = "button";
@@ -274,7 +274,6 @@ function updateThumbnail(dropZoneElement, file) {
     button.style.left = '5px';
     button.style.color = 'black';
     thumbnailElement.appendChild(button);
-   
     button.onclick = function () {
         deleteImage(file_name);
         deleteMovie(movie_id);
@@ -283,12 +282,17 @@ function updateThumbnail(dropZoneElement, file) {
         thumbnailElement.remove();
         dropZoneElement.appendChild(elem);
         dropZoneElement.classList.remove("drop-zone--over");
+        count = 0;
     };
       e.preventDefault();
   } else {
     thumbnailElement.style.backgroundImage = null;
   }
 }
+
+});
+
+
 
 function deleteImage(file_name, movie_id)
 {
