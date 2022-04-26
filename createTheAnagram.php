@@ -36,6 +36,7 @@
         $result = mysqli_query($db, $sql5);
         $row = $result->fetch_assoc();
         $native_name = $row['native_name'];
+        $spaces = substr_count($native_name, " ");
         $length = $row['length'];
         $base_char_check = $row['base_char_check'];
 
@@ -50,16 +51,21 @@
             $query_conditions = "";
             $characters = mb_count_chars($base_charRaw);
             $count = count($characters);
+            $checkCount = count($characters);
+            $totalChars = 0;
             foreach ($characters as $key => $value){
                 if($count > 1){
                    $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value." and ";
                     $count = $count - 1;
+                    $totalChars = $totalChars + $value;
                 } else {
                     $query_conditions .= "(char_length(base_chars) - char_length(replace(base_chars, '".$key."', ''))/char_length('".$key."')) = ".$value."";
+                    $totalChars = $totalChars + $value;
                 }
             }
+            $query_conditions2 = " and length = $totalChars + $spaces";
 
-            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." and movies.movie_id = ".$movie_id." ORDER BY length asc;";
+            $sql3 = "SELECT movies.*, movie_numbers.length as length, movie_numbers.base_chars as base_chars from movies inner join movie_numbers on movies.movie_id = movie_numbers.movie_id where ".$query_conditions." and movies.movie_id = ".$movie_id." ".$query_conditions2." ORDER BY length asc;";
 
             $winner = mysqli_query($db, $sql3);
         }
@@ -109,9 +115,6 @@
 </head>
 <body>
     <h1> ADD AN ANAGRAM </h1>
-    <div id="clues">
-    <?php if(!isset($_POST['movie_id']) ){ echo '<h4>Native Name: '.$row['native_name'].'</h4>';}?>
-    </div>
     <div id="display-board">
     </div>
     <div id="game-board">
@@ -176,9 +179,16 @@ crossorigin="anonymous"></script>
         const characterCount = <?php echo count($native_nameArr); ?>;
         var passedArray = <?php echo json_encode($native_nameArr);?>;
         let display = document.getElementById("display-board")
-            
         for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
             let display_row = document.createElement("div")
+            let display_row2 = document.createElement("div")
+            display_row2.className = "display-row"
+            let display_box2 = document.createElement("div")
+            display_box2.className = "display-box"
+            display_box2.innerHTML = "<?php if(!isset($_POST['movie_id']) ){ echo $row['native_name'];}?>"
+            display_box2.style.width = "100%"
+            display_box2.style.padding = "10px"
+            display_row2.appendChild(display_box2)
             display_row.className = "display-row"
             for (let j = 0; j < characterCount; j++) {
                 let display_box = document.createElement("div")
@@ -187,6 +197,7 @@ crossorigin="anonymous"></script>
                 display_box.innerHTML = character
                 display_row.appendChild(display_box)
             }
+            display.appendChild(display_row2)
             display.appendChild(display_row)
         }
         let board = document.getElementById("game-board")
@@ -203,16 +214,14 @@ crossorigin="anonymous"></script>
             box.setAttribute("value", '<?php echo $native_check;?>')
             row.appendChild(box)
             
-            for (let j = 0; j < characterCount; j++) {
-                let box = document.createElement("input")
-                box.className = "letter-box"
-                box.setAttribute("name", "input"+j)
-                box.setAttribute("minlength", "1")
-                box.setAttribute("maxlength", "1")
-                box.setAttribute("placeholder", " ?")
-                box.setAttribute("required", "")
-                row.appendChild(box)
-            }
+            let box2 = document.createElement("input")
+            box2.className = "input"
+            box2.style.width = "400px"
+            box2.setAttribute("name", "input")
+            box2.setAttribute("minlength", "1")
+            box2.setAttribute("placeholder", "CREATE THE ANAGRAM")
+            box2.setAttribute("required", "")
+            row.appendChild(box2)
             
             let submit = document.createElement("button")
             submit.innerHTML = "Good Luck!"
@@ -246,35 +255,6 @@ crossorigin="anonymous"></script>
     initBoard()
 
 
-    var container = document.getElementsByClassName("letter-row")[0];
-    container.onkeyup = function(e) {
-        var target = e.srcElement || e.target;
-        var maxLength = parseInt(target.attributes["maxlength"].value);
-        var myLength = target.value.length;
-        if (myLength >= maxLength) {
-            var next = target;
-            while (next = next.nextElementSibling) {
-                if (next == null)
-                    break;
-                if (next.tagName.toLowerCase() === "input") {
-                    next.focus();
-                    break;
-                }
-            }
-        }
-        // Move to previous field if empty (user pressed backspace)
-        else if (myLength === 0) {
-            var previous = target;
-            while (previous = previous.previousElementSibling) {
-                if (previous == null)
-                    break;
-                if (previous.tagName.toLowerCase() === "input") {
-                    previous.focus();
-                    break;
-                }
-            }
-        }
-    }
 </script>
 <script type="text/javascript" language="javascript">
 $(document).ready( function () {

@@ -1,60 +1,84 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
-    $nav_selected = "LIST";
-    $left_buttons = "NO";
-    $left_selected = "";
-     include("./nav.php");
+    $nav_selected = "SONGS";
+    $left_buttons = "YES";
+    $left_selected = "SONGS";
 
+    include("./nav.php");
+    $song_id = '';
+    if(isset($_GET['song_id'])){
+        $song_id = $_GET['song_id'];
+    }
+$test = '';
+    if(isset($_POST['add'])){
+        $song_id = $_POST['song_id'];
+        $people_id = [];
+        $roles = [];
+        foreach($_POST as $k => $v) {
+            if(strpos($k, 'people_id') === 0) {
+                $people_id[] = $v;
+            }
+            if(strpos($k, 'role') === 0) {
+                if(!empty($v)){
+                    $roles[] = $v;
+                }
+            }
+        }
+        for($i = 0, $size = count($people_id); $i < $size; $i++){
+            
+            $sql = "insert ignore into song_people (song_id, people_id, role) values (".$song_id.", ".$people_id[$i].", '".$roles[$i]."');";
+            mysqli_query($db, $sql);
+        }
+    }
+    else if(isset($_POST['delete'])){
+        $song_id = $_POST['song_id'];
+        $people_id = [];
+        $roles = [];
+        foreach($_POST as $k => $v) {
+            if(strpos($k, 'people_id') === 0) {
+                $people_id[] = $v;
+            }
+            if(strpos($k, 'role') === 0) {
+                $roles[] = $v;
+            }
+        }
+        for($i = 0, $size = count($people_id); $i < $size; $i++){
+            $sql = "delete from song_people where song_id = ".$song_id." and people_id = ".$people_id[$i]." and role = '".$roles[$i]."';";
+            mysqli_query($db, $sql);
+        }
+    }
 
-           if(isset($_POST['checked_all'])){
-             $_SESSION['checked'] = "checked";
+    $sql = mysqli_query($db,"select people.*, song_people.* from people left join song_people on people.people_id = song_people.people_id where song_people.song_id = ".$song_id.";");
 
-           }
-           if(isset($_POST['uncheck'])){
-           unset($_SESSION['checked']);
-           }
-
-           if(isset($_POST['checked_all_delete'])){
-              $_SESSION['checked_delete'] = "checked";
-           }
-           if(isset($_POST['uncheck_delete'])){
-             unset($_SESSION['checked_delete']);
-           }
-
-
+    $sql2 = mysqli_query($db,"select title from songs where song_id = ".$song_id.";");
+    $name = mysqli_fetch_assoc($sql2);
+  
   ?>
 
 <!DOCTYPE html>
 <html>
-<h1>Modify a Song</h1>
+<div class = "container">
+<h1>Attach A Person to <?php echo $name['title'];?></h1>
 
-<h2>People of this Song</h2>
-<form method="post" action="delete_song_people.php">
+<h3>People Library</h3>
+<form name="add_person" id="add_person" class="add_person" method="post" action="songs_people_list.php">
   <table id="info" cellpadding="0" cellspacing="0" border="0"
       class="datatable table table-striped table-bordered datatable-style table-hover"
       width="100%" style="width: 100px;">
               <thead>
-      <tr id="table-first-row">
-              <th>Select</th>
-              <th scope="col">#</th>
-              <th scope="col">People Full Name</th>
-              <th scope="col">Gender</th>
-              <th scope="col">People Stage</th>
-              <th scope="col">Role</th>
+              <tr id="table-first-row">
+                <th>Select</th>
+              <th scope="col">ID</th>
+              <th scope="col">Stage Name</th>
+              <th scope="col">Add Role</th>
               </tr>
               </thead>
               <tbody>
 
-
   <?php
-  $id = $_GET['song_id'];
 
-  $count = '1';
-      $query = mysqli_query($db,"select song_people.song_people_id,people.stage_name, people.first_name, people.middle_name, people.last_name,people.gender,song_people.role
-      from song_people
-      left join people
-      on song_people.people_id =people.people_id
-      where song_people.song_id = ".$id);
+  $count = 1;
+      $query = mysqli_query($db,"SELECT * from people;");
 
 
     if(mysqli_num_rows($query)>0){
@@ -65,16 +89,20 @@
 
 
             <tr>
-            <td><input type="checkbox" name="song_people_id<?php echo $count; ?>" value="<?php echo $row['song_people_id']; ?>"
-              <?php if(!empty($_SESSION['checked_delete'])){ ?>
-                checked="checked"
-              <?php }?>
-              ></td>
-            <th scope="row"><?php echo $count; ?></th>
-            <td><?php echo $row['first_name'].' '.$row['middle_name'].' '.$row['last_name']; ?></td>
-            <td><?php echo $row['gender'] ?></td>
-            <td><?php echo $row['stage_name'] ?></td>
-            <td><?php echo $row['role']; ?></td>
+            <td><input type="checkbox" class="add" id="add" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" onclick="addPeople(this)"></td>
+          <td><?php echo $row['people_id']; ?></td>
+          <td><?php echo $row['stage_name']; ?></td>
+          <td>
+              <select class="add" name="role<?php echo $count; ?>" disabled>
+                  <option value="" disabled selected>Select Role</option>
+                  <option value="Composer">Composer</option>
+                  <option value="Songwriter">Songwriter</option>
+                  <option value="Producer">Producer</option>
+                  <option value="Performer">Performer</option>
+                  <option value="Lyricist">Lyricist</option>
+                  <option value="Other">Other</option>
+              </select>
+          </td>
 
             </tr>
 
@@ -86,94 +114,66 @@
 
             </tbody>
             </table>
-            <input type="hidden" name="song_id" value="<?php echo $_GET['song_id'] ; ?>" />
-                <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
-            <button type="submit" style="margin-left:500px;">Delete</button>
+            <input type="hidden" name="song_id" value="<?php echo $song_id; ?>" />
+            <input type="checkbox" name="add" id='addFinal' value="add" style="display:none;" required>
             </form>
-            <form method="post">
-              <button type="submit" name="uncheck_delete">Uncheck all</button>
-              <button type="submit" name="checked_all_delete">Check all</button>
+            
+              <button type="button" name="check" id="check" onClick="selectAll()">Check/Uncheck All</button>
+              <button form="add_person" type="submit" style="margin-left:0px;" onclick="return checkAdd()">Add</button>
+        </form>
+
+<?php
+if(mysqli_num_rows($sql)>0){
+    $count = '1';
+?>
+    <br><br><br><br>
+    <h3>People for <?php echo $name['title'];?></h3>
+    <form name="delete_person" id="delete_person" method="post" action="songs_people_list.php">
+      <table id="info1" cellpadding="0" cellspacing="0" border="0"
+          class="datatable table table-striped table-bordered datatable-style table-hover"
+          width="100%" style="width: 100px;">
+                  <thead>
+                  <tr id="table-first-row">
+                    <th>Select</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Role</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+    <?php
+        while($row = mysqli_fetch_assoc($sql)){
+    ?>
+            <tr>
+            <td><input type="checkbox" class="delete" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" >
+            <input type="hidden" name="role<?php echo $count;?>" value="<?php echo $row['role']; ?>">
+            <input type="hidden" name="test" value="test"></td>
+            <td><?php echo $row['people_id']; ?></td>
+            <td><?php echo $row['stage_name']; ?></td>
+            <td><?php echo $row['role']; ?></td>
+
+            </tr>
+            
+            
+    <?php
+    $count++;
+        }
+    ?>
+            </tbody>
+            </table>
+            <input type="hidden" name="song_id" value="<?php echo $song_id; ?>" />
+            <input type="checkbox" name="delete" id='deleteFinal' value="delete" style="display:none;" required>
             </form>
 
+              <button type="button" name="check" id="check" onClick="deleteAll()">Check/Uncheck All</button>
+              <button form="delete_person" type="submit" style="margin-left:0px;" onclick="return checkDelete()">Delete</button>
+            </form>
+    
+<?php
+    }
+?>
 
-
-            <hr/>
-            <h2>Other Peoples</h2>
-            <form method="post" action="song_people_list_post.php">
-              <table id="info1" cellpadding="0" cellspacing="0" border="0"
-                  class="datatable table table-striped table-bordered datatable-style table-hover"
-                  width="100%" style="width: 100px;">
-                          <thead>
-                      <tr id="table-first-row">
-                            <th>Select</th>
-                          <th scope="col">#</th>
-                          <th scope="col">Stage Name</th>
-                          <th scope="col">First Name</th>
-                          <th scope="col">Middle Name</th>
-                          <th scope="col">Last Name</th>
-                          <th scope="col">Gender</th>
-
-                          </tr>
-                          </thead>
-                          <tbody>
-
-
-              <?php
-              $id = $_GET['song_id'];
-              $count = '1';
-
-              $query = mysqli_query($db,"Select * from people");
-              $num = mysqli_num_rows($query);
-              if($num>0){
-                while($row = mysqli_fetch_assoc($query))
-                {
-                  $people_id = $row['people_id'];
-                  $stage_name = $row['stage_name'];
-                  $first_name = $row['first_name'];
-                  $middle_name = $row['middle_name'];
-                  $last_name = $row['last_name'];
-                  $gender = $row['gender'];
-
-              ?>
-
-
-                        <tr>
-
-                        <td><input type="checkbox" name="people_id<?php echo $count; ?>" value="<?php echo $people_id; ?>"
-                          <?php if(!empty($_SESSION['checked'])){?>
-                          checked
-                        <?php } ?>
-                          ></td>
-                        <th scope="row"><?php echo $count; ?></th>
-                        <td><?php echo $stage_name; ?></td>
-                        <td><?php echo $first_name; ?></td>
-                        <td><?php echo $middle_name; ?></td>
-                        <td><?php echo $last_name; ?></td>
-                        <td><?php echo $gender; ?></td>
-                      </tr>
-                        <?php
-                        $count++;
-                      }
-                      }
-                        ?>
-                      </tbody>
-                      </table>
-                        <input type="hidden" name="song_id" value="<?php echo $_GET['song_id']; ?>" />
-                        <input type="hidden" name="total_elements" value="<?php echo $count; ?>">
-
-
-
-                        <div style="margin-left:200px;">
-                          <button type="submit" name="music_director">Music Director</button>
-                          <button type="submit" name="lyricist">Lyricist</button>
-                          <button type="submit" name="singer">Singer</button>
-                        </div>
-                          </form>
-                          <form method="post">
-                            <button type="submit" name="uncheck">Uncheck all</button>
-                            <button type="submit" name="checked_all">Check all</button>
-                          </form>
-
+<div>
 <style type="text/css">
 #movieModify {
   background-color: #ffffff;
@@ -187,8 +187,7 @@
 input {
   padding: 10px;
   width: 100%;
-  font-size: 17px;
-  font-family: Raleway;
+  font-size = 3px;
   border: 1px solid #aaaaaa;
 }
 
@@ -225,7 +224,6 @@ input.invalid {
   background-color: #4CAF50;
 }
 </style>
-
 <script type="text/javascript" language="javascript">
   $(document).ready(function() {
 
@@ -239,8 +237,9 @@ input.invalid {
     $('#info thead tr').clone(true).appendTo('#info thead');
     $('#info thead tr:eq(1) th').each(function(i) {
       var title = $(this).text();
-      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-
+      if(title != 'Select'){
+      $(this).html('<input type="text" placeholder="Search" />');
+}
       $('input', this).on('keyup change', function() {
         if (table.column(i).search() !== this.value) {
           table
@@ -260,6 +259,7 @@ input.invalid {
   });
 </script>
 
+
 <script type="text/javascript" language="javascript">
   $(document).ready(function() {
 
@@ -273,8 +273,9 @@ input.invalid {
     $('#info1 thead tr').clone(true).appendTo('#info1 thead');
     $('#info1 thead tr:eq(1) th').each(function(i) {
       var title = $(this).text();
+    if(title != 'Select'){
       $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-
+    }
       $('input', this).on('keyup change', function() {
         if (table.column(i).search() !== this.value) {
           table
@@ -293,10 +294,112 @@ input.invalid {
 
   });
 </script>
+<script>
+function addPeople(source){
+    var original = document.getElementsByName(source.name)[0];
+    var next = document.getElementsByName(source.name)[0].parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.children[0];
+    if(original.checked == true){
+        original.required = true;
+        next.required = true;
+        next.disabled = false;
+    } else {
+        original.required = false;
+        next.required = false;
+        next.disabled = true;
+    }
+}
 
+var delCount = 0;
+function checkDelete(){
+    var finalDelCheck = document.getElementById('deleteFinal');
+    var items = document.querySelectorAll('input[type=checkbox]');
+    for (var i = 0; i < items.length; i++) {
+        if(items[i].classList.contains('delete')){
+            if(items[i].checked == true){
+                delCount++;
+            }
+        }
+    }
+    if(delCount > 0){
+        finalDelCheck.checked = true;
+        delCount = 0;
+        return true;
+    } else {
+        alert('Must Select Person to Delete from Movie');
+        delCount = 0;
+        return false;
+    }
+}
 
+var addCount = 0;
+function checkAdd(){
+    var finalAddCheck = document.getElementById('addFinal');
+    var items = document.querySelectorAll('input[type=checkbox]');
+    for (var i = 0; i < items.length; i++) {
+        if(items[i].classList.contains('add')){
+            if(items[i].checked == true){
+                addCount++;
+            }
+        }
+    }
+    if(addCount > 0){
+        finalAddCheck.checked = true;
+        addCount = 0;
+        return true;
+    } else {
+        alert('Must Select Person to Add');
+        addCount = 0;
+        return false;
+    }
+}
 
+var flag = false;
+function selectAll() {
+    var items = document.querySelectorAll('input[type=checkbox]');
+    for (var i = 0; i < items.length; i++) {
+        if(flag == false){
+            if(items[i].classList.contains('add')){
+                items[i].checked = true;
+                addPeople(items[i]);
+            }
+        } else {
+            if(items[i].classList.contains('add')){
+                items[i].checked = false;
+                addPeople(items[i]);
+            }
+        }
+    }
+    if(flag == false){
+        flag = true;
+    } else {
+        flag = false;
+    }
+}
+
+var delflag = false;
+function deleteAll() {
+    var elements = document.querySelectorAll('input[type=checkbox]')
+    for (var i = 0; i < elements.length; i++) {
+        if(delflag == false){
+            if(elements[i].classList.contains('delete')){
+            elements[i].checked = true;
+                }
+        } else {
+            if(elements[i].classList.contains('delete')){
+            elements[i].checked = false;
+                }
+        }
+    }
+    if(delflag == false){
+        delflag = true;
+    } else {
+        delflag = false;
+    }
+}
+
+</script>
 <?php
-    db_disconnect($db);
-    include("./footer.php");
+db_disconnect($db);
+include("./footer.php");
 ?>
+

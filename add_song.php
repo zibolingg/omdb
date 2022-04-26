@@ -1,8 +1,8 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
     $nav_selected = "LIST";
-    $left_buttons = "NO";
-    $left_selected = "";
+    $left_buttons = "YES";
+    $left_selected = "MOVIES";
 
     include("./nav.php");
     $movie_id = '';
@@ -48,7 +48,61 @@
 <html>
 <div class = "container">
 <h1>Attach A Song to <?php echo $name['native_name'];?></h1>
+<?php
+if(mysqli_num_rows($sql)>0){
+    $count = '1';
+?>
+    <br><br><br><br>
+    <h3>Songs for <?php echo $name['native_name'];?></h3>
+    <form name="delete_song" id="delete_song" method="post" action="add_song.php">
+      <table id="info1" cellpadding="0" cellspacing="0" border="0"
+          class="datatable table table-striped table-bordered datatable-style table-hover"
+          width="100%" style="width: 100px;">
+                  <thead>
+                  <tr id="table-first-row">
+                    <th>Select</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Lyrics</th>
+                  <th scope="col">Theme</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+    <?php
+        while($row = mysqli_fetch_assoc($sql)){
+    ?>
+            <tr>
+            <td><input type="checkbox" class="delete" name="song_id<?php echo $count; ?>" value="<?php echo $row['song_id']; ?>"></td>
+            <td><?php echo $row['song_id']; ?></td>
+            <td><?php echo $row['title']; ?></td>
+            <td><?php echo $row['lyrics']; ?></td>
+            <td><?php echo $row['theme']; ?></td>
 
+            </tr>
+            
+            
+    <?php
+    $count++;
+        }
+    ?>
+            </tbody>
+            </table>
+            <input type="hidden" name="movie_id" value="<?php echo $movie_id; ?>" />
+            <input type="checkbox" name="delete" id="deleteFinal" value="delete" style="display:none;" required>
+            </form>
+
+              <button type="button" name="check" id="check" onClick="deleteAll()">Check/Uncheck All</button>
+              <button form="delete_song" type="submit" style="margin-left:0px;" onclick="return checkDelete()">Delete</button>
+            </form>
+    
+<?php
+    }
+if(mysqli_num_rows($sql)>0){
+?>
+<br><br><br><br>
+<?php } else {?>
+<br>
+<?php } ?>
 <h3>Song Library</h3>
 <form name="add_song" id="add_song" class="add_song" method="post" action="add_song.php">
   <table id="info" cellpadding="0" cellspacing="0" border="0"
@@ -124,57 +178,6 @@
               <button type="button" name="check" id="check" onClick="selectAll()">Check/Uncheck All</button>
               <button form="add_song" type="submit" style="margin-left:0px;" onclick="return checkAdd()">Add</button>
         </form>
-
-<?php
-if(mysqli_num_rows($sql)>0){
-    $count = '1';
-?>
-    <br><br><br><br>
-    <h3>Songs for <?php echo $name['native_name'];?></h3>
-    <form name="delete_song" id="delete_song" method="post" action="add_song.php">
-      <table id="info1" cellpadding="0" cellspacing="0" border="0"
-          class="datatable table table-striped table-bordered datatable-style table-hover"
-          width="100%" style="width: 100px;">
-                  <thead>
-                  <tr id="table-first-row">
-                    <th>Select</th>
-                  <th scope="col">ID</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Lyrics</th>
-                  <th scope="col">Theme</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-    <?php
-        while($row = mysqli_fetch_assoc($sql)){
-    ?>
-            <tr>
-            <td><input type="checkbox" class="delete" name="song_id<?php echo $count; ?>" value="<?php echo $row['song_id']; ?>"></td>
-            <td><?php echo $row['song_id']; ?></td>
-            <td><?php echo $row['title']; ?></td>
-            <td><?php echo $row['lyrics']; ?></td>
-            <td><?php echo $row['theme']; ?></td>
-
-            </tr>
-            
-            
-    <?php
-    $count++;
-        }
-    ?>
-            </tbody>
-            </table>
-            <input type="hidden" name="movie_id" value="<?php echo $movie_id; ?>" />
-            <input type="checkbox" name="delete" id="deleteFinal" value="delete" style="display:none;" required>
-            </form>
-
-              <button type="button" name="check" id="check" onClick="deleteAll()">Check/Uncheck All</button>
-              <button form="delete_song" type="submit" style="margin-left:0px;" onclick="return checkDelete()">Delete</button>
-            </form>
-    
-<?php
-    }
-?>
 
 <div>
 <style type="text/css">

@@ -23,6 +23,7 @@ table.center {
 </head>
 
 <body>
+<div class = "container">
 <h2 style = "color: #01B0F1;">Welcome to OMDB </h3>
 
 
@@ -73,7 +74,7 @@ table.center {
             <!-- <h3>Number of movies are : <?php //echo $movies_count;?></h3>
             <h3>Number of Songs are : <?php //echo $songs_count;?></h3>
             <h3>Number of People are : <?php //echo $people_count;?></h3> -->
-
+</div>
             <script type="text/javascript" language="javascript">
               $(document).ready(function() {
 

@@ -208,7 +208,7 @@ crossorigin="anonymous"></script>
             box.setAttribute("name", "input")
             box.setAttribute("minlength", "1")
             box.setAttribute("maxlength", "100")
-            box.setAttribute("placeholder", "Guess The Movie!")
+            box.setAttribute("placeholder", "Guess The Movie")
             box.setAttribute("required", "")
             row.appendChild(box)
             let submit = document.createElement("button")

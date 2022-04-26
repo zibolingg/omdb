@@ -210,7 +210,9 @@ foreach($song_id as $song){
     }
     $result->close();
 ?>
-
+<script>
+var flag = true;
+</script>
 
 <div class="background" id="background"></div>
 <div class="container" id="container">
@@ -221,7 +223,7 @@ foreach($song_id as $song){
         <?php if(!empty(trim($m_link[0]))){ ?>
         <img src="posters/<?php echo $m_link[0].'.'.$m_link_type[0];?>" alt="<?php echo $m_link[0];?>" class="movie-image" id="movie-image" onclick="if(flag == true){ enlargeImg();} else { resetImg();}" style="width:300px;height:300px;"></img>
         <?php } else { ?>
-            <img class="movie-image" id="movie-image" src="images/no-image.png" alt="No Image" onclick="if(flag == true){ enlargeImg();} else { resetImg();}" style="width:300px;height:300px;"></img>
+            <img class="movie-image" id="movie-image" src="images/no-image.png" alt="No Image" style="width:300px;height:300px;"></img>
         <?php } ?>
         </div>
         <div class="text-movie-cont">
@@ -366,7 +368,7 @@ h1 {
 }
 
 .collapsible{
-    width: 300px;
+    width: 100%;
     color: #ffed4b;
     text-shadow: 1px 1px 0px #2c2e38, 1px 1px 0px #5c5f72;
     font: 14px 'BazarMedium';
@@ -375,7 +377,7 @@ h1 {
 }
 
 .movie-section {
-    display: none;
+    display: block;
     justify-content: left;
     min-height: 20vh;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -414,10 +416,10 @@ for (var i = 0; i < section.length; i++) {
     section[i].addEventListener("click", function() {
         this.classList.toggle("active");
         var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-          content.style.display = "none";
-        } else {
+        if (content.style.display === "none") {
           content.style.display = "block";
+        } else {
+          content.style.display = "none";
         }
     });
 }
@@ -425,7 +427,6 @@ for (var i = 0; i < section.length; i++) {
 img = document.getElementById("movie-image");
 body = document.getElementById("container");
 button = document.getElementsByClass('collapsible');
-var flag = true;
 function enlargeImg() {
   img.style.transform = "scale(2.2)";
   img.style.position = "relative";

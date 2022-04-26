@@ -1,8 +1,8 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
     $nav_selected = "LIST";
-    $left_buttons = "NO";
-    $left_selected = "";
+    $left_buttons = "YES";
+    $left_selected = "MOVIE";
 
     include("./nav.php");
     $movie_id = '';
@@ -316,17 +316,14 @@ input.invalid {
 function addPeople(source){
     var original = document.getElementsByName(source.name)[0];
     var next = document.getElementsByName(source.name)[0].parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.children[0];
-    var next2 = next.parentElement.nextSibling.nextSibling.children[0];
     if(original.checked == true){
         original.required = true;
         next.required = true;
         next.disabled = false;
-        next2.required = true;
     } else {
         original.required = false;
         next.required = false;
         next.disabled = true;
-        next2.required = false;
     }
 }
 
