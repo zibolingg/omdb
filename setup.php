@@ -5,6 +5,17 @@
 
   include("./nav.php");
 
+  $query = mysqli_query($db,"select movie_id from movies order by movie_id desc limit 1;");
+  $row = mysqli_fetch_row($query);
+  $m_id = $row[0] + 1;
+  $people_query = mysqli_query($db,"select people_id from people order by people_id desc limit 1");
+  $people_row = mysqli_fetch_row($people_query);
+  $p_id = $people_row[0] + 1;
+  $song_query = mysqli_query($db,"select song_id from songs order by song_id desc limit 1");
+  $song_row = mysqli_fetch_row($song_query);
+  $s_id = $song_row[0] + 1;
+  
+
  ?>
 
  <div class="right-content">
@@ -21,7 +32,10 @@
         </select>
         <br>
 
+
+
       <label>Upload CSV file Here</label>
+
       <p><i><b>Note :</b> CSV file must have 3 columns -<br>
       1 - Native name<br>
       2 - English Name<br>
@@ -76,15 +90,15 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
             if(!empty($data[$i][3])){$data4 = $data[$i][3];}
             if(!empty($data[$i][4])){$data5 = $data[$i][4];}
             if($table_name=="movies"){
-                $query = mysqli_query($db,"INSERT INTO movies (native_name, english_name, year_made)
-                select '$data1','$data2','$data3'
+                $query = mysqli_query($db,"INSERT INTO movies (movie_id, native_name, english_name, year_made)
+                select '$m_id', '$data1','$data2','$data3'
                 WHERE NOT EXISTS (
                     SELECT 1
                     FROM movies
                     WHERE native_name = '$data1' AND year_made = '$data3'
                 )
                 ");
-                
+                $m_id = $m_id + 1;
                 if($query){
                     $native_update = $data1;
                     $nativeJSON = strtolower(str_replace(" ", "", $native_update));
@@ -113,12 +127,14 @@ if( 'text/csv' == $file['type'] ||  'application/vnd.ms-excel' == $file['type'] 
           }
           elseif ($table_name=="people") {
             $image_name = "image file name";
-            $query = mysqli_query($db,"INSERT INTO people (stage_name, first_name, middle_name, last_name, gender, image_name)
-            VALUES ('$data1','$data2','$data3','$data4','$data5','$image_name')");
+            $query = mysqli_query($db,"INSERT INTO people (people_id, stage_name, first_name, middle_name, last_name, gender, image_name)
+            VALUES ('$p_id', '$data1','$data2','$data3','$data4','$data5','$image_name')");
+              $p_id = $p_id + 1;
           }
           else{
-            $query = mysqli_query($db,"INSERT INTO `songs`(`title`, `lyrics`, `theme`)
-             VALUES ('$data1','$data2','$data3')");
+            $query = mysqli_query($db,"INSERT INTO songs (song_id, title, lyrics, theme)
+             VALUES ('$s_id', '$data1','$data2','$data3')");
+              $s_id = $s_id + 1;
           }
 
           }

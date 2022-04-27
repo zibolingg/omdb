@@ -50,6 +50,11 @@ $result = $db->query($sql);
                            echo '<br><h3 style="color:orange;">Success! The person has been updated.</h3>';
                        }
                 }
+                if(isset($_GET['delete'])){
+                       if($_GET['delete'] == "Success"){
+                           echo '<br><h3 style="color:#FF0000;">Success! The person has been deleted.</h3>';
+                       }
+                }
 
                 if ($result->num_rows > 0) {
                     // output data of each row

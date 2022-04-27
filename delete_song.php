@@ -9,6 +9,12 @@
       $id = $_POST['song_id'.$i.''];
       $query = "delete from movie_song where id='$id'";
       $result = mysqli_query($db,$query);
+      $query = "delete from song_people where id='$id'";
+      $result = mysqli_query($db,$query);
+      $query = "delete from movie_song where id='$id'";
+      $result = mysqli_query($db,$query);
+      $query = "delete from songs where id='$id'";
+      $result = mysqli_query($db,$query);
     }
     else{
       // break;

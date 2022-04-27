@@ -5,14 +5,15 @@
     $left_selected = "";
 
      include("./nav.php");
+
   ?>
 
 <!DOCTYPE html>
 <html>
+<div class = "container">
 <form method= "post">
 <h1>Create new People</h1>
 <div class="tab">
-
   <p><input name= "stage_name" placeholder="Stage Name" ></p>
   <p><input name= "first_name" placeholder="First Name"></p>
   <p><input name= "middle_name" placeholder="Middle Name" ></p>
@@ -23,7 +24,6 @@
     <option value="female">Female</option>
   </select>
   </p>
-
 </div>
 <div style="overflow:auto;">
  <div class="text-left">
@@ -36,6 +36,7 @@
 </div>
 
 </form>
+</div>
 <style type="text/css">
 #movieModify {
   background-color: #ffffff;
@@ -166,6 +167,9 @@ function fixStepIndicator(n) {
 </html>
 <?php
       if(isset($_POST['create_people'])){
+        $people_query = mysqli_query($db,"select people_id from people order by people_id desc limit 1");
+        $people_row = mysqli_fetch_row($people_query);
+        $p_id = $people_row[0] + 1;
         $stage_name = $_POST['stage_name'];
         $first_name = $_POST['first_name'];
         $middle_name = $_POST['middle_name'];
@@ -173,8 +177,8 @@ function fixStepIndicator(n) {
         $gender = $_POST['gender'];
         $image = "image file name";
 
-        $query = mysqli_query($db,"INSERT INTO `people`(`stage_name`, `first_name`, `middle_name`, `last_name`, `gender`, `image_name`)
-         VALUES ('$stage_name','$first_name','$middle_name','$last_name','$gender','$image')");
+        $query = mysqli_query($db,"INSERT INTO people (people_id, stage_name, first_name, middle_name, last_name, gender, image_name)
+         VALUES ('$p_id', '$stage_name','$first_name','$middle_name','$last_name','$gender','$image')");
         db_disconnect($db);
         header('Location: people.php?create=Success');
       }

@@ -5,10 +5,7 @@
     $query = mysqli_query($db,"DELETE FROM `people` WHERE people_id = '$id'");
     if($query){
       db_disconnect($db);
-      echo ("<script LANGUAGE='JavaScript'>
-          window.alert('Data Deleted Succesfully');
-          window.location.href='people.php';
-          </script>");
+      header('location: people.php?delete=Success');
     }
   }
   db_disconnect($db);

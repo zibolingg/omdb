@@ -12,9 +12,9 @@
 <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Movies -> Movies List with extended data</h3>
+      <h3 style = "color: #01B0F1;">Movies -> Movies Data </h3>
 
-        <h3><img src="images/movies.png" style="max-height: 35px;" />Movies List with extended data</h3>
+        <img src="images/movies.png" style="max-height: 35px;" />
 
         <table id="info" cellpadding="0" cellspacing="0" border="0"
             class="datatable table table-striped table-bordered datatable-style table-hover"
@@ -22,6 +22,7 @@
               <thead>
                 <tr id="table-first-row">
                         <th>id</th>
+                        <th>Native Name</th>
                         <th>Language</th>
                         <th>Country</th>
                         <th>Genre</th>
@@ -44,7 +45,7 @@
 
               <?php
 
-$sql = "SELECT * FROM `movie_data`";
+$sql = "SELECT movie_data.*, movies.native_name FROM movie_data left join movies on movie_data.movie_id = movies.movie_id";
 
 // TODO: The above SQL statement becomes a  JOIN between movies and movie_data
 // If there is no corresponding movie_data, then show those as blanks
@@ -58,6 +59,7 @@ $result = $db->query($sql);
                     while($row = $result->fetch_assoc()) {
                         echo '<tr>
                                 <td>'.$row["movie_id"].'</td>
+                                <td>'.$row["native_name"].'</td>
                                 <td>'.$row["language"].'</td>
                                 <td>'.$row["country"].'</td>
                                 <td>'.$row["genre"].'</td>
@@ -74,7 +76,8 @@ $result = $db->query($sql);
 
               </tbody>
         </table>
-
+</div>
+</div>
 
         <script type="text/javascript" language="javascript">
     $(document).ready( function () {

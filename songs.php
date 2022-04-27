@@ -10,7 +10,7 @@
  <div class="right-content">
     <div class="container">
 
-      <h3 style = "color: #01B0F1;">Scanner --> Releases</h3>
+      <h3 style = "color: #01B0F1;">Songs --> Songs List</h3>
      <button title="Create Song"><a class="btn btn-sm" href="create_song.php"><i class = "fa fa-plus"></i></a></button><br>
 
     <br>
@@ -42,6 +42,11 @@
     if(isset($_GET['create'])){
            if($_GET['create'] == "Success"){
                echo '<br><h3 style="color:#01B0F1;">Success! The song has been added.</h3>';
+           }
+    }
+    if(isset($_GET['delete'])){
+           if($_GET['delete'] == "Success"){
+               echo '<br><h3 style="color:#FF0000;">Success! The song has been deleted.</h3>';
            }
     }
 

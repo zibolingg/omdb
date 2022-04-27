@@ -264,7 +264,7 @@ function updateThumbnail(dropZoneElement, file) {
         method: form.method,
         body: new FormData(form),
     });
-    alert('Poster Uploaded Successfully');
+    
     form.reset();
     var button = document.createElement('button');
     button.innerHTML = '<i class = "fa fa-times">';
@@ -303,7 +303,7 @@ function deleteImage(file_name, movie_id)
           url: 'delete_poster.php',
           data: {'file' : "<?php echo dirname(__FILE__) . '/posters/'?>" + file_name },
           success: function (response) {
-             alert(file_name + ' deleted');
+             
               
           },
           error: function () {
