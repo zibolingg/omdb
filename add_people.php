@@ -54,7 +54,6 @@ $test = '';
         }
         for($i = 0, $size = count($people_id); $i < $size; $i++){
             $sql = "delete from movie_people where movie_id = ".$movie_id." and people_id = ".$people_id[$i]." and role = '".$roles[$i]."' and screen_name = '".$screen_name[$i]."';";
-            $test[] = $sql;
             mysqli_query($db, $sql);
         }
     }
