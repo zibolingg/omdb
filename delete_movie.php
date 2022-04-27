@@ -53,7 +53,7 @@
         mysqli_query($db, $sql);
         
         db_disconnect($db);
-        header('location: movies.php?delete=Success');
+        header('Location: movies.php?delete=Success');
 
         ?>
 

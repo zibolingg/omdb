@@ -22,7 +22,6 @@ $test = '';
             if(strpos($k, 'screen_name') === 0) {
                 if(!empty($v)){
                     $screen_name[] = $v;
-                    $count++;
                 }
             }
             if(strpos($k, 'role') === 0) {
@@ -31,9 +30,9 @@ $test = '';
                 }
             }
         }
-        for($i = 0, $size = count($people_id); $i < $size; $i++){
-            
-            $sql = "insert ignore into movie_people (movie_id, people_id, role, screen_name) values (".$movie_id.", ".$people_id[$i].", '".$roles[$i]."', '".$screen_name[$i]."');";
+        for($i = 0, $size = count($roles); $i < $size; $i++){
+            $sc = mysqli_real_escape_string($db, $screen_name[$i]);
+            $sql = "insert ignore into movie_people (movie_id, people_id, role, screen_name) values (".$movie_id.", ".$people_id[$i].", '".$roles[$i]."', '".$sc."');";
             mysqli_query($db, $sql);
         }
     }
@@ -54,7 +53,8 @@ $test = '';
             }
         }
         for($i = 0, $size = count($people_id); $i < $size; $i++){
-            $sql = "delete from movie_people where movie_id = ".$movie_id." and people_id = ".$people_id[$i]." and role = '".$roles[$i]."' and screen_name =  '".$screen_name[$i]."';";
+            $sql = "delete from movie_people where movie_id = ".$movie_id." and people_id = ".$people_id[$i]." and role = '".$roles[$i]."' and screen_name = '".$screen_name[$i]."';";
+            $test[] = $sql;
             mysqli_query($db, $sql);
         }
     }
@@ -116,7 +116,7 @@ $test = '';
                   <option value="Other">Other</option>
               </select>
           </td>
-          <td><input type="text" class="add" id="add" name="screen_name<?php echo $count; ?>" placeholder="Add Screen Name"></td>
+          <td><input type="text" class="add" id="add" name="screen_name<?php echo $count; ?>" placeholder="Add Screen Name" disabled></td>
 
             </tr>
 
@@ -315,14 +315,17 @@ input.invalid {
 function addPeople(source){
     var original = document.getElementsByName(source.name)[0];
     var next = document.getElementsByName(source.name)[0].parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.children[0];
+    var next2 = document.getElementsByName(source.name)[0].parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.children[0];
     if(original.checked == true){
         original.required = true;
         next.required = true;
         next.disabled = false;
+        next2.disabled = false;
     } else {
         original.required = false;
         next.required = false;
         next.disabled = true;
+        next2.disabled = true;
     }
 }
 

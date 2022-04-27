@@ -1,8 +1,8 @@
 <?php $page_title = 'The Cow Layer'; ?>
 <?php
-    $nav_selected = "LIST";
-    $left_buttons = "NO";
-    $left_selected = "";
+    $nav_selected = "SONGS";
+    $left_buttons = "YES";
+    $left_selected = "SONGS";
 
      include("./nav.php");
 

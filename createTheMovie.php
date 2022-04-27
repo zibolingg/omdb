@@ -8,8 +8,10 @@ include("./nav.php");
     $native = $_POST['native_name'];
     $nativeJSON = strtolower(str_replace(" ", "", $native));
     $year = $_POST['year'];
-   
-    $sql1 = "INSERT INTO movies(native_name,english_name,year_made) values('$native','$movie','$year')";
+    $query = mysqli_query($db, "select movie_id from movies order by movie_id desc limit 1;");
+    $row = $query->fetch_assoc();
+    $id = $row['movie_id'] + 1;
+    $sql1 = "INSERT INTO movies(movie_id, native_name,english_name,year_made) values('$id','$native','$movie','$year')";
       
     mysqli_query($db, $sql1);
     
@@ -42,6 +44,6 @@ include("./nav.php");
     mysqli_query($db, $sql3);
     
     db_disconnect($db);
-	header('location: movies.php?create=Success');
+	header('Location: movies.php?create=Success');
 				
 ?>
