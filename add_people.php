@@ -70,7 +70,6 @@ $test = '';
 <html>
 <div class = "container">
 <h1>Attach A Person to <?php echo $name['native_name'];?></h1>
-
 <h3>People Library</h3>
 <form name="add_person" id="add_person" class="add_person" method="post" action="add_people.php">
   <table id="info" cellpadding="0" cellspacing="0" border="0"
@@ -161,9 +160,9 @@ if(mysqli_num_rows($sql)>0){
         while($row = mysqli_fetch_assoc($sql)){
     ?>
             <tr>
-            <td><input type="checkbox" class="delete" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" >
-            <input type="hidden" name="screen_name<?php echo $count;?>" value="<?php echo $row['screen_name']; ?>">
-            <input type="hidden" name="role<?php echo $count;?>" value="<?php echo $row['role']; ?>">
+            <td><input type="checkbox" class="delete" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" onclick="this.nextSibling.nextSibling.disabled = false; this.nextSibling.nextSibling.nextSibling.nextSibling.disabled = false;" autofocus>
+            <input type="hidden" name="screen_name<?php echo $count;?>" value="<?php echo $row['screen_name']; ?>" disabled>
+            <input type="hidden" name="role<?php echo $count;?>" value="<?php echo $row['role']; ?>" disabled>
             <input type="hidden" name="test" value="test"></td>
             <td><?php echo $row['people_id']; ?></td>
             <td><?php echo $row['stage_name']; ?></td>
@@ -335,6 +334,8 @@ function checkDelete(){
         if(items[i].classList.contains('delete')){
             if(items[i].checked == true){
                 delCount++;
+                items[i].nextSibling.nextSibling.disabled = false;
+                items[i].nextSibling.nextSibling.nextSibling.nextSibling.disabled = false;
             }
         }
     }

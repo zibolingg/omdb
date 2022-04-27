@@ -145,9 +145,8 @@ if(mysqli_num_rows($sql)>0){
         while($row = mysqli_fetch_assoc($sql)){
     ?>
             <tr>
-            <td><input type="checkbox" class="delete" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" >
-            <input type="hidden" name="role<?php echo $count;?>" value="<?php echo $row['role']; ?>">
-            <input type="hidden" name="test" value="test"></td>
+            <td><input type="checkbox" class="delete" name="people_id<?php echo $count; ?>" value="<?php echo $row['people_id']; ?>" onclick="this.nextSibling.nextSibling.disabled = false;" autofocus>
+            <input type="hidden" name="role<?php echo $count;?>" value="<?php echo $row['role']; ?>" disabled>
             <td><?php echo $row['people_id']; ?></td>
             <td><?php echo $row['stage_name']; ?></td>
             <td><?php echo $row['role']; ?></td>
@@ -317,6 +316,7 @@ function checkDelete(){
         if(items[i].classList.contains('delete')){
             if(items[i].checked == true){
                 delCount++;
+                items[i].nextSibling.nextSibling.disabled = false;
             }
         }
     }
